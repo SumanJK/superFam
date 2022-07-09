@@ -11,6 +11,7 @@ const mongoose = require('mongoose');
 //controllers
 const userController= require('./controllers/userController');
 const authController= require('./controllers/authController');
+const postController= require('./controllers/postController');
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use(morgan("common"));
 
 app.use("/api/users",userController);
 app.use("/api/auth",authController);
+app.use("/api/post",postController);
 
 
 app.listen(port, async()=>{
