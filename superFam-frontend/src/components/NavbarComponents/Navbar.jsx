@@ -41,8 +41,13 @@ export default function Navbar() {
     <>
       <Box
         bg={useColorModeValue("gray.100", "gray.900")}
-        px={6}
-        boxShadow=" rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px"
+        pos="fixed"
+        left="0"
+        right="0"
+        top="0"
+        px="20px"
+        zIndex="sticky"
+        boxShadow=" lg"
         background={[
           "linear-gradient(to right, #ffffff, #9ea7bf)",
           "linear-gradient(to right, #ffffff, #9ea7bf)",
