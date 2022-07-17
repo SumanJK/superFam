@@ -62,7 +62,7 @@ const LeftSidebar = () => {
             mx="2"
             boxSize="6"
             _groupHover={{
-              color: "#18c2f1",
+              color: "#4dc1ff",
               transition:".3s ease",
             }}
             transition=".3s ease"
