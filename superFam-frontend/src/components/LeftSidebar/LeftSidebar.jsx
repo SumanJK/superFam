@@ -22,6 +22,7 @@ import { IoIosHelpCircle } from "react-icons/io";
 import { HiCode, HiCollection, HiOutlineVideoCamera } from "react-icons/hi";
 import { MdHome, MdKeyboardArrowRight, MdOutlineAccountCircle, MdSlowMotionVideo } from "react-icons/md";
 import React from "react";
+import { Link } from "react-router-dom";
 
 
 const LeftSidebar = () => {
@@ -138,7 +139,7 @@ const LeftSidebar = () => {
       </Flex>
       <Divider  w="80%" margin="30px auto"/>
       <NavItem fontSize="sm" color="gray.600" icon={IoIosHelpCircle}>Help</NavItem>
-      <NavItem  fontSize="sm" color="gray.600" icon={RiLogoutCircleRFill}>Logout</NavItem>
+      <Link to="/signup"><NavItem  fontSize="sm" color="gray.600" icon={RiLogoutCircleRFill}>Signup</NavItem></Link>
     </Box>
   );
 
