@@ -9,7 +9,7 @@ import ChatBox from './ChatBox'
 const AllRoutes = () => {
   return (
     <div>
-        {/* <Navbar/> */}
+        <Navbar/>
         <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="/profile" element={<Profile />}/>

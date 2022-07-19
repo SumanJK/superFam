@@ -1,5 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
+import PostCard from "../components/HomeComponents/PostCard";
 import UnicefBanner from "../components/HomeComponents/UnicefBanner";
 import LeftSidebar from "../components/LeftSidebar/LeftSidebar";
 import RightSidebar from "../components/RightSidebar/RightSidebar";
@@ -15,7 +16,7 @@ const Home = () => {
       <Box py="3.8rem"  flex="1">
         <Box h="150rem">
           <UnicefBanner />
-          <Box></Box>
+          <PostCard/>
         </Box>
       </Box>
       <Box
