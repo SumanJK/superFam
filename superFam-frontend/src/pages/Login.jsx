@@ -27,13 +27,11 @@ const Login = () => {
         maxW={"70rem"}
         margin="auto"
         boxShadow=" rgba(0, 0, 0, 0.4) 0px 30px 90px"
-      
+      h="40rem"
         borderRadius="20px"
       >
         <Stack w={["0","0","40rem","40rem"]}  borderLeftRadius="20px" overflow="hidden" zIndex="10">
-          <Spline style={{zIndex:"1"}}
-            scene="https://prod.spline.design/GS8eIr1xAh29Gwdc/scene.splinecode"
-          />
+        <Spline scene="https://prod.spline.design/sckOD82PH0OVgOtM/scene.splinecode" />
         </Stack>
         <Stack
         
@@ -56,7 +54,7 @@ const Login = () => {
               Login
               <Text
                 as={"span"}
-                bgGradient="linear(to-r, purple.400,pink.200)"
+                bgGradient="linear(to-r, red.600,pink.200)"
                 bgClip="text"
               >
                 !
@@ -64,15 +62,11 @@ const Login = () => {
             </Heading>
             <Text color={"gray.500"} fontSize={{ base: "sm", sm: "md" }}>
               We are connecting the world, be a part of our community by
-              registering on our website.
+              signing in on our website.
             </Text>
           </Stack>
           <Box as={"form"} mt={10}>
             <FormControl id="email" isRequired>
-              <FormLabel>Firstname</FormLabel>
-              <Input type="firstname" />
-              <FormLabel>Lastname</FormLabel>
-              <Input type="lastname" />
               <FormLabel>Email address</FormLabel>
               <Input type="email" />
             </FormControl>
@@ -92,23 +86,40 @@ const Login = () => {
                 </InputRightElement>
               </InputGroup>
             </FormControl>
+            <FormControl id="password" isRequired>
+              <FormLabel>Confirm password</FormLabel>
+              <InputGroup>
+                <Input type={showPassword ? "text" : "password"} />
+                <InputRightElement h={"full"}>
+                  <Button
+                    variant={"ghost"}
+                    onClick={() =>
+                      setShowPassword((showPassword) => !showPassword)
+                    }
+                  >
+                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+            </FormControl>
             <Button
               fontFamily={"heading"}
               mt={8}
               w={"full"}
-              bgGradient="linear-gradient(to right, #594bb7, #2c1848)"
+              variant="primary"
+              bgGradient="linear-gradient(to right, #a539c1, #671371)"
               color={"white"}
               transition="all 0.4s ease"
               _hover={{
-                bgGradient: "linear-gradient(to right, #964fdc, #3e1077)",
+                bgGradient: "linear-gradient(to right, #dc4fc9, #771072)",
                 boxShadow: "xl",
                 transition: "all 0.4s ease",
               }}
             >
-              Submit
+              Login
             </Button>
-              <Text  textAlign="center" fontSize="12px" py="6px">
-                Already registered? &nbsp;<Link to="/login" >  <span style={{color:"purple", textDecoration: "underline", fontSize:"14px"}}>Login</span> </Link>
+              <Text  textAlign="center" fontSize="12px" py="12px">
+                Don't have an account? &nbsp;<Link to="/signup" >  <span style={{color:"purple", textDecoration: "underline", fontSize:"14px"}}>Signup</span> </Link>
               </Text>
           </Box>
         </Stack>

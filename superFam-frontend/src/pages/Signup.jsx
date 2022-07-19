@@ -94,6 +94,7 @@ const Signup = () => {
             </FormControl>
             <Button
               fontFamily={"heading"}
+              variant="primary"
               mt={8}
               w={"full"}
               bgGradient="linear-gradient(to right, #594bb7, #2c1848)"
@@ -105,7 +106,7 @@ const Signup = () => {
                 transition: "all 0.4s ease",
               }}
             >
-              Submit
+              Signup
             </Button>
               <Text  textAlign="center" fontSize="12px" py="6px">
                 Already registered? &nbsp;<Link to="/login" >  <span style={{color:"purple", textDecoration: "underline", fontSize:"14px"}}>Login</span> </Link>
