@@ -36,7 +36,7 @@ const RightSidebar = () => {
       <Box className="FollowingsWrapper" borderRadius="12px" boxShadow= "rgba(0, 0, 0, 0.15) 0px 2px 8px" w="90%" margin="auto" >
         <Feature/>
       </Box>
-      <Box className="RecommandedWrapper" borderRadius="lg" boxShadow= "rgba(0, 0, 0, 0.15) 0px 2px 8px" w="90%" margin="auto" marginY="2rem">
+      <Box className="RecommandedWrapper" borderRadius="lg" boxShadow= "rgba(0, 0, 0, 0.15) 0px 2px 8px" w="90%" margin="auto" marginY="3rem">
         <RecommendUsers />
       </Box>
     </Box>

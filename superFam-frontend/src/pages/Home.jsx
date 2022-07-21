@@ -13,9 +13,10 @@ const Home = () => {
         className="leftSideBox"
       ></Box>
       <LeftSidebar />
-      <Box py="3.8rem"  flex="1">
-        <Box h="150rem">
+      <Box py="3.8rem"  flex="1" bg="gray.200">
+        <Box h="150rem" w={["22rem","32rem","40rem","46rem","46rem"]} margin="auto" bg="white">
           <UnicefBanner />
+          <PostCard/>
           <PostCard/>
         </Box>
       </Box>

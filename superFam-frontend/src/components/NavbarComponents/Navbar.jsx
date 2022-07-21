@@ -3,7 +3,6 @@ import {
   Flex,
   Avatar,
   HStack,
-  Link,
   Button,
   Menu,
   MenuButton,
@@ -18,21 +17,18 @@ import {
   useDisclosure,
   Divider,
   Tooltip,
-  Icon,
 } from "@chakra-ui/react";
 
 import logo from "../../assets/default-monochrome.svg";
-import { BsChatLeftDots } from "react-icons/bs";
-import { BsPeople } from "react-icons/bs";
+
 
 import {
   AddIcon,
-  BellIcon,
   ChatIcon,
   Search2Icon,
-  SearchIcon,
 } from "@chakra-ui/icons";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -70,7 +66,7 @@ export default function Navbar() {
             w={["40%", "40%", "25%", "33%"]}
           >
             <Flex justify={["center", "center", "start"]} w="100%">
-              <Image h="3rem" src={logo} />
+              <Link to="/"><Image h="3rem" src={logo} /></Link>
             </Flex>
           </HStack>
           <Flex
@@ -167,8 +163,8 @@ export default function Navbar() {
                   />
                 </MenuButton>
               </Tooltip>
-              <MenuList>
-                <MenuItem>Link 1</MenuItem>
+              <MenuList >
+                <Link to="/profile"><MenuItem>Profile</MenuItem></Link>
                 <MenuItem>Link 2</MenuItem>
                 <MenuDivider />
                 <MenuItem>Link 3</MenuItem>
