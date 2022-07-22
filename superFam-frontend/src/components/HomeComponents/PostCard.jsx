@@ -14,17 +14,30 @@ import {
   ModalCloseButton,
   ModalBody,
 } from "@chakra-ui/react";
+import axios from "axios"
+
 import React, { useState } from "react";
 import { FaComment, FaCommentAlt, FaLocationArrow } from "react-icons/fa";
 import PostCardHeart from "./PostCardHeart";
 import shareIcon from "../../assets/instagram-share.svg";
 import commentIcon from "../../assets/instagram-comment.svg";
 import heartIcon from "../../assets/heartsvg.svg";
+import { useEffect } from "react";
 
-export default function PostCard() {
+export default function PostCard({datas}) {
+
   const [isClick, setClick] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+
+  const [user, setUser]= useState(null);
+  //get userDetails 
+  useEffect(() =>{
+    axios.get("/post/timeline/62c90c152edf00cd388f70d6").then((res)=>{
+      setUser(res.data)
+    })
+  },[])
   return (
     <>
     <Center

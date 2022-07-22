@@ -10,11 +10,14 @@ const Home = () => {
 
   const [ posts, setPosts]= useState([]);
 
+  //! fetching timeline posts
   useEffect(() =>{
     axios.get("/post/timeline/62c90c152edf00cd388f70d6").then((res)=>{
-      console.log(res,"rest")
+      setPosts(res.data)
     })
   },[])
+
+
   return (
     <Flex overflowX={"hidden"}>
       <Box
@@ -23,10 +26,13 @@ const Home = () => {
       ></Box>
       <LeftSidebar />
       <Box py="3.8rem"  flex="1" bg="gray.200">
-        <Box h="150rem" w={["22rem","32rem","40rem","46rem","46rem"]} margin="auto" bg="white">
-          <UnicefBanner />
-          <PostCard/>
-          <PostCard/>
+        <Box  w={["22rem","32rem","40rem","46rem","46rem"]} margin="auto" bg="white">
+
+          {posts.map((el)=>{
+            return (
+              <PostCard key={el._id} datas= {el}/>
+            )
+          })}
         </Box>
       </Box>
       <Box
