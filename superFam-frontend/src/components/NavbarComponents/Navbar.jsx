@@ -164,7 +164,7 @@ export default function Navbar() {
                 </MenuButton>
               </Tooltip>
               <MenuList >
-                <Link to="/profile"><MenuItem>Profile</MenuItem></Link>
+                <Link to="/profile/:username"><MenuItem>Profile</MenuItem></Link>
                 <MenuItem>Link 2</MenuItem>
                 <MenuDivider />
                 <MenuItem>Link 3</MenuItem>

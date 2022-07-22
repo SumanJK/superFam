@@ -15,7 +15,7 @@ const postController= require('./controllers/postController');
 
 dotenv.config();
 
-const port= process.env.PORT || 3000;
+const port= process.env.PORT || 8000;
 
 const connect= ()=> mongoose.connect(process.env.DATABASE);  
 

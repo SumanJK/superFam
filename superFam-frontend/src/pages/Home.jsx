@@ -1,11 +1,20 @@
 import { Box, Flex } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PostCard from "../components/HomeComponents/PostCard";
 import UnicefBanner from "../components/HomeComponents/UnicefBanner";
 import LeftSidebar from "../components/LeftSidebar/LeftSidebar";
 import RightSidebar from "../components/RightSidebar/RightSidebar";
+import axios from "axios";
 
 const Home = () => {
+
+  const [ posts, setPosts]= useState([]);
+
+  useEffect(() =>{
+    axios.get("/post/timeline/62c90c152edf00cd388f70d6").then((res)=>{
+      console.log(res,"rest")
+    })
+  },[])
   return (
     <Flex overflowX={"hidden"}>
       <Box
