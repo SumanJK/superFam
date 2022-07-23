@@ -47,10 +47,10 @@ if( email.current.value && password.current.value && confirmPassword.current.val
 
 
 
-      axios.post("/auth/register", payload).then((res)=>{
+      axios.post("/auth/login", payload).then((res)=>{
+        console.log(res)
         toast({
-          title: `Congrats, ${payload.firstname} 🥳`,
-          description: 'Your account has been created!',
+          title: ` ${res?.data.firstname}, you have been logged in successfully! 🥳`,
           status: 'success',
           duration: 7000,
           isClosable: true,
@@ -79,7 +79,7 @@ if( email.current.value && password.current.value && confirmPassword.current.val
       })
     }else{
       toast({
-        title: '',
+        title: 'Passwords not matching, try again!',
         status: 'warning',
         isClosable: true,
       })
@@ -95,7 +95,7 @@ if( email.current.value && password.current.value && confirmPassword.current.val
 }
 
   return (
-    <Box position={"relative"} py={{ base: 10, sm: 20, lg: 9 }}>
+    <Box position={"relative"} py={{ base: 10, sm: 20, lg: 16 }}>
       <Flex
         as={SimpleGrid}
         maxW={"70rem"}
@@ -163,7 +163,7 @@ if( email.current.value && password.current.value && confirmPassword.current.val
             <FormControl id="password" isRequired>
               <FormLabel>Confirm password</FormLabel>
               <InputGroup>
-                <Input type={showConfirmPassword ? "text" : "password"} ref={confirmPassword} ref={confirmPassword}/>
+                <Input type={showConfirmPassword ? "text" : "password"}  ref={confirmPassword}/>
                 <InputRightElement h={"full"}>
                   <Button
                     variant={"ghost"}
@@ -189,6 +189,7 @@ if( email.current.value && password.current.value && confirmPassword.current.val
                 boxShadow: "xl",
                 transition: "all 0.4s ease",
               }}
+              onClick={handleSubmit}
             >
               Login
             </Button>
