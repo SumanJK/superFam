@@ -21,6 +21,7 @@ import PostCardHeart from "./PostCardHeart";
 import shareIcon from "../../assets/instagram-share.svg";
 import commentIcon from "../../assets/instagram-comment.svg";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function PostCard({datas}) {
 
@@ -30,7 +31,7 @@ export default function PostCard({datas}) {
 
   console.log({datas},"data")
 
-  const [user, setUser]= useState(null);
+  const [user, setUser]= useState({});
 
   //get userDetails 
   useEffect(() =>{
@@ -38,7 +39,7 @@ export default function PostCard({datas}) {
       console.log(res,"res")
       setUser(res.data)
     })
-  },[])
+  },[datas?.userId])
 
   return (
     <>
@@ -98,18 +99,20 @@ export default function PostCard({datas}) {
           align="center"
           justify="start"
           zIndex={1}
+          
         >
-          <Flex w="3.5rem" h="2.4rem" align="center" justify="start">
-            <Image
+          <Flex w="3.5rem" h="2.4rem" align="center" justify="start" >
+           <Link to="/profile/:username"> <Image
               w="2.4rem"
               h="2.4rem"
               cursor={"pointer"}
               boxShadow="rgba(136, 165, 191, 0.48) 2px 2px 6px 0px, rgba(255, 255, 255, 0.8) -2px -2px 6px 0px"
               borderRadius="50%"
+              objectFit={"cover"}
               src={user?.profilePicture}
-            />
+            /></Link>
           </Flex>
-          <Text
+          <Link to={`/profile/${user?.username}`}><Text
             color="#32526a"
             fontSize={"15px"}
             fontWeight={"600"}
@@ -120,7 +123,7 @@ export default function PostCard({datas}) {
           
           >
             {user?.username}
-          </Text>
+          </Text></Link>
         </Flex>
         <Stack py={2} px="1">
           <Flex justify={"space-between"} align="center">
@@ -136,7 +139,7 @@ export default function PostCard({datas}) {
           <HStack align={"end"}>
             <Text
               fontWeight={500}
-              fontSize={showMore ? "12px" : "13px"}
+              fontSize={[ "12px", "12px", "13px", "13px"]}
               noOfLines={showMore ? "none" : "2"}
               color={"gray.600"}
               // py="10px"
@@ -194,6 +197,7 @@ export default function PostCard({datas}) {
                       cursor={"pointer"}
                       boxShadow="rgba(136, 165, 191, 0.48) 2px 2px 6px 0px, rgba(255, 255, 255, 0.8) -2px -2px 6px 0px"
                       borderRadius="50%"
+                      objectFit={"cover"}
                       src={user?.profilePicture}
                     />
                   </Flex>
@@ -223,7 +227,7 @@ export default function PostCard({datas}) {
                   <HStack align={"end"}  >
                     <Text
                       fontWeight={500}
-                      fontSize={[showMore ? "11px" : "12px",showMore ? "11px" : "12px",showMore ? "12px" : "13px",showMore ? "13px" : "14px"]}
+                      fontSize={[ "12px", "12px", "13px", "13px"]}
                       noOfLines={[showMore ? "6" : "4",showMore ? "9" : "4",showMore ? "12" : "5",showMore ? "20" : "6",showMore ? "20" : "7"]}
                       color={"gray.600"}
                       // py="10px"

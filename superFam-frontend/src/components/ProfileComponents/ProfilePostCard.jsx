@@ -20,10 +20,13 @@ import PostCardHeart from "../HomeComponents/PostCardHeart";
 import shareIcon from "../../assets/instagram-share.svg";
 import commentIcon from "../../assets/instagram-comment.svg";
 
-export default function ProfilePostCard() {
+export default function ProfilePostCard({user, userPost}) {
+
   const [isClick, setClick] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+
   return (
     <>
       <Box
@@ -55,7 +58,7 @@ export default function ProfilePostCard() {
             height={360}
             width={"full"}
             objectFit={"cover"}
-            src="https://images.unsplash.com/photo-1653760538719-4721be6ad863?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
+            src={userPost?.image}
           />
         </Box>
       </Box>
@@ -74,7 +77,7 @@ export default function ProfilePostCard() {
                   height={["full"]}
                   width={["12rem","20rem","30rem","40rem","50rem"]}
                   objectFit={"cover"}
-                  src="https://images.unsplash.com/photo-1653760538719-4721be6ad863?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
+                  src={userPost?.image}
                   
                 />
               </Flex>
@@ -95,7 +98,8 @@ export default function ProfilePostCard() {
                       cursor={"pointer"}
                       boxShadow="rgba(136, 165, 191, 0.48) 2px 2px 6px 0px, rgba(255, 255, 255, 0.8) -2px -2px 6px 0px"
                       borderRadius="50%"
-                      src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80"
+                      objectFit={"cover"}
+                      src={user?.profilePicture}
                     />
                   </Flex>
                   <Text
@@ -108,7 +112,7 @@ export default function ProfilePostCard() {
                     className="userPostFont"
                     w={["14","20","30","40","60"]}
                   >
-                    Sudhir Chavan fsfsfsfafsdfasdfdsffsfsfsfsafsadfdsafdsasaffsf
+                   {user?.username}
                   </Text>
                 </Flex>
                 <Stack p="6" >
@@ -125,48 +129,13 @@ export default function ProfilePostCard() {
                   <HStack align={"end"}  >
                     <Text
                       fontWeight={500}
-                      fontSize={[showMore ? "11px" : "12px",showMore ? "11px" : "12px",showMore ? "12px" : "13px",showMore ? "13px" : "14px"]}
+                      fontSize={[ "12px", "12px", "13px", "14px"]}
                       noOfLines={[showMore ? "6" : "4",showMore ? "9" : "4",showMore ? "12" : "5",showMore ? "20" : "6",showMore ? "20" : "7"]}
                       color={"gray.600"}
                       // py="10px"
                      
                     >
-                      There are 1052 different Google Font families available for
-                      free (at the time of writing this article). That’s a lot of
-                      choices! So it’s no wonder you need help finding that needle
-                      in a haystack with a list of the best Google Fonts. We’ve
-                      got it for you, and then we’ll also share some best
-                      practices for using Google Fonts in WordPress. Choosing a
-                      font is more than just an aesthetic choice — it can have a
-                      substantial effect on your site’s bounce rates and
-                      conversion rates, especially if you choose a font that’s
-                      hard to read. Therefore, it pays to take a little time to
-                      pick the perfect Google Fonts family for your website,
-                      rather than using the first font that you come across. If
-                      you need even more fonts, look at our post on 50+ Modern
-                      Fonts to Use on Your WordPress Website.
-                      There are 1052 different Google Font families available for
-                      free (at the time of writing this article). That’s a lot of
-                      choices! So it’s no wonder you need help finding that needle
-                      in a haystack with a list of the best Google Fonts.
-                      There are 1052 different Google Font families available for
-                      free (at the time of writing this article). That’s a lot of
-                      choices! So it’s no wonder you need help finding that needle
-                      in a haystack with a list of the best Google Fonts. We’ve
-                      got it for you, and then we’ll also share some best
-                      practices for using Google Fonts in WordPress. Choosing a
-                      font is more than just an aesthetic choice — it can have a
-                      substantial effect on your site’s bounce rates and
-                      conversion rates, especially if you choose a font that’s
-                      hard to read. Therefore, it pays to take a little time to
-                      pick the perfect Google Fonts family for your website,
-                      rather than using the first font that you come across. If
-                      you need even more fonts, look at our post on 50+ Modern
-                      Fonts to Use on Your WordPress Website.
-                      There are 1052 different Google Font families available for
-                      free (at the time of writing this article). That’s a lot of
-                      choices! So it’s no wonder you need help finding that needle
-                      in a haystack with a list of the best Google Fonts.
+                      {userPost?.description}
                     </Text>
                     {!showMore && (
                       <Text

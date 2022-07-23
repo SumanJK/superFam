@@ -13,23 +13,42 @@ router.post("/register", async (req, res)=>{
     
     try{
 
-    //! hash password
-        const salt= await bcrypt.genSalt(10);
-        const hashedPassword= await bcrypt.hash(req.body.password, salt);
+        let users= await User.findOne({email: req.body.email});
 
-    //! creating new user
-        const newUser= new User({
-            username: req.body.username,
-            email: req.body.email,
-            password: hashedPassword
-   
-        })
-    //! saving new user
-        const user= await newUser.save();
-        return res.status(200).send(user);
+        if(users){
+            return res.status(404).send("User has already been registered")
+        }else{
+
+            //! hash password
+                const salt= await bcrypt.genSalt(10);
+                const hashedPassword= await bcrypt.hash(req.body.password, salt);
+        
+            //! creating new user
+                const newUser= {
+                    firstname: req.body.firstname,
+                    lastname: req.body.lastname,
+                    username: req.body.username,
+                    email: req.body.email,
+                    password: hashedPassword,
+                    profilePicture: req.body.profilePicture,
+                    coverPicture: req.body.coverPicture,
+           
+                }
+                console.log(newUser,"neaw")
+            //! saving new user
+            try{
+
+                const user= await User.create(newUser);
+                
+                return res.status(200).send(user);
+            }catch(err){
+                console.log(err,"errrrrr")
+            }
+        }
 
     }catch(e){
         return res.status(500).send(e);
+        console.log(e,"userErr")
     }
 })
 

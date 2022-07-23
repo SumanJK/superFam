@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { IoMdDoneAll } from 'react-icons/io'
 import { RiHeartAddFill } from 'react-icons/ri'
 
-const RecommendUsersCard = () => {
+const RecommendUsersCard = ({recUser}) => {
 
   const [followed, setFollow]= useState(false)
 
@@ -29,7 +29,7 @@ const RecommendUsersCard = () => {
           <Box borderRadius="50%" overflow="hidden" w="1.8rem" h="1.8rem">
             <Image
               w="100%"
-              src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+              src={recUser?.profilePicture}
             />
           </Box>
           <Box w="8.5rem" >
@@ -39,7 +39,7 @@ const RecommendUsersCard = () => {
               fontWeight="600"
               noOfLines={1}
             >
-              Sudhir Chavan sfjsojfsjfsjs
+              {recUser?.username}
             </Text>
           </Box>
           <Flex w="2rem" align="center" justify="center">

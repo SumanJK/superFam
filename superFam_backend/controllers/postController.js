@@ -102,9 +102,9 @@ router.get('/timeline/:userId', async (req, res) =>{
 })
 
 //get all posts of a user 
-router.get('/profile/userposts', async (req, res) =>{
+router.get('/profile/:userId', async (req, res) =>{
     try{
-        const currentUser = await User.findById(req.body.userId);
+        const currentUser = await User.findById(req.params.userId);
         const userEveryPosts = await Post.find({userId: currentUser._id});
         // res.json(userPosts.concat(...followersPost));
         return res.status(200).send(userEveryPosts);

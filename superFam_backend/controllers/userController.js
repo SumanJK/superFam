@@ -61,6 +61,18 @@ router.get("/:id", async (req, res) => {
             return res.status(500).send(e);
         }
 })
+//find all users
+
+router.get("/", async (req, res) => {
+
+        try{ 
+            const user= await User.find().lean().exec();
+            return res.status(200).send(user)
+
+        }catch(e){
+            return res.status(500).send(e);
+        }
+})
 
 //follow a user
 

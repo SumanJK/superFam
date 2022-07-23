@@ -12,13 +12,87 @@ import {
   FormLabel,
   InputGroup,
   InputRightElement,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import Spline from "@splinetool/react-spline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useRef } from "react";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const email= useRef()
+  const password= useRef()
+  const confirmPassword= useRef()
+
+  const navigate = useNavigate();
+
+  const toast = useToast()
+  
+
+  //!submit login reqest-->
+
+  const handleSubmit=()=>{
+
+if( email.current.value && password.current.value && confirmPassword.current.value){
+  
+  if(password.current.value === confirmPassword.current.value){
+    const payload={
+      email: email?.current.value,
+      password: password?.current.value
+    }
+
+
+
+      axios.post("/auth/register", payload).then((res)=>{
+        toast({
+          title: `Congrats, ${payload.firstname} 🥳`,
+          description: 'Your account has been created!',
+          status: 'success',
+          duration: 7000,
+          isClosable: true,
+        })
+        
+      }).then(()=>{
+        setTimeout(()=>{
+          navigate("/login", { replace: true });
+        },2000)
+      })
+      .catch((err)=>{
+        if(err.message!=='Request failed with status code 500'){
+          toast({
+            title: err.response.data,
+            status: 'error',
+            isClosable: true,
+          })
+        }else{
+          toast({
+            title: 'You are facing server error, try again to register',
+            status: 'error',
+            isClosable: true,
+          })
+        }
+        console.log(err)
+      })
+    }else{
+      toast({
+        title: '',
+        status: 'warning',
+        isClosable: true,
+      })
+    }
+      
+  }else{
+    toast({
+      title: 'Please fill all the fields',
+      status: 'warning',
+      isClosable: true,
+    })
+  }
+}
 
   return (
     <Box position={"relative"} py={{ base: 10, sm: 20, lg: 9 }}>
@@ -68,12 +142,12 @@ const Login = () => {
           <Box as={"form"} mt={10}>
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <Input type="email" ref={email}/>
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? "text" : "password"} />
+                <Input type={showPassword ? "text" : "password"} ref={password}/>
                 <InputRightElement h={"full"}>
                   <Button
                     variant={"ghost"}
@@ -89,12 +163,12 @@ const Login = () => {
             <FormControl id="password" isRequired>
               <FormLabel>Confirm password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? "text" : "password"} />
+                <Input type={showConfirmPassword ? "text" : "password"} ref={confirmPassword} ref={confirmPassword}/>
                 <InputRightElement h={"full"}>
                   <Button
                     variant={"ghost"}
                     onClick={() =>
-                      setShowPassword((showPassword) => !showPassword)
+                      setShowConfirmPassword((showPassword) => !showPassword)
                     }
                   >
                     {showPassword ? <ViewIcon /> : <ViewOffIcon />}

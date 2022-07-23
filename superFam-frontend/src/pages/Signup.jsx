@@ -12,13 +12,82 @@ import {
   FormLabel,
   InputGroup,
   InputRightElement,
+  useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import {  useState } from "react";
 import Spline from "@splinetool/react-spline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useRef } from "react";
+import axios from "axios";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
+
+  
+  const firstname= useRef()
+  const lastname= useRef()
+  const email= useRef()
+  const password= useRef()
+
+  const navigate = useNavigate();
+
+  const toast = useToast()
+  
+  const handleSubmit=()=>{
+
+
+
+
+if(firstname.current.value && lastname.current.value && email.current.value && password.current.value){
+  
+  const payload={
+    firstname: firstname?.current.value,
+    lastname: lastname?.current.value,
+    username: `${firstname?.current.value} ${lastname?.current.value}`,
+    email: email?.current.value,
+    password: password?.current.value
+  }
+
+
+
+    axios.post("/auth/register", payload).then((res)=>{
+      toast({
+        title: `Congrats, ${payload.firstname} 🥳`,
+        description: 'Your account has been created!',
+        status: 'success',
+        duration: 7000,
+        isClosable: true,
+      })
+      
+    }).then(()=>{
+      setTimeout(()=>{
+        navigate("/login", { replace: true });
+      },2000)
+    })
+    .catch((err)=>{
+      if(err.message!=='Request failed with status code 500'){
+        toast({
+          title: err.response.data,
+          status: 'error',
+          isClosable: true,
+        })
+      }else{
+        toast({
+          title: 'You are facing server error, try again to register',
+          status: 'error',
+          isClosable: true,
+        })
+      }
+      console.log(err)
+    })
+  }else{
+    toast({
+      title: 'Please fill all the fields',
+      status: 'warning',
+      isClosable: true,
+    })
+  }
+}
 
   return (
     <Box position={"relative"} py={{ base: 10, sm: 20, lg: 9 }}>
@@ -27,16 +96,20 @@ const Signup = () => {
         maxW={"70rem"}
         margin="auto"
         boxShadow=" rgba(0, 0, 0, 0.4) 0px 30px 90px"
-      
         borderRadius="20px"
       >
-        <Stack w={["0","0","40rem","40rem"]}  borderLeftRadius="20px" overflow="hidden" zIndex="10">
-          <Spline style={{zIndex:"1"}}
+        <Stack
+          w={["0", "0", "40rem", "40rem"]}
+          borderLeftRadius="20px"
+          overflow="hidden"
+          zIndex="10"
+        >
+          <Spline
+            style={{ zIndex: "1" }}
             scene="https://prod.spline.design/GS8eIr1xAh29Gwdc/scene.splinecode"
           />
         </Stack>
         <Stack
-        
           bg={"gray.50"}
           borderRadius="20px"
           borderLeftRadius="0"
@@ -68,18 +141,22 @@ const Signup = () => {
             </Text>
           </Stack>
           <Box as={"form"} mt={10}>
-            <FormControl id="email" isRequired>
+            <FormControl isRequired>
               <FormLabel>Firstname</FormLabel>
-              <Input type="firstname" />
+              <Input type="text" ref={firstname}/>
+            </FormControl>
+            <FormControl isRequired>
               <FormLabel>Lastname</FormLabel>
-              <Input type="lastname" />
+              <Input type="text" ref={lastname}/>
+            </FormControl>
+            <FormControl isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <Input type="email" ref={email} />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? "text" : "password"} />
+                <Input type={showPassword ? "text" : "password"} ref={password}/>
                 <InputRightElement h={"full"}>
                   <Button
                     variant={"ghost"}
@@ -105,12 +182,26 @@ const Signup = () => {
                 boxShadow: "xl",
                 transition: "all 0.4s ease",
               }}
+
+              onClick={handleSubmit}
             >
               Signup
             </Button>
-              <Text  textAlign="center" fontSize="12px" py="6px">
-                Already registered? &nbsp;<Link to="/login" >  <span style={{color:"purple", textDecoration: "underline", fontSize:"14px"}}>Login</span> </Link>
-              </Text>
+            <Text textAlign="center" fontSize="12px" py="6px">
+              Already registered? &nbsp;
+              <Link to="/login">
+                {" "}
+                <span
+                  style={{
+                    color: "purple",
+                    textDecoration: "underline",
+                    fontSize: "14px",
+                  }}
+                >
+                  Login
+                </span>{" "}
+              </Link>
+            </Text>
           </Box>
         </Stack>
       </Flex>
