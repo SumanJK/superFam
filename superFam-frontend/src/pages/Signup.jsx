@@ -14,83 +14,66 @@ import {
   InputRightElement,
   useToast,
 } from "@chakra-ui/react";
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 import Spline from "@splinetool/react-spline";
 import { Link, useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import {registerUser} from "../redux/auth/action"
+
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
 
-  
-  const firstname= useRef()
-  const lastname= useRef()
-  const email= useRef()
-  const password= useRef()
+  const firstname = useRef();
+  const lastname = useRef();
+  const email = useRef();
+  const password = useRef();
 
   const navigate = useNavigate();
 
-  const toast = useToast()
-  
-  const handleSubmit=()=>{
+  const toast = useToast();
+  const dispatch = useDispatch();
 
+  const handleSubmit = () => {
+    if (
+      firstname.current.value &&
+      lastname.current.value &&
+      email.current.value &&
+      password.current.value
+    ) {
+      const payload = {
+        firstname: firstname?.current.value,
+        lastname: lastname?.current.value,
+        username: `${firstname?.current.value} ${lastname?.current.value}`,
+        email: email?.current.value,
+        password: password?.current.value,
+      };
 
+      dispatch(registerUser(payload,toast,navigate))
 
-
-if(firstname.current.value && lastname.current.value && email.current.value && password.current.value){
-  
-  const payload={
-    firstname: firstname?.current.value,
-    lastname: lastname?.current.value,
-    username: `${firstname?.current.value} ${lastname?.current.value}`,
-    email: email?.current.value,
-    password: password?.current.value
-  }
-
-
-
-    axios.post("/auth/register", payload).then((res)=>{
-      toast({
-        title: `Congrats, ${payload.firstname} 🥳`,
-        description: 'Your account has been created!',
-        status: 'success',
-        duration: 7000,
-        isClosable: true,
-      })
+    
       
-    }).then(()=>{
-      setTimeout(()=>{
-        navigate("/login", { replace: true });
-      },2000)
-    })
-    .catch((err)=>{
-      if(err.message!=='Request failed with status code 500'){
-        toast({
-          title: err.response.data,
-          status: 'error',
-          isClosable: true,
-        })
-      }else{
-        toast({
-          title: 'You are facing server error, try again to register',
-          status: 'error',
-          isClosable: true,
-        })
-      }
-      console.log(err)
-    })
-  }else{
-    toast({
-      title: 'Please fill all the fields',
-      status: 'warning',
-      isClosable: true,
-    })
-  }
-}
+    } else {
+      toast({
+        title: "Please fill all the fields",
+        status: "warning",
+        isClosable: true,
+      });
+    }
+  };
+
+  const userId= useSelector((store)=> store.auth.userId)
+  console.log(userId,"userID")
+
+  useEffect(() =>{
+
+
+  },[userId])
 
   return (
-    <Box position={"relative"} py={{ base: 10, sm: 20, lg: 9 }}>
+    <Box position={"relative"} py={{ base: 10, sm: 20, lg: 10 }}>
       <Flex
         as={SimpleGrid}
         maxW={"70rem"}
@@ -143,11 +126,11 @@ if(firstname.current.value && lastname.current.value && email.current.value && p
           <Box as={"form"} mt={10}>
             <FormControl isRequired>
               <FormLabel>Firstname</FormLabel>
-              <Input type="text" ref={firstname}/>
+              <Input type="text" ref={firstname} />
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Lastname</FormLabel>
-              <Input type="text" ref={lastname}/>
+              <Input type="text" ref={lastname} />
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Email address</FormLabel>
@@ -156,7 +139,10 @@ if(firstname.current.value && lastname.current.value && email.current.value && p
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? "text" : "password"} ref={password}/>
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  ref={password}
+                />
                 <InputRightElement h={"full"}>
                   <Button
                     variant={"ghost"}
@@ -182,7 +168,6 @@ if(firstname.current.value && lastname.current.value && email.current.value && p
                 boxShadow: "xl",
                 transition: "all 0.4s ease",
               }}
-
               onClick={handleSubmit}
             >
               Signup

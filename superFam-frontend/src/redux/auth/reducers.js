@@ -2,10 +2,7 @@ import { authActions } from "./action"
 
 const initState={
     isLoading: true,
-    email: null,
-    id: null,
     userId: null,
-    isRegistered:false,
     isAuth: false,
     isError: false,
 }
@@ -24,11 +21,12 @@ export const AuthReducer= (state= initState, action)=>{
             )
         }
         case authActions.REGISTER_AUTH_SUCCESS:{
+            console.log(action,"act")
             return(
                 {
                     ...state,
                     isLoading: false,
-                    isRegistered: true,
+                    isError:false,
                 }
                 )
             }
@@ -56,7 +54,7 @@ export const AuthReducer= (state= initState, action)=>{
                     ...state,
                     isLoading: false,
                     isAuth: true,
-                    email: action.payload.email,
+                    userId: action.payload._id,
                     id: action.payload._id
                 }
                 )

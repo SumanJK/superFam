@@ -8,7 +8,7 @@ const initState={
   isError:false,
 }
 
-export const postReducer= (state= initState, action) =>{
+export const PostReducer= (state= initState, action) =>{
 
   switch(action.type){
     case postActions.CREATE_POST_REQUEST:{

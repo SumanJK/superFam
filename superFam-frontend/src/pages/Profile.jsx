@@ -17,11 +17,11 @@ const Profile = () => {
   //! fetching user posts
   //dummy datas
   const userName= useParams()
-  console.log(userName,"username")
+
 
   useEffect(() =>{
-    axios.get("/post/profile/62c840688b067ed1f7c4aa1b").then((res)=>{
-      console.log(res.data,"profile posts")
+    axios.get("/post/profile/62dc1717d076a3eed21a533e").then((res)=>{
+
       setUserPosts(res.data)
     })
   },[])

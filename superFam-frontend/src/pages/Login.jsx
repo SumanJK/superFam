@@ -19,6 +19,8 @@ import Spline from "@splinetool/react-spline";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../redux/auth/action";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +33,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   const toast = useToast()
-  
+
+  const dispatch = useDispatch();
 
   //!submit login reqest-->
 
@@ -45,38 +48,8 @@ if( email.current.value && password.current.value && confirmPassword.current.val
       password: password?.current.value
     }
 
+    dispatch(loginUser(payload,toast,navigate))
 
-
-      axios.post("/auth/login", payload).then((res)=>{
-        console.log(res)
-        toast({
-          title: ` ${res?.data.firstname}, you have been logged in successfully! 🥳`,
-          status: 'success',
-          duration: 7000,
-          isClosable: true,
-        })
-        
-      }).then(()=>{
-        setTimeout(()=>{
-          navigate("/login", { replace: true });
-        },2000)
-      })
-      .catch((err)=>{
-        if(err.message!=='Request failed with status code 500'){
-          toast({
-            title: err.response.data,
-            status: 'error',
-            isClosable: true,
-          })
-        }else{
-          toast({
-            title: 'You are facing server error, try again to register',
-            status: 'error',
-            isClosable: true,
-          })
-        }
-        console.log(err)
-      })
     }else{
       toast({
         title: 'Passwords not matching, try again!',

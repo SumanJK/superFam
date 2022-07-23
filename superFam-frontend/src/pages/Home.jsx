@@ -12,7 +12,7 @@ const Home = () => {
   
   //! fetching timeline posts
   useEffect(() =>{
-    axios.get("/post/timeline/62c90c152edf00cd388f70d6").then((res)=>{
+    axios.get("/post/timeline/62dc1717d076a3eed21a533e").then((res)=>{
       setPosts(res.data)
     })
   },[])

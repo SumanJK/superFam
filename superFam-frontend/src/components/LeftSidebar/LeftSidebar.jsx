@@ -112,8 +112,8 @@ const LeftSidebar = () => {
         color="gray.600"
         aria-label="Main Navigation"
       >
-        <NavItem icon={MdHome}>Home</NavItem>
-        <NavItem icon={TiVideo}>Videos</NavItem>
+       <Link to="/"> <NavItem icon={MdHome}>Home</NavItem></Link>
+       <Link to="/video"><NavItem icon={TiVideo}>Videos</NavItem></Link>
         <NavItem icon={HiCollection} > Collections</NavItem>
         <NavItem icon={FaSave}>Saved</NavItem>
         <NavItem icon={BsGearFill}>Settings</NavItem>

@@ -29,14 +29,14 @@ export default function PostCard({datas}) {
   const [showMore, setShowMore]= useState(false);
   const {isOpen, onOpen, onClose}= useDisclosure()
 
-  console.log({datas},"data")
+  // console.log({datas},"data")
 
   const [user, setUser]= useState({});
 
   //get userDetails 
   useEffect(() =>{
     axios.get(`/users/${datas?.userId}`).then((res)=>{
-      console.log(res,"res")
+      // console.log(res,"res")
       setUser(res.data)
     })
   },[datas?.userId])
@@ -136,11 +136,11 @@ export default function PostCard({datas}) {
               comments
             </Text>
           </Flex>
-          <HStack align={"end"}>
+          <HStack align={"end"}  w={showMore ? "100%" : "60%"}>
             <Text
               fontWeight={500}
               fontSize={[ "12px", "12px", "13px", "13px"]}
-              noOfLines={showMore ? "none" : "2"}
+              noOfLines={showMore ? "none" : "1"}
               color={"gray.600"}
               // py="10px"
             >
