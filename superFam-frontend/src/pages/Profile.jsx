@@ -47,7 +47,7 @@ const Profile = () => {
     <LeftSidebar />
     <Box py="3.8rem"   flex="1">
         <ProfileCover/>
-      <SimpleGrid columns={["1","1","2","3","3"]} gap="10" p="8" w={["22rem","26rem","38rem","54rem","66rem"]} margin="auto" bg="linear-gradient(145deg, #f0f0f1, #edeff0)">
+      <SimpleGrid columns={["1","1","2","3","3"]} gap="10" p="8" w={["22rem","26rem","38rem","54rem","64rem"]} margin="auto" bg="linear-gradient(145deg, #f0f0f1, #edeff0)">
         {userPosts?.map((el)=>{
           return(
             <ProfilePostCard  key={el._id} userPost= {el} user={userDetails} />

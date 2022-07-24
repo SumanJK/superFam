@@ -30,31 +30,28 @@ export default function ProfilePostCard({user, userPost}) {
   return (
     <>
       <Box
-        p={".4rem"}
+        p={".2rem"}
         bg={"linear-gradient(145deg, #f0f0f0, #dfdfdf)"}
-        // boxShadow=" rgba(136, 165, 191, 0) 4px 2px 16px 0px, rgba(189, 195, 220, 0.646) -4px -0px 16px 6px"
         boxShadow=" 10px 10px 20px #b0afaf, -10px -10px 16px #ffffff"
         pos={"relative"}
-        //
-        // w={["20rem","24rem","24rem","24rem","24rem"]}
+        transition= "all 0.4s ease"
+          _hover={{
+            transition: "all 0.4s ease",
+            transform:"translateY(-5px)"
+          }}
         w="100%"
         zIndex={1}
-        borderRadius="20px"
+        borderRadius="14px"
       >
         <Box
           onClick={onOpen}
-          borderRadius="16px"
+          borderRadius="10px"
           cursor={"pointer"}
           pos={"relative"}
           height={"360px"}
           overflow="hidden"
         >
           <Image
-          transition= "all 0.4s ease"
-          _hover={{
-            transition: "all 0.4s ease",
-            transform:"scale(1.1)"
-          }}
             height={360}
             width={"full"}
             objectFit={"cover"}
