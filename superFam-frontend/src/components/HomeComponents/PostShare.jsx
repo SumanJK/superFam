@@ -17,12 +17,48 @@ import { FcGallery } from "react-icons/fc";
 import { HiOutlineLocationMarker, HiOutlinePhotograph } from "react-icons/hi";
 import { TiUserAddOutline } from "react-icons/ti";
 import {useState} from "react"
+import { useRef } from "react";
+import axios from "axios";
+
 
 const PostShare = () => {
 
   const [file, setFile] = useState(null);
 
+  const desc= useRef();
 
+
+
+  const handlePost= ()=>{
+    const newPost = {
+      userId: "62dc1717d076a3eed21a533e",
+      description: desc.current.value,
+    };
+    if (file) {
+     console.log(file.File,"fil")
+      const fileName = Date.now() + file.name;
+
+      const data= {
+        name: fileName,
+        file: file
+      }
+      // data.append("name", fileName);
+      // data.append("file", file);
+      console.log(data,"newpostData");
+      newPost.image = fileName;
+      try {
+         axios.post("/upload", data);
+      } catch (err) {
+        console.log(err,"errrrr")
+      }
+    }
+    // try {
+    //    axios.post("/post", newPost);
+    //   // window.location.reload();
+    // } catch (err) {
+    //   console.log(err,"errrrr")
+    // }
+  }
   return (
     <Box
       borderRadius="20px"
@@ -50,6 +86,7 @@ const PostShare = () => {
           placeholder="What's on your mind Tanmay?"
           w="100%"
           fontSize={["10px", "15px"]}
+          ref={desc}
         />
       </HStack>
       <Divider orientation="horizontal" />
@@ -69,19 +106,20 @@ const PostShare = () => {
             w={["60%", "100%"]}
           >
             <HiOutlinePhotograph fontSize={["12px", "25px"]} color="white" />
+            <label htmlFor="file" cursor="pointer">
             <Text fontSize={["8px", "15px"]} noOfLines="1">
               Upload Photo
             </Text>
             <Input
               type="file"
-              opacity="0"
+              opacity="1"
               display={"none"}
               position="absolute"
               cursor="pointer"
               id="file"
-              accept=".png,.jpeg,.jpg"
+              accept="image/*"
               onChange={(e) => setFile(e.target.files[0])}
-            />
+            /></label>
           </HStack>
           <Divider
             orientation="vertical"
@@ -163,6 +201,8 @@ const PostShare = () => {
               transform: "translateY(-3px)",
             }}
             _active={{ transitiontransform: "translateY(-1px)" }}
+
+            onClick={handlePost}
           >
             <FaLocationArrow />
           </Button>

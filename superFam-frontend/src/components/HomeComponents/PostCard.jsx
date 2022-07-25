@@ -23,8 +23,12 @@ import commentIcon from "../../assets/instagram-comment.svg";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-export default function PostCard({datas}) {
 
+
+
+export default function PostCard({datas}) {
+  
+  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
   const [showMore, setShowMore]= useState(false);
   const {isOpen, onOpen, onClose}= useDisclosure()
@@ -88,7 +92,7 @@ export default function PostCard({datas}) {
             height={320}
             width={"full"}
             objectFit={"cover"}
-            src={datas.image}
+            src={  datas.image}
           />
         </Box>
         <Flex

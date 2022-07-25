@@ -16,11 +16,12 @@ const postController= require('./controllers/postController');
 
 dotenv.config();
 
-const port= process.env.PORT || 8000;
+const port= process.env.PORT || 8080;
 
 const connect= ()=> mongoose.connect(process.env.DATABASE);  
 
 app.use("/images", express.static(path.join(__dirname, "public/images")));
+
 //Middleware------>
 app.use(express.json());
 app.use(helmet());
