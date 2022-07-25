@@ -44,7 +44,7 @@ export default function PostCard({datas}) {
   return (
     <>
     <Center
-      py={10}
+      py={6}
       w={["22rem", "22rem", "35rem", "35rem", "30rem"]}
       margin="auto"
     >

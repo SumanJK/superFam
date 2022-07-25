@@ -5,6 +5,7 @@ import UnicefBanner from "../components/HomeComponents/UnicefBanner";
 import LeftSidebar from "../components/LeftSidebar/LeftSidebar";
 import RightSidebar from "../components/RightSidebar/RightSidebar";
 import axios from "axios";
+import PostShare from "../components/HomeComponents/PostShare";
 
 const Home = () => {
 
@@ -26,7 +27,8 @@ const Home = () => {
       ></Box>
       <LeftSidebar />
       <Box pt="3.8rem"  flex="1" bg="gray.200">
-        <Box  w={["22rem","32rem","40rem","46rem","46rem"]} margin="auto" bg="white">
+        <PostShare/>
+        <Box  w={["22rem","32rem","40rem","46rem","46rem"]} className="feed" margin="auto" bg="white" borderTopRadius={"15px"} pt="10">
 
           {posts.map((el)=>{
             return (

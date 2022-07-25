@@ -43,8 +43,8 @@ export default function Navbar() {
         boxShadow=" lg"
         background={[
           "linear-gradient(to right, #ffffff, #9ea7bf)",
-          "linear-gradient(to right, #ffffff, #9ea7bf)",
-          "linear-gradient(to right, #e2e8f1, #7e88a5)",
+          "linear-gradient(to right, #ffffff, #929cba)",
+          "linear-gradient(to right, #e2e8f1, #7680a0)",
         ]}
       >
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
