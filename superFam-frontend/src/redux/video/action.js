@@ -38,7 +38,7 @@ export const getTrendingVideos = (toast) => (dispatch) => {
 
   axios
     .get(
-      `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&chart=mostPopular&regionCode=IN&maxResults=20&key=${key}&part=snippet`
+      `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&chart=mostPopular&regionCode=IN&maxResults=2&key=${key}&part=snippet`
     )
     .then((res) => {
       console.log(res,"trend")
@@ -91,7 +91,7 @@ export const getSearchedVideos = (searchText,toast) => (dispatch) => {
 
   axios
     .get(
-      `https://www.googleapis.com/youtube/v3/search?key=${key}&q=${searchText}&type=video&part=snippet&maxResults=20`
+      `https://www.googleapis.com/youtube/v3/search?key=${key}&q=${searchText}&type=video&part=snippet&maxResults=2`
     )
     .then((res) => {
       dispatch(getSearchVidSuccess(res.data.items));

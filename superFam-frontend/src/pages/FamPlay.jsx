@@ -11,6 +11,7 @@ const FamPlay = () => {
   const dispatch= useDispatch()
 
   const[videos, setVideos]= useState([])
+  console.log(videos,"vids")
 
 
   const famVidTrend= useSelector((store) =>store.video.famTrendVideos)
