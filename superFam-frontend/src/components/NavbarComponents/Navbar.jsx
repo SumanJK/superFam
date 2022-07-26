@@ -26,9 +26,12 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { SiAirplayaudio } from "react-icons/si";
 
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const userDetails= useSelector((store) =>store.auth.userDetails)
 
   return (
     <>
@@ -64,9 +67,9 @@ export default function Navbar() {
           >
             <Flex justify={["center", "center", "start"]} w="100%">
               <Link to="/">
-              <Tooltip hasArrow label="Home" bg="gray.300" color="#52555f">
+
                 <Image h="3rem" src={logo} />
-                </Tooltip>
+
               </Link>
             </Flex>
           </HStack>
@@ -125,7 +128,7 @@ export default function Navbar() {
             display={{ base: "none", md: "flex" }}
           >
             <Link to="/video">
-              <Tooltip hasArrow label="Fam videos 💙" bg="gray.300" color="#52555f">
+              <Tooltip hasArrow label="Fam videos 💙" bg="gray.300" color="#52555f"  borderRadius="10">
                 <Center>
                   <SiAirplayaudio fontSize="18px" color="white" />
                 </Center>
@@ -134,7 +137,7 @@ export default function Navbar() {
             <Center height="25px">
               <Divider orientation="vertical" />
             </Center>
-            <Tooltip hasArrow label="chatbox 💬" bg="gray.300" color="#52555f">
+            <Tooltip hasArrow label="chatbox 💬" bg="gray.300" color="#52555f"  borderRadius="10">
               <ChatIcon fontSize="18px" color="white" />
             </Tooltip>
           </Flex>
@@ -146,19 +149,19 @@ export default function Navbar() {
             justify={"center"}
           >
             <Menu>
-              <Tooltip hasArrow label="profile" bg="gray.300" color="#52555f">
+              <Tooltip hasArrow label="profile" bg="gray.300" color="#52555f"  borderRadius="10">
                 <MenuButton
                   as={Button}
                   rounded={"full"}
                   variant={"link"}
                   cursor={"pointer"}
                   minW={0}
-                  boxShadow=" rgba(0, 0, 0, 0.15) 0px 5px 15px 0px"
+                  boxShadow=" rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.027) 0px 32px 16px"
                 >
                   <Avatar
                     size={"sm"}
                     src={
-                      "https://images.unsplash.com/photo-1649326858339-a5b9dc560a0f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1120&q=80"
+                      userDetails?.profilePicture
                     }
                   />
                 </MenuButton>

@@ -7,33 +7,43 @@ import { useParams } from 'react-router'
 import axios from 'axios'
 import { useState } from 'react'
 import ProfileCover from '../components/ProfileComponents/ProfileCover'
+import { useSelector } from 'react-redux'
 
 const Profile = () => {
 
   const[ userPosts, setUserPosts]= useState([]);
 
   const [userDetails, setUserDetails]= useState({});
+  console.log(userDetails,"us")
 
   //! fetching user posts
   //dummy datas
   const userName= useParams()
 
+  const PublicFile = process.env.REACT_APP_PUBLIC_FOLDER;
+  const user= useSelector((store) =>store.auth.userDetails)
+  const userId= useSelector((store) =>store.auth.userId)
 
   useEffect(() =>{
-    axios.get("/post/profile/62dc1717d076a3eed21a533e").then((res)=>{
+
+    setUserDetails(user)
+  },[user])
+
+  useEffect(() =>{
+    axios.get(`/post/profile/${userId}`).then((res)=>{
 
       setUserPosts(res.data)
     })
-  },[])
+  },[userId])
 
   //! fetching user 
 
-  useEffect(() =>{
-    axios.get("/users/62c840688b067ed1f7c4aa1b").then((res)=>{
-      console.log(res.data,"profile user")
-      setUserDetails(res.data)
-    })
-  },[])
+  // useEffect(() =>{
+  //   axios.get("/users/62c840688b067ed1f7c4aa1b").then((res)=>{
+  //     console.log(res.data,"profile user")
+  //     setUserDetails(res.data)
+  //   })
+  // },[])
   // console.log(userDetails,"userDt")
 
 
@@ -46,7 +56,7 @@ const Profile = () => {
     ></Box>
     <LeftSidebar />
     <Box py="3.8rem"   flex="1">
-        <ProfileCover/>
+        <ProfileCover user={userDetails} />
       <SimpleGrid columns={["1","1","2","3","3"]} gap="10" p="8" w={["22rem","26rem","38rem","54rem","64rem"]} margin="auto" bg="linear-gradient(145deg, #f0f0f1, #edeff0)">
         {userPosts?.map((el)=>{
           return(

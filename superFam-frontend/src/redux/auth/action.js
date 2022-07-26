@@ -1,6 +1,7 @@
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { getTimelinePost } from "../post/action";
 
 //Action types
 export const authActions = {
@@ -11,6 +12,8 @@ export const authActions = {
   LOGIN_AUTH_REQUEST: "LOGIN_AUTH_REQUEST",
   LOGIN_AUTH_SUCCESS: "LOGIN_AUTH_SUCCESS",
   LOGIN_AUTH_FAILURE: "LOGIN_AUTH_FAILURE",
+
+  LOGOUT_AUTH_REQUEST: "LOGOUT_AUTH_REQUEST",
 
   GET_AUTH_REQUEST: "GET_AUTH_REQUEST",
   GET_AUTH_SUCCESS: "GET_AUTH_SUCCESS",
@@ -85,6 +88,7 @@ export const loginAuthRequest = () => {
   };
 };
 export const loginAuthSuccess = (data) => {
+  // console.log(data,"payl")
   return {
     type: authActions.LOGIN_AUTH_SUCCESS,
     payload: data,
@@ -102,7 +106,8 @@ export const loginUser = (payload,toast,navigate) => (dispatch, getState) => {
   axios
     .post("/auth/login", payload)
     .then((res) => {
-      // console.log(res)
+      console.log(res,"rest")
+      dispatch(loginAuthSuccess(res.data))
       toast({
         title: ` ${res?.data.firstname}, you have been logged in successfully! 🥳`,
         status: "success",
@@ -110,12 +115,19 @@ export const loginUser = (payload,toast,navigate) => (dispatch, getState) => {
         isClosable: true,
       });
     })
+    .then(()=>{
+      console.log("yes")
+      setTimeout(() => {
+      dispatch(getTimelinePost())
+      },2000)
+    })
     .then(() => {
       setTimeout(() => {
         navigate("/", { replace: true });
-      }, 2000);
+      }, 3000);
     })
     .catch((err) => {
+      dispatch(loginAuthFailure())
       if (err.message !== "Request failed with status code 500") {
         toast({
           title: err.response.data,
@@ -150,3 +162,22 @@ export const getAuthFailure = () => {
     type: authActions.GET_AUTH_FAILURE,
   };
 };
+
+
+export const logoutRequest = () => {
+  return {
+    type: authActions.LOGOUT_AUTH_REQUEST,
+  };
+};
+
+
+export const logoutUser=(toast)=>(dispatch)=>{
+
+  dispatch(logoutRequest())
+  setTimeout(()=>{
+    console.log("done man")
+    dispatch(getTimelinePost(toast))
+  },3000)
+
+
+}

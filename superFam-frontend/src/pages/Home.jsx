@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Text, useToast } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import PostCard from "../components/HomeComponents/PostCard";
 import UnicefBanner from "../components/HomeComponents/UnicefBanner";
@@ -6,17 +6,33 @@ import LeftSidebar from "../components/LeftSidebar/LeftSidebar";
 import RightSidebar from "../components/RightSidebar/RightSidebar";
 import axios from "axios";
 import PostShare from "../components/HomeComponents/PostShare";
+import { useDispatch, useSelector } from "react-redux";
+import { getTimelinePost } from "../redux/post/action";
 
 const Home = () => {
 
+  const dispatch = useDispatch()
   const [ posts, setPosts]= useState([]);
-  
+
+
+  const timeline= useSelector((store) =>store.post.timelinePost)
+  // console.log(timeline)
+
+  const toast = useToast();
+
   //! fetching timeline posts
+
   useEffect(() =>{
-    axios.get("/post/timeline/62dc1717d076a3eed21a533e").then((res)=>{
-      setPosts(res.data)
-    })
-  },[])
+    dispatch(getTimelinePost(toast))
+  },[dispatch,toast])
+
+  useEffect(() =>{
+    if(timeline){
+
+      setPosts(timeline)
+    }
+  },[timeline])
+  console.log(posts,"restIn")
   
 
   return (
@@ -28,14 +44,24 @@ const Home = () => {
       <LeftSidebar />
       <Box pt="3.8rem"  flex="1" bg="gray.200">
         <PostShare/>
+        {
+          posts[0]&&
+        
         <Box  w={["22rem","32rem","40rem","46rem","46rem"]} className="feed" margin="auto" bg="white" borderTopRadius={"15px"} pt="10">
 
-          {posts.map((el)=>{
+          {posts?.map((el)=>{
             return (
               <PostCard key={el._id} datas= {el}/>
             )
           })}
         </Box>
+        }
+        {!timeline &&
+        <>
+          <Text m="0" p="0" textAlign={"center"} fontSize={["20px", "40px"]} textTransform="uppercase" fontWeight="700" color="#3b3b3b">Login To continue <span style={{color:"tomato"}}>!</span> </Text>
+          <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_g3dzz0wz.json"  background="transparent"  speed="1"  style={{width: "100%",height: "435px", padding: "0", margin: "0"}}  loop  autoplay></lottie-player>
+        </>
+        }
       </Box>
       <Box
         w={["0", "0", "0","0", "80"]}

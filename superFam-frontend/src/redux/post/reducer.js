@@ -2,8 +2,8 @@ import { postActions } from "./action"
 
 const initState={
   isLoading: true,
-  timelinePost:[],
-  userPost:[],
+  timelinePost:null,
+  userPost:null,
   singlePost:null,
   isError:false,
 }
@@ -203,6 +203,34 @@ export const PostReducer= (state= initState, action) =>{
         }
       )
     }
+    case postActions.UPLOAD_PICTURE_REQUEST:{
+      return (
+        {
+          ...state,
+          isLoading: true,
+          isError: false,
+        }
+      )
+    }
+    case postActions.UPLOAD_PICTURE_SUCCESS:{
+      return (
+        {
+          ...state,
+          isLoading: false,
+          isError: false,
+        }
+      )
+    }
+    case postActions.UPLOAD_PICTURE_FAILURE:{
+      return (
+        {
+          ...state,
+          isLoading: false,
+          isError: true,
+        }
+      )
+    }
+    
     default: {
       return state
     }

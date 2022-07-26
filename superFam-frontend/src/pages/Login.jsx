@@ -77,7 +77,7 @@ if( email.current.value && password.current.value && confirmPassword.current.val
       h="40rem"
         borderRadius="20px"
       >
-        <Stack w={["0","0","40rem","40rem"]}  borderLeftRadius="20px" overflow="hidden" zIndex="10">
+        <Stack w={["0","0","40rem","40rem"]}  borderLeftRadius="20px" overflow="hidden" zIndex="10"  cursor="pointer">
         <Spline scene="https://prod.spline.design/sckOD82PH0OVgOtM/scene.splinecode" />
         </Stack>
         <Stack

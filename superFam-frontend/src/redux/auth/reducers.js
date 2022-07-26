@@ -2,7 +2,8 @@ import { authActions } from "./action"
 
 const initState={
     isLoading: true,
-    userId: null,
+    userId: JSON.parse(localStorage.getItem('userIdLocal')) || null,
+    userDetails: JSON.parse(localStorage.getItem('FamUserDetails')) || null,
     isAuth: false,
     isError: false,
 }
@@ -49,12 +50,16 @@ export const AuthReducer= (state= initState, action)=>{
             )
         }
         case authActions.LOGIN_AUTH_SUCCESS:{
+            localStorage.setItem('userIdLocal',JSON.stringify(action.payload._id))
+            localStorage.setItem('FamUserDetails',JSON.stringify(action.payload))
+            // console.log(action.payload.firstname,"firstnameRedux")
             return(
                 {
                     ...state,
                     isLoading: false,
                     isAuth: true,
-                    userId: action.payload._id,
+                    userDetails: action.payload,
+                    firstname: action.payload.firstname,
                     id: action.payload._id
                 }
                 )
@@ -65,6 +70,20 @@ export const AuthReducer= (state= initState, action)=>{
                         ...state,
                         isLoading: false,
                         isError: true,
+                    }
+                )
+            }
+            case authActions.LOGOUT_AUTH_REQUEST:{
+                localStorage.removeItem('FamUserDetails')
+                localStorage.removeItem('userIdLocal')
+                return(
+                    {
+                        ...state,
+                        isLoading: false,
+                        userId:null,
+                        userDetails:null,
+                        isAuth:false,
+                        isError: false,
                     }
                 )
             }

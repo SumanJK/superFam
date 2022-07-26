@@ -22,6 +22,10 @@ export const postActions = {
   GET_SINGLE_POST_SUCCESS: "GET_SINGLE_POST_SUCCESS",
   GET_SINGLE_POST_FAILURE: "GET_SINGLE_POST_FAILURE",
 
+  UPLOAD_PICTURE_REQUEST: "UPLOAD_PICTURE_REQUEST",
+  UPLOAD_PICTURE_SUCCESS: "UPLOAD_PICTURE_SUCCESS",
+  UPLOAD_PICTURE_FAILURE: "UPLOAD_PICTURE_FAILURE",
+
   GET_TIMELINE_POST_REQUEST: "GET_TIMELINE_POST_REQUEST",
   GET_TIMELINE_POST_SUCCESS: "GET_TIMELINE_POST_SUCCESS",
   GET_TIMELINE_POST_FAILURE: "GET_TIMELINE_POST_FAILURE",
@@ -52,32 +56,44 @@ const failureCreatePost = () => {
   };
 };
 
-export const createPost = () => (dispatch) => {
+export const createPost = (newPost,toast) => (dispatch) => {
+  console.log(newPost,"new")
   dispatch(requestCreatePost());
+
   try {
     axios
-      .post({
-        method: "POST",
-        url: "localhost://",
-      })
+      .post("/post", newPost)
       .then((res) => {
         console.log(res, "create-post");
         dispatch(successCreatePost());
+
+        toast({
+          title: `Post Uploaded successfully! 🥳`,
+          status: "success",
+          duration: 5000,
+          position: 'bottom-right',
+          isClosable: true,
+        });
       })
       .then(() => {
         dispatch(getTimelinePost());
       })
       .catch((err) => {
         dispatch(failureCreatePost());
+        toast({
+          title: `Failed to upload post! try again later!`,
+          status: "error",
+          duration: 3000,
+          position: 'bottom-right',
+          isClosable: true,
+        });
       });
   } catch (err) {
     console.log(err);
   }
 };
 
-
 //update post actions
-
 
 const requestUpdatePost = () => {
   return {
@@ -243,7 +259,6 @@ export const getSinglePost = () => (dispatch) => {
   }
 };
 
-
 //timeline post action
 
 const requestTimelinePost = () => {
@@ -252,9 +267,10 @@ const requestTimelinePost = () => {
   };
 };
 
-const successTimelinePost = () => {
+const successTimelinePost = (payload) => {
   return {
     type: postActions.GET_TIMELINE_POST_SUCCESS,
+    payload: payload
   };
 };
 
@@ -264,20 +280,39 @@ const failureTimelinePost = () => {
   };
 };
 
-export const getTimelinePost = () => (dispatch) => {
+export const getTimelinePost = (toast) => (dispatch,getState) => {
   dispatch(requestTimelinePost());
+
+  const userId= getState().auth.userId;
+  console.log(userId,"userID from timeline")
+
   try {
-    axios
-      .post({
-        method: "POST",
-        url: "localhost://",
-      })
+
+      axios.get(`/post/timeline/${userId}`)
       .then((res) => {
         console.log(res, "create-post");
-        dispatch(successTimelinePost());
+        console.log(localStorage.getItem('userIdLocal'),"localId")
+        console.log(localStorage.getItem('FamUserDetails'),"FamUserDetails")
+        dispatch(successTimelinePost(res.data));
+        toast({
+          title: `Enjoy your feeds  🥳`,
+          variant:"left-accent",
+          duration: 3000,
+          position: 'bottom-right',
+          isClosable: true,
+        });
       })
       .catch((err) => {
         dispatch(failureTimelinePost());
+        console.log("fail to fetch timeline")
+        toast({
+          title: `Failed to request posts, try later! `,
+          variant:"left-accent",
+          status: "error",
+          duration: 4000,
+          position: 'bottom-right',
+          isClosable: true,
+        });
       });
   } catch (err) {
     console.log(err);
@@ -321,5 +356,45 @@ export const getUserPost = () => (dispatch) => {
       });
   } catch (err) {
     console.log(err);
+  }
+};
+
+const requestUploadPicture = () => {
+  return {
+    type: postActions.UPLOAD_PICTURE_REQUEST,
+  };
+};
+const successUploadPicture = () => {
+  return {
+    type: postActions.UPLOAD_PICTURE_REQUEST,
+  };
+};
+const failureUploadPicture = () => {
+  return {
+    type: postActions.UPLOAD_PICTURE_REQUEST,
+  };
+};
+
+export const uploadPicture = (data, newPost,toast) => (dispatch) => {
+  // console.log(newPost,"mmmmmmm")
+  dispatch(requestUploadPicture());
+
+  try {
+    axios.post("/upload", data).then((res) => {
+
+      dispatch(successUploadPicture())
+
+    }).then(()=>{
+
+      setTimeout(() =>{
+
+        dispatch(createPost(newPost,toast));
+      },2000)
+
+    })
+  } catch (err) {
+    console.log(err, "errrrr");
+    
+    dispatch(failureUploadPicture());
   }
 };

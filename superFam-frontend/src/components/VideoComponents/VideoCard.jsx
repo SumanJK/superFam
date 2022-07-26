@@ -26,7 +26,7 @@ const VideoCard = ({ video, ind }) => {
 
   const handleClick = () => {
     console.log(video?.id.videoId,"video id")
-    setCurrentVideo(video?.id.videoId)
+    setCurrentVideo(video?.id.videoId ? video?.id.videoId : video?.id)
     onOpen();
   };
   return (
@@ -47,7 +47,7 @@ const VideoCard = ({ video, ind }) => {
               transition="all .3s ease"
               opacity="0"
               _groupHover={{
-                transition: "all .4s ease",
+                transition: "all .5s ease",
                 transform: "scale(2)",
                 opacity: ".8",
               }}
@@ -63,8 +63,9 @@ const VideoCard = ({ video, ind }) => {
             opacity=".5"
             right="6%"
             zindex="200"
+            fontWeight="600"
             transition="all .3s ease"
-            _groupHover={{ opacity: "1", transition: "all .4s ease", transform:"translateY(-10px)" }}
+            _groupHover={{ opacity: "1", transition: "all .4s ease", transform:"translateY(-15px)" }}
           >
             {ind + 1}{" "}
           </Text>
@@ -73,13 +74,13 @@ const VideoCard = ({ video, ind }) => {
       <Modal
         isOpen={isOpen}
         onClose={onClose}
-        size={["4xl","6xl"]}
+        size={["xl","4xl","6xl"]}
       >
         <ModalOverlay
           bg="#00000070"
           backdropFilter="blur(10px) hue-rotate(10deg)"
         />
-        <ModalContent mt="7rem" borderRadius="25px" overflow="hidden">
+        <ModalContent mt="7rem" borderRadius={["20px"]} overflow="hidden">
           <ModalCloseButton color="white" fontSize="15px" />
           <ModalBody p="0">
             <AspectRatio maxW="1160"   ratio={2}>

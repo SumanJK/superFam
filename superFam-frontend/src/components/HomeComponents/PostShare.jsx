@@ -9,6 +9,7 @@ import {
   Input,
   Text,
   Tooltip,
+  useToast,
 } from "@chakra-ui/react";
 import React from "react";
 import { BsEmojiWink } from "react-icons/bs";
@@ -19,45 +20,47 @@ import { TiUserAddOutline } from "react-icons/ti";
 import {useState} from "react"
 import { useRef } from "react";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { createPost, uploadPicture } from "../../redux/post/action";
 
 
 const PostShare = () => {
+
+  const dispatch = useDispatch()
+  const toast = useToast();
 
   const [file, setFile] = useState(null);
 
   const desc= useRef();
 
+  const userId= useSelector((store) =>store.auth.userId)
+  const userDetails= useSelector((store) =>store.auth.userDetails)
+
+
 
 
   const handlePost= ()=>{
     const newPost = {
-      userId: "62dc1717d076a3eed21a533e",
+      userId: userId,
       description: desc.current.value,
     };
+    desc.current.value=""
     if (file) {
-     console.log(file.File,"fil")
-      const fileName = Date.now() + file.name;
 
-      const data= {
-        name: fileName,
-        file: file
-      }
-      // data.append("name", fileName);
-      // data.append("file", file);
-      console.log(data,"newpostData");
+      const data = new FormData();
+      const fileName = file.name;
+
+      
+      data.append("name", fileName);
+      data.append("file", file);
+
       newPost.image = fileName;
-      try {
-         axios.post("/upload", data);
-      } catch (err) {
-        console.log(err,"errrrr")
-      }
+      // console.log(data,"newpostData");
+      dispatch(uploadPicture(data,newPost,toast))
+    }else{
+      dispatch(createPost(newPost,toast));
     }
-    // try {
-    //    axios.post("/post", newPost);
-    //   // window.location.reload();
-    // } catch (err) {
-    //   console.log(err,"errrrr")
-    // }
+    
   }
   return (
     <Box
@@ -74,7 +77,7 @@ const PostShare = () => {
         <Avatar
           boxShadow=" rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset"
           size={["sm", "md"]}
-          src="https://images.unsplash.com/photo-1644982647711-9129d2ed7ceb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1674&q=80"
+          src={userDetails?.profilePicture}
         >
           <AvatarBadge boxSize={[".6rem", ".8em"]} bg="#00ec47" />
         </Avatar>
@@ -83,7 +86,7 @@ const PostShare = () => {
           variant="flushed"
           color="white"
           _placeholder={{ color: "white" }}
-          placeholder="What's on your mind Tanmay?"
+          placeholder=  {`What's on your mind, ${userDetails?.firstname}?`}
           w="100%"
           fontSize={["10px", "15px"]}
           ref={desc}

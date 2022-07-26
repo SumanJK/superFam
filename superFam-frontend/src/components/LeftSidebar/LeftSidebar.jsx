@@ -1,35 +1,47 @@
 import {
-  Avatar,
   Box,
   Collapse,
   Divider,
-  Drawer,
-  DrawerContent,
-  DrawerOverlay,
   Flex,
   Icon,
   useColorModeValue,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import { FaBell, FaClipboardCheck, FaSave } from "react-icons/fa";
+import { FaSave } from "react-icons/fa";
 
-import { AiFillGift } from "react-icons/ai";
 import { TiVideo } from "react-icons/ti";
 import { BsGearFill } from "react-icons/bs";
 import { RiLogoutCircleRFill } from "react-icons/ri";
-import { FiMenu, FiSearch } from "react-icons/fi";
 import { IoIosHelpCircle } from "react-icons/io";
-import { HiCode, HiCollection, HiOutlineVideoCamera } from "react-icons/hi";
-import { MdHome, MdKeyboardArrowRight, MdOutlineAccountCircle, MdSlowMotionVideo } from "react-icons/md";
+import { HiCode, HiCollection } from "react-icons/hi";
+import {
+  MdHome,
+  MdKeyboardArrowRight,
+  MdOutlineAccountCircle,
+} from "react-icons/md";
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import { getTimelinePost } from "../../redux/post/action";
+import { logoutUser } from "../../redux/auth/action";
 
 const LeftSidebar = () => {
-
   const sidebar = useDisclosure();
   const integrations = useDisclosure();
   const color = useColorModeValue("gray.600", "gray.300");
+
+  const userId = useSelector((store) => store.auth.userId);
+
+  const dispatch = useDispatch()
+
+  const toast= useToast()
+
+  const handleLogout= ()=>{
+    
+  dispatch(logoutUser(toast))
+
+  }
 
   const NavItem = (props) => {
     const { icon, children, ...rest } = props;
@@ -50,8 +62,8 @@ const LeftSidebar = () => {
             // bg: "gray.900",
           },
           color: "gray.900",
-          transition:".3s ease",
-          transform: "translateX(4px)"
+          transition: ".3s ease",
+          transform: "translateX(4px)",
         }}
         role="group"
         fontWeight="600"
@@ -64,14 +76,13 @@ const LeftSidebar = () => {
             boxSize="6"
             _groupHover={{
               color: "#4dc1ff",
-              transition:".3s ease",
+              transition: ".3s ease",
             }}
             transition=".3s ease"
             as={icon}
           />
         )}
         {children}
-        
       </Flex>
     );
   };
@@ -79,7 +90,7 @@ const LeftSidebar = () => {
   const SidebarContent = (props) => (
     <Box
       as="nav"
-    py="6rem"
+      py="6rem"
       pos="fixed"
       top="16"
       left="0"
@@ -98,13 +109,16 @@ const LeftSidebar = () => {
       w="60"
       {...props}
     >
-      <Flex fontSize="md"
+      <Flex
+        fontSize="md"
         color="gray.600"
         align="center"
         aria-label="Main Navigation"
         fontWeight="700"
         p="10px"
-        ><MdOutlineAccountCircle fontSize="24px" /> &nbsp; Account</Flex>
+      >
+        <MdOutlineAccountCircle fontSize="24px" /> &nbsp; Account
+      </Flex>
       <Flex
         direction="column"
         as="nav"
@@ -112,9 +126,14 @@ const LeftSidebar = () => {
         color="gray.600"
         aria-label="Main Navigation"
       >
-       <Link to="/"> <NavItem icon={MdHome}>Home</NavItem></Link>
-       <Link to="/video"><NavItem icon={TiVideo}>Videos</NavItem></Link>
-        <NavItem icon={HiCollection} > Collections</NavItem>
+        <Link to="/">
+          {" "}
+          <NavItem icon={MdHome}>Home</NavItem>
+        </Link>
+        <Link to="/video">
+          <NavItem icon={TiVideo}>Videos</NavItem>
+        </Link>
+        <NavItem icon={HiCollection}> Collections</NavItem>
         <NavItem icon={FaSave}>Saved</NavItem>
         <NavItem icon={BsGearFill}>Settings</NavItem>
         <NavItem icon={HiCode} onClick={integrations.onToggle}>
@@ -137,9 +156,22 @@ const LeftSidebar = () => {
           </NavItem>
         </Collapse>
       </Flex>
-      <Divider  w="80%" margin="30px auto"/>
-      <NavItem fontSize="sm" color="gray.600" icon={IoIosHelpCircle}>Help</NavItem>
-      <Link to="/signup"><NavItem  fontSize="sm" color="gray.600" icon={RiLogoutCircleRFill}>Signup</NavItem></Link>
+      <Divider w="80%" margin="30px auto" />
+      <NavItem fontSize="sm" color="gray.600" icon={IoIosHelpCircle}>
+        Help
+      </NavItem>
+      {!userId && (
+        <Link to="/signup">
+          <NavItem fontSize="sm" color="gray.600" icon={RiLogoutCircleRFill}>
+            Signup/Login
+          </NavItem>
+        </Link>
+      )}
+      {userId && (
+        <NavItem fontSize="sm" color="gray.600" icon={RiLogoutCircleRFill} onClick={handleLogout}>
+          Logout
+        </NavItem>
+      )}
     </Box>
   );
 
@@ -158,10 +190,8 @@ const LeftSidebar = () => {
           md: "unset",
         }}
       />
-      
     </Box>
   );
 };
 
-
-export default LeftSidebar
+export default LeftSidebar;

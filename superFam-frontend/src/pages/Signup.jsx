@@ -86,6 +86,7 @@ const Signup = () => {
           borderLeftRadius="20px"
           overflow="hidden"
           zIndex="10"
+          cursor="pointer"
         >
           <Spline
             style={{ zIndex: "1" }}

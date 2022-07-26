@@ -22,20 +22,22 @@ import shareIcon from "../../assets/instagram-share.svg";
 import commentIcon from "../../assets/instagram-comment.svg";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import {useSelector} from "react-redux"
 
 
 
 export default function PostCard({datas}) {
   
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const PublicFile = process.env.REACT_APP_PUBLIC_FOLDER;
+
 
   const [showMore, setShowMore]= useState(false);
   const {isOpen, onOpen, onClose}= useDisclosure()
 
-  // console.log({datas},"data")
+  // console.log(datas.image,"data")
 
   const [user, setUser]= useState({});
+
 
   //get userDetails 
   useEffect(() =>{
@@ -63,6 +65,7 @@ export default function PostCard({datas}) {
         zIndex={1}
         borderRadius="12px"
       >
+        {datas?.image &&
         <Box
         onClick={onOpen}
         borderRadius="20px"
@@ -77,24 +80,25 @@ export default function PostCard({datas}) {
             pos: "absolute",
             top: 0,
             left: 0,
-            backgroundImage: `url('${datas.image}')`,
-            filter: "blur(10px)",
+            backgroundImage: `url('${PublicFile + datas.image}')`,
+            filter: "blur(6px)",
             zIndex: -1,
           }}
           _groupHover={{
             _after: {
-              filter: "blur(14px)",
+              filter: "blur(8px)",
             },
           }}
         >
           <Image
-            borderRadius="14px"
+            borderRadius="10px"
             height={320}
             width={"full"}
             objectFit={"cover"}
-            src={  datas.image}
+            src={PublicFile + datas.image}
           />
         </Box>
+        }
         <Flex
           h="3.2rem"
           mt="4"
@@ -140,6 +144,7 @@ export default function PostCard({datas}) {
               comments
             </Text>
           </Flex>
+          {datas?.image &&
           <HStack align={"end"}  w={showMore ? "100%" : "60%"}>
             <Text
               fontWeight={500}
@@ -160,7 +165,20 @@ export default function PostCard({datas}) {
                 more...
               </Text>
             )}
+          </HStack>}
+          {!datas?.image &&
+            <HStack align={"end"}  w={ "100%" }>
+            <Text
+              fontWeight={500}
+              fontSize={[ "12px", "12px", "13px", "13px"]}
+              color={"gray.600"}
+              // py="10px"
+            >
+             {datas?.description}
+            </Text>
+            
           </HStack>
+          }
         </Stack>
       </Box>
     </Center>
@@ -180,7 +198,7 @@ export default function PostCard({datas}) {
                   height={["full"]}
                   width={["12rem","20rem","30rem","40rem","50rem"]}
                   objectFit={"cover"}
-                  src={datas?.image}
+                  src={PublicFile + datas.image}
                   
                 />
               </Flex>
