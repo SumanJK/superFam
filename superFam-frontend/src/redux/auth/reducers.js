@@ -73,6 +73,36 @@ export const AuthReducer= (state= initState, action)=>{
                     }
                 )
             }
+        case authActions.UPDATE_USER_REQUEST:{
+            return(
+                {
+                    ...state,
+                    isLoading: true,
+                    isError: false,
+                }
+            )
+        }
+        case authActions.UPDATE_USER_SUCCESS:{
+            // localStorage.setItem('userIdLocal',JSON.stringify(action.payload._id))
+            // localStorage.setItem('FamUserDetails',JSON.stringify(action.payload))
+            // console.log(action.payload.firstname,"firstnameRedux")
+            return(
+                {
+                    ...state,
+                    isLoading: false,
+                    isError:false
+                }
+                )
+            }
+            case authActions.UPDATE_USER_FAILURE:{
+                return(
+                    {
+                        ...state,
+                        isLoading: false,
+                        isError: true,
+                    }
+                )
+            }
             case authActions.LOGOUT_AUTH_REQUEST:{
                 localStorage.removeItem('FamUserDetails')
                 localStorage.removeItem('userIdLocal')

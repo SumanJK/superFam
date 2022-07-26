@@ -31,7 +31,7 @@ const LeftSidebar = () => {
   const integrations = useDisclosure();
   const color = useColorModeValue("gray.600", "gray.300");
 
-  const userId = useSelector((store) => store.auth.userId);
+  const userId= JSON.parse(localStorage.getItem('userIdLocal'))
 
   const dispatch = useDispatch()
 

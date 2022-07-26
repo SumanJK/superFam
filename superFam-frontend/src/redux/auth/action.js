@@ -18,6 +18,10 @@ export const authActions = {
   GET_AUTH_REQUEST: "GET_AUTH_REQUEST",
   GET_AUTH_SUCCESS: "GET_AUTH_SUCCESS",
   GET_AUTH_FAILURE: "GET_AUTH_FAILURE",
+
+  UPDATE_USER_REQUEST: "UPDATE_USER_REQUEST",
+  UPDATE_USER_SUCCESS: "UPDATE_USER_SUCCESS",
+  UPDATE_USER_FAILURE: "UPDATE_USER_FAILURE",
 };
 
 //POST Actions
@@ -174,10 +178,68 @@ export const logoutRequest = () => {
 export const logoutUser=(toast)=>(dispatch)=>{
 
   dispatch(logoutRequest())
-  setTimeout(()=>{
-    console.log("done man")
+
+  toast({
+    title: "you have been logged out!",
+    status: "warning",
+    isClosable: true,
+  });
+
     dispatch(getTimelinePost(toast))
-  },3000)
+}
 
 
+export const updateUserRequest=()=>{
+  return {
+    type: authActions.UPDATE_USER_REQUEST
+  }
+}
+export const updateUserSuccess=()=>{
+  return {
+    type: authActions.UPDATE_USER_SUCCESS
+  }
+}
+export const updateUserFailure=()=>{
+  return {
+    type: authActions.UPDATE_USER_FAILURE
+  }
+}
+
+export const updateUser= (payload, toast)=> (dispatch)=>{
+
+  const userId= JSON.parse(localStorage.getItem('userIdLocal'))
+  
+  dispatch(updateUserRequest());
+
+  axios
+    .post(`/users/${userId}`, payload)
+    .then((res) => {
+      console.log(res,"rest")
+      console.log(res,"updated post")
+      dispatch(updateUserSuccess())
+      toast({
+        title: `Profile got updated 🙌`,
+        status: "success",
+        duration: 7000,
+        isClosable: true,
+      });
+    })
+    .catch((err) => {
+      console.log(err,"update err")
+      dispatch(updateUserFailure())
+      if (err.message !== "Request failed with status code 500") {
+        toast({
+          title: err.response.data,
+          status: "error",
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "You are facing server error, try again update profile",
+          status: "error",
+          isClosable: true,
+        });
+      }
+      // console.log(err)
+    });
 }

@@ -167,10 +167,13 @@ export const PostReducer= (state= initState, action) =>{
       )
     }
     case postActions.GET_TIMELINE_POST_FAILURE:{
+      console.log("failed man")
       return (
         {
           ...state,
           isLoading: false,
+          timelinePost:null,
+          userPost:null,
           isError: true,
         }
       )

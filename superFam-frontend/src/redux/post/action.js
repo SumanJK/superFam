@@ -1,4 +1,5 @@
 import axios from "axios";
+import { updateUser } from "../auth/action";
 
 //ACTION TYPES
 export const postActions = {
@@ -283,7 +284,7 @@ const failureTimelinePost = () => {
 export const getTimelinePost = (toast) => (dispatch,getState) => {
   dispatch(requestTimelinePost());
 
-  const userId= getState().auth.userId;
+  const userId= JSON.parse(localStorage.getItem('userIdLocal'))
   console.log(userId,"userID from timeline")
 
   try {
@@ -384,7 +385,8 @@ export const uploadPicture = (data, newPost,toast) => (dispatch) => {
 
       dispatch(successUploadPicture())
 
-    }).then(()=>{
+    })
+    .then(()=>{
 
       setTimeout(() =>{
 
@@ -392,6 +394,27 @@ export const uploadPicture = (data, newPost,toast) => (dispatch) => {
       },2000)
 
     })
+  } catch (err) {
+    console.log(err, "errrrr");
+    
+    dispatch(failureUploadPicture());
+  }
+};
+
+//update profile/ cover pic
+export const uploadProfilePicture = (data,updateProfile,toast) => (dispatch) => {
+
+  dispatch(requestUploadPicture());
+
+  try {
+    axios.post("/upload", data).then((res) => {
+
+      dispatch(successUploadPicture())
+
+    }).then(()=>{
+      dispatch(updateUser(updateProfile,toast))
+    })
+    
   } catch (err) {
     console.log(err, "errrrr");
     

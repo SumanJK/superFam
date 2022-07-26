@@ -18,29 +18,53 @@ import React, { useState } from "react";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { uploadPicture } from "../../redux/post/action";
+import { uploadPicture, uploadProfilePicture } from "../../redux/post/action";
+import { MdCancelScheduleSend, MdOutlineCancelScheduleSend } from "react-icons/md";
+import { TiCancel } from "react-icons/ti";
 
 const ProfileCover = ({ user }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isCoverEditOpen,
+    onOpen: onCoverEditOpen,
+    onClose: onCoverEditClose,
+  } = useDisclosure();
+  const {
+    isOpen: isProfileEditOpen,
+    onOpen: onProfileEditOpen,
+    onClose: onProfileEditClose,
+  } = useDisclosure();
+
   const toast = useToast();
-  const [files, setFiles] = useState(null);
+  const [coverPic, setCoverPic] = useState(null);
+  console.log(coverPic, "cover");
+  const [profilePic, setProfilePic] = useState(null);
+  console.log(profilePic, "profile");
 
   const dispatch = useDispatch();
+  const userId= useSelector((store) =>store.auth.userId)
 
-  const handleUpload = () => {
-    if (files) {
+  //uploading cover pic
+  const handleCoverUpload = () => {
+
+   const updateProfile = {
+      userId: userId,
+    };
+    if (coverPic) {
       const data = new FormData();
-      const fileName = files.name;
+      const fileName = coverPic.name;
 
       data.append("name", fileName);
-      data.append("file", files);
+      data.append("file", coverPic);
 
+      updateProfile.coverPicture= fileName;
       console.log(data, "newpostData");
-      dispatch(uploadPicture(data, toast));
+      dispatch(uploadProfilePicture(data, updateProfile ,toast));  //! commented upload picture
     } else {
       // dispatch(createPost(newPost,toast));
     }
   };
+
+  
   return (
     <>
       <Flex
@@ -67,43 +91,8 @@ const ProfileCover = ({ user }) => {
               fontSize="20px"
               color="#ff7979"
               cursor="pointer"
+              onClick={onCoverEditOpen}
             />
-            <Input
-              type="file"
-              opacity="0"
-              w="2rem"
-              right="4.7rem"
-              position="absolute"
-              cursor="pointer"
-              id="fileCover"
-              accept="image/*"
-              onChange={(e) => setFiles(e.target.files[0])}
-            />
-            <Flex justify="end">
-              <Button
-              display="flex"
-              align="center"
-              justify="center"
-                boxShadow="  rgba(255, 0, 0, 0.37) 0px -23px 25px 0px inset, rgba(255, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(255, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(255, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.051) 0px 4px 2px, rgba(0, 0, 0, 0.067) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.008) 0px 32px 16px"
-                ml="1rem"
-                transition="all .5s ease"
-                onClick={handleUpload}
-                borderRadius="50%"
-                w={["2rem", "2.4rem"]}
-                h={["2.3rem", "2.4rem"]}
-                p="0"
-                color="white"
-                _hover={{
-                  color: "black",
-                  transition: "all .4s ease",
-                  transform: "scale(1.1)",
-                  boxShadow:
-                    " rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset",
-                }}
-              >
-                <RiSendPlaneFill fontSize="20px" />
-              </Button>
-            </Flex>
           </Flex>
         </Box>
         <Center
@@ -120,7 +109,6 @@ const ProfileCover = ({ user }) => {
           boxShadow=" rgb(204, 219, 232) 3px 2px 6px 1px inset, rgb(255, 255, 255) -3px -2px 4px 0px inset"
         >
           <Image
-            onClick={onOpen}
             cursor={"pointer"}
             boxShadow=" rgba(136, 165, 191, 0.68) 6px 2px 16px 0px, rgba(255, 255, 255, .5) -6px -2px 16px 0px"
             borderRadius="50%"
@@ -152,8 +140,8 @@ const ProfileCover = ({ user }) => {
         </Flex>
       </Flex>
       <Modal
-        isOpen={isOpen}
-        onClose={onClose}
+        isOpen={isCoverEditOpen}
+        onClose={onCoverEditClose}
         size={["xs", "sm", "md", "lg", "xl"]}
       >
         <ModalOverlay
@@ -163,23 +151,99 @@ const ProfileCover = ({ user }) => {
         <ModalContent mt="7rem" borderRadius="25px" overflow="hidden">
           <ModalCloseButton color="black" fontSize="15px" />
           <ModalBody p="0">
-            <Flex
-              h={["16rem", "20rem", "25rem", "35rem"]}
-              w="full"
-              direction="row"
-              align="start"
-              justify="center"
-            >
-              <Flex h="100%" w="100%" align="center">
-                <Image
-                  height={["full"]}
-                  width={["100%"]}
-                  objectFit={"cover"}
-                  src={user.profilePicture}
+            <Box border="1px solid black" >
+              <Box border="1px solid black" h="50%">
+                {coverPic && (
+                  <Box className="shareImgContainer" position="relative">
+                    <Image
+                      src={URL.createObjectURL(coverPic)}
+                      alt="cover pic"
+                    />
+                    <Button
+                    position="absolute"
+                    top="0"
+                    w={['3rem','3.6rem']}
+                    h={['1.5rem','2.2rem']}
+                    p="0"
+                    right="0"
+                    borderRadius="0"
+                    transition="all .5s ease"
+                    boxShadow="  rgba(255, 0, 0, 0.367) 0px -23px 25px 0px inset, rgba(255, 0, 0, 0.285) 0px -36px 30px 0px inset, rgba(255, 0, 0, 0.258) 0px -79px 40px 0px inset, rgba(255, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.051) 0px 4px 2px, rgba(0, 0, 0, 0.067) 0px 8px 4px, rgba(0, 0, 0, 0.125) 0px 16px 8px, rgba(0, 0, 0, 0.062) 0px 32px 16px"
+                    _hover={{bg:"#ff0000cc",transition:"all .5s ease"}}
+                    bg="transparent"
+                    borderBottomLeftRadius={"24px"}
+                      onClick={() => setCoverPic(null)}
+                    >
+                      <MdOutlineCancelScheduleSend color="#ffffffe7" fontSize={["18px"]}/>
+                    </Button>
+                  </Box>
+                )}
+              </Box>
+              <Flex
+              py="2rem"
+                border="1px solid black"
+                direction="column"
+                justify="center"
+                align="center"
+                h="50%"
+              >
+                <Input
+                  border="none"
+                  type="file"
+                  opacity="1"
+                  w="50%"
+                  cursor="pointer"
+                  id="fileCover"
+                  accept="image/*"
+                  onChange={(e) => setCoverPic(e.target.files[0])}
                 />
+                <Text fontSize="14px" fontWeight="bold" color="#363636" pt="5%">
+                  {coverPic ? <Image data={coverPic} /> : "Please choose a cover picture"}
+                </Text>
+                {coverPic &&
+                <Button
+                  display="flex"
+                  align="center"
+                  justify="center"
+                  boxShadow="  rgba(255, 0, 0, 0.418) 0px -23px 25px 0px inset, rgba(255, 0, 0, 0.313) 0px -36px 30px 0px inset, rgba(255, 0, 0, 0.235) 0px -79px 40px 0px inset, rgba(255, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.051) 0px 4px 2px, rgba(0, 0, 0, 0.067) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.008) 0px 32px 16px"
+                  ml="1rem"
+                  transition="all .5s ease"
+                  
+                  borderRadius="20px"
+                  w={["8rem", "10rem"]}
+                  h={["2rem", "3rem"]}
+                  p="0"
+                  color="white"
+                  _hover={{
+                    color: "black",
+                    transition: "all .4s ease",
+                    transform: "scale(1.1)",
+                    boxShadow:
+                      " rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset",
+                  }}
+                  onClick={handleCoverUpload}
+                > Upload &nbsp;
+                  <RiSendPlaneFill fontSize="20px" />
+                </Button>
+                }
               </Flex>
-            </Flex>
+            </Box>
           </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      <Modal
+        isOpen={isProfileEditOpen}
+        onClose={onProfileEditClose}
+        size={["xs", "sm", "md", "lg", "3xl"]}
+      >
+        <ModalOverlay
+          bg="#0000007f"
+          backdropFilter="blur(10px) hue-rotate(10deg)"
+        />
+        <ModalContent mt="7rem" borderRadius="25px" overflow="hidden">
+          <ModalCloseButton color="black" fontSize="15px" />
+          <ModalBody p="0"></ModalBody>
         </ModalContent>
       </Modal>
     </>

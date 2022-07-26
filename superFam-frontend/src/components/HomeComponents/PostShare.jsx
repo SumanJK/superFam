@@ -55,7 +55,7 @@ const PostShare = () => {
       data.append("file", file);
 
       newPost.image = fileName;
-      // console.log(data,"newpostData");
+      console.log(data,"newpostData");
       dispatch(uploadPicture(data,newPost,toast))
     }else{
       dispatch(createPost(newPost,toast));
@@ -109,20 +109,19 @@ const PostShare = () => {
             w={["60%", "100%"]}
           >
             <HiOutlinePhotograph fontSize={["12px", "25px"]} color="white" />
-            <label htmlFor="file" cursor="pointer">
             <Text fontSize={["8px", "15px"]} noOfLines="1">
               Upload Photo
             </Text>
             <Input
               type="file"
-              opacity="1"
-              display={"none"}
+              opacity="0"
+              display={"hidden"}
               position="absolute"
               cursor="pointer"
               id="file"
               accept="image/*"
               onChange={(e) => setFile(e.target.files[0])}
-            /></label>
+            />
           </HStack>
           <Divider
             orientation="vertical"
