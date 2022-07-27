@@ -105,7 +105,7 @@ const ProfileCover = ({ user }) => {
   const [followed, setFollowed] = useState(false);
 
   useEffect(() => {
-    setFollowed(userDetails.following.includes(user._id));
+    setFollowed(userDetails?.following.includes(user._id));
   }, [userDetails, user]);
 
   // console.log(like, "LIKES");
