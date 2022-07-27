@@ -14,16 +14,23 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { RiSendPlaneFill } from "react-icons/ri";
+import React, { useEffect, useState } from "react";
+import { RiSendPlane2Fill, RiSendPlaneFill } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { uploadPicture, uploadProfilePicture } from "../../redux/post/action";
+import {
+  getTimelinePost,
+  uploadPicture,
+  uploadProfilePicture,
+} from "../../redux/post/action";
 import {
   MdCancelScheduleSend,
+  MdDoneAll,
   MdOutlineCancelScheduleSend,
 } from "react-icons/md";
 import { TiCancel } from "react-icons/ti";
+import axios from "axios";
+import { getAuthUser } from "../../redux/auth/action";
 
 const ProfileCover = ({ user }) => {
   const PublicFile = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -63,31 +70,146 @@ const ProfileCover = ({ user }) => {
 
       updateProfile.coverPicture = fileName;
 
-      dispatch(uploadProfilePicture(data, updateProfile,user._id, toast)); 
+      dispatch(uploadProfilePicture(data, updateProfile, user._id, toast));
 
-      onCoverEditClose()
-    } 
+      onCoverEditClose();
+    }
   };
-//uploading profile pic
+  //uploading profile pic
 
-const handleProfileUpload=()=>{
-  const updateProfile = {
-    userId: userId,
+  const handleProfileUpload = () => {
+    const updateProfile = {
+      userId: userId,
+    };
+    if (profilePic) {
+      const data = new FormData();
+      const fileName = profilePic.name;
+
+      data.append("name", fileName);
+      data.append("file", profilePic);
+
+      updateProfile.profilePicture = fileName;
+      // console.log(data, "newpostData");
+      dispatch(uploadProfilePicture(data, updateProfile, user._id, toast));
+
+      onProfileEditClose();
+    }
   };
-  if (profilePic) {
-    const data = new FormData();
-    const fileName = profilePic.name;
 
-    data.append("name", fileName);
-    data.append("file", profilePic);
+  //follow / unfollow user
 
-    updateProfile.profilePicture = fileName;
-    // console.log(data, "newpostData");
-    dispatch(uploadProfilePicture(data, updateProfile,user._id, toast)); 
+  const userDetails = useSelector((store) => store.auth.userDetails);
 
-    onProfileEditClose()
-  } 
-}
+  console.log(user, userDetails, "userIIDIDIDIDI");
+
+  const [followed, setFollowed] = useState(false);
+
+  useEffect(() => {
+    setFollowed(userDetails.following.includes(user._id));
+  }, [userDetails, user]);
+
+  // console.log(like, "LIKES");
+
+  const [currentUser, setCurrentUser] = useState({});
+
+  useEffect(() => {
+    setCurrentUser(user);
+  }, [user]);
+
+  //! followHandler
+
+  const followHandler = () => {
+    if (!userId) {
+      toast({
+        title: "Login to follow a user!",
+        status: "info",
+        duration: 2000,
+        isClosable: true,
+      });
+    } else {
+      try {
+        axios
+          .put("/user/" + user._id + "/follow", { userId: userId })
+          .then((res) => {
+            toast({
+              title: res.data,
+              status: "success",
+              duration: 1000,
+              isClosable: true,
+            });
+            setFollowed(true);
+          })
+          .then(() => {
+            axios.get(`/user/${user?._id}`).then((res) => {
+              console.log("res", res);
+              setCurrentUser(res.data);
+            });
+          })
+          .catch((err) => {
+            toast({
+              title: err.response.data,
+              status: "error",
+              duration: 2000,
+              isClosable: true,
+            });
+          });
+      } catch (err) {
+        console.log(err, "erererre");
+        toast({
+          title: err.response.data,
+          status: "error",
+          duration: 1000,
+          isClosable: true,
+        });
+      }
+    }
+  };
+
+  //! unfollowHandler
+  const unfollowHandler = () => {
+    if (!userId) {
+      toast({
+        title: "Login to follow a user!",
+        status: "info",
+        duration: 2000,
+        isClosable: true,
+      });
+    } else {
+      try {
+        axios
+          .put("/user/" + user._id + "/unfollow", { userId: userId })
+          .then((res) => {
+            toast({
+              title: res.data,
+              status: "success",
+              duration: 1000,
+              isClosable: true,
+            });
+            setFollowed(false);
+          })
+          .then(() => {
+            dispatch(getTimelinePost(toast));
+          })
+          .then(() => {})
+          .catch((err) => {
+            toast({
+              title: err.response.data,
+              status: "error",
+              duration: 1000,
+              isClosable: true,
+            });
+          });
+      } catch (err) {
+        console.log(err, "erererre");
+        toast({
+          title: err.message,
+          status: "error",
+          duration: 1000,
+          isClosable: true,
+        });
+      }
+    }
+  };
   return (
     <>
       <Flex
@@ -110,6 +232,7 @@ const handleProfileUpload=()=>{
             w="100%"
             objectFit="cover"
             src={PublicFile + user?.coverPicture}
+            alt="cover pic"
           />
           <Flex justify="end" p="1rem" position="relative" align="center">
             <FiEdit
@@ -152,6 +275,7 @@ const handleProfileUpload=()=>{
               transition="0.2s ease all"
               _hover={{ transform: "scale(1.2) ", transition: "0.5s ease all" }}
               src={PublicFile + user?.profilePicture}
+              alt="profile pic"
             />
             <Flex position="absolute" bottom="0" right="0">
               <FiEdit
@@ -165,10 +289,13 @@ const handleProfileUpload=()=>{
         </Center>
         <Flex
           justify="center"
-          // border="2px solid red"
-          w={["10rem", "20rem"]}
-          py={["0", "1"]}
+          align="center"
+          // w={["10rem", "20rem"]}
+          py={["0", "0"]}
+          h={["2rem", "2rem"]}
           margin="0 auto"
+          w="100%"
+          position="relative"
         >
           <Text
             color="#32526a"
@@ -180,6 +307,35 @@ const handleProfileUpload=()=>{
           >
             {user?.username}
           </Text>
+          <Button
+            position="absolute"
+            display="flex"
+            align="center"
+            right="2%"
+            justify="center"
+            transition="all .3s ease"
+            borderRadius="20px"
+            w={["6rem", "10rem"]}
+            h={["2rem", "3rem"]}
+            bg='#2c2c2c'
+            color='#fff'
+            py="1"
+            textAlign="center"
+            boxShadow="6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff"
+            _hover={{
+              color: "#ffffff",
+              transition: "all .4s ease",
+              transform: "scale(1.1)",
+              bg: "#ff6565eb",
+              boxShadow:
+                " rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px",
+            }}
+            onClick={followed ? unfollowHandler : followHandler}
+          >
+            {" "}
+            {followed ? "unfollow" : "follow"} &nbsp;
+            <RiSendPlane2Fill  fontSize="20px" />
+          </Button>
         </Flex>
       </Flex>
       <Modal
@@ -193,8 +349,13 @@ const handleProfileUpload=()=>{
         />
         <ModalContent mt="7rem" borderRadius="25px" overflow="hidden">
           <ModalBody p="0">
-            <Box >
-              <Box border="3px solid black" h="50%" borderRadius="25px" overflow="hidden">
+            <Box>
+              <Box
+                border="3px solid black"
+                h="50%"
+                borderRadius="25px"
+                overflow="hidden"
+              >
                 {coverPic && (
                   <Box className="shareImgContainer" position="relative">
                     <Image
@@ -285,17 +446,16 @@ const handleProfileUpload=()=>{
       <Modal
         isOpen={isProfileEditOpen}
         onClose={onProfileEditClose}
-        
         size={["xs", "sm", "md", "lg", "xl"]}
       >
         <ModalOverlay
           bg="#0000007f"
           backdropFilter="blur(10px) hue-rotate(10deg)"
         />
-        <ModalContent mt="7rem" borderRadius="25px" overflow="hidden" >
+        <ModalContent mt="7rem" borderRadius="25px" overflow="hidden">
           <ModalBody p="0">
             <Box>
-              <Box border="3px solid black" h="50%" borderRadius="25px"  >
+              <Box border="3px solid black" h="50%" borderRadius="25px">
                 {profilePic && (
                   <Box className="shareImgContainer" position="relative">
                     <Image

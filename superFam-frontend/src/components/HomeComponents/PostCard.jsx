@@ -35,40 +35,36 @@ export default function PostCard({ post }) {
 
   const [user, setUser] = useState({});
 
-
-
   useEffect(() => {
-
-      axios.get(`/user/${post.userId}`).then((res)=>{
-
-        setUser(res.data);
-        // console.log(res.data,"pro res")
-      })
-
+    axios.get(`/user/${post.userId}`).then((res) => {
+      setUser(res.data);
+      // console.log(res.data,"pro res")
+    });
   }, [post.userId]);
   //LIKES management
-  const toast= useToast()
+  const toast = useToast();
 
   const [like, setLike] = useState(post.likes.length);
   const [active, setActive] = useState(false);
-
 
   useEffect(() => {
     setActive(post.likes.includes(user._id));
   }, [user._id, post.likes]);
   // console.log(like, "LIKES");
 
-
   const likeHandler = () => {
     try {
-      axios.put("/post/" + post._id + "/like", { userId: user._id }).then((res)=>{
-        toast({
-          title: res.data,
-          status: res.data==='The post has been liked' ? "success" :'error',
-          duration: 1000,
-          isClosable: true,
+      axios
+        .put("/post/" + post._id + "/like", { userId: user._id })
+        .then((res) => {
+          toast({
+            title: res.data,
+            status:
+              res.data === "The post has been liked" ? "success" : "error",
+            duration: 1000,
+            isClosable: true,
+          });
         });
-      })
     } catch (err) {
       // console.log(err);
     }
@@ -179,6 +175,17 @@ export default function PostCard({ post }) {
                 </Box>
                 <Image w="1.2rem" src={commentIcon} />
                 <Image mx="8px" w="1.2rem" mt="1.5px" src={shareIcon} />
+                {like !== 0 && (
+                  <Text
+                    px="10px"
+                    fontSize="12px"
+                    fontColor="#4e4e4e"
+                    fontWeight="500"
+                  >
+                    <span style={{ color: "red" }}>{like}</span> &nbsp;
+                    {like === 1 ? "like" : "likes"}
+                  </Text>
+                )}
               </Flex>
               <Text color={"gray.600"} fontSize="12px" cursor="pointer">
                 comments
@@ -254,11 +261,12 @@ export default function PostCard({ post }) {
                 <Flex
                   w="80%"
                   p="6"
-                  pb="0"
+                  pb="2"
                   overflow="hidden"
                   justify="start"
                   align="center"
                   zIndex={1}
+                  // border='1px solid red'
                 >
                   <Flex align="center" justify="start" mr="1rem">
                     <Image
@@ -283,7 +291,7 @@ export default function PostCard({ post }) {
                     {user?.username}
                   </Text>
                 </Flex>
-                <Stack p="6">
+                <Stack p="6" pt='2'>
                   <Flex
                     justify={"space-between"}
                     align="center"
@@ -306,6 +314,17 @@ export default function PostCard({ post }) {
                       </Box>
                       <Image w="1.2rem" src={commentIcon} />
                       <Image mx="8px" w="1.2rem" mt="1.5px" src={shareIcon} />
+                      {like !== 0 && (
+                        <Text
+                          px="10px"
+                          fontSize="12px"
+                          fontColor="#4e4e4e"
+                          fontWeight="500"
+                        >
+                          <span style={{ color: "red" }}>{like}</span> &nbsp;
+                          {like === 1 ? "like" : "likes"}
+                        </Text>
+                      )}
                     </Flex>
                     <Text
                       color={"gray.600"}

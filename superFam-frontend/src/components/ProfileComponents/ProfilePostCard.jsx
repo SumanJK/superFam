@@ -17,24 +17,26 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
-
 import shareIcon from "../../assets/instagram-share.svg";
 import commentIcon from "../../assets/instagram-comment.svg";
 import Heart from "react-heart";
 import axios from "axios";
+import likeHeart from "../../assets/LikeHeart.svg";
+import { useSelector } from "react-redux";
 
 export default function ProfilePostCard({ user, userPost }) {
   const PublicFile = process.env.REACT_APP_PUBLIC_FOLDER;
 
+  const userId = useSelector((store) => store.auth.userId);
+
+  console.log(userPost,"posts of user")
   const [isClick, setClick] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const toast = useToast();
 
-  const toast= useToast();
-
-  //! handle likes 
-
+  //! handle likes
 
   const [like, setLike] = useState(userPost.likes.length);
   const [active, setActive] = useState(false);
@@ -42,32 +44,48 @@ export default function ProfilePostCard({ user, userPost }) {
   useEffect(() => {
     setActive(userPost.likes.includes(user._id));
   }, [user._id, userPost.likes]);
-  console.log(like, "LIKES");
+  // console.log(like, "LIKES");
 
   const likeHandler = () => {
-    try {
-      axios.put("/post/" + userPost._id + "/like", { userId: user._id }).then((res)=>{
+    if(!userId){
+      toast({
+        title: 'login to like a post',
+        status:"info",
+        duration: 1000,
+        isClosable: true,
+      });
+    }else{
 
-        toast({
-          title: res.data,
-          status: res.data==='The post has been liked' ? "success" :'error',
-          duration: 1000,
-          isClosable: true,
-        });
-      })
-    } catch (err) {
-      console.log(err);
+      try {
+        axios
+          .put("/post/" + userPost._id + "/like", { userId: user._id })
+          .then((res) => {
+            toast({
+              title: res.data,
+              status:
+                res.data === "The post has been liked" ? "success" : "error",
+              duration: 1000,
+              isClosable: true,
+            });
+          });
+      } catch (err) {
+        console.log(err);
+      }
+  
+      setLike(active ? like - 1 : like + 1);
+      setActive(!active);
     }
-
-    setLike(active ? like - 1 : like + 1);
-    setActive(!active);
   };
 
   return (
     <>
       <Box
         p={".2rem"}
-        bg={userPost?.image ? "linear-gradient(145deg, #f0f0f0, #dfdfdf)" : 'black'}
+        bg={
+          userPost?.image
+            ? "linear-gradient(145deg, #ffffff, #dfdfdf)"
+            : "black"
+        }
         boxShadow=" 10px 10px 20px #b0afaf, -10px -10px 16px #ffffff"
         pos={"relative"}
         transition="all 0.4s ease"
@@ -84,12 +102,65 @@ export default function ProfilePostCard({ user, userPost }) {
           borderRadius="10px"
           cursor={"pointer"}
           pos={"relative"}
+          role="group"
           height={"360px"}
           overflow="hidden"
-          p={userPost?.image ? "0" :"1rem"}
+          // border="1px solid red"
+          p={userPost?.image ? "0" : "1rem"}
         >
+          {like !== 0 && (
+            <Flex
+              // border="2px solid red"
+              pos="absolute"
+              top="45%"
+              bottom="45%"
+              left="30%"
+              right="30%"
+              zIndex="40"
+              direction="column"
+              justify="space-between"
+              align="center"
+              h="5rem"
+              transition="all .2s ease"
+            >
+              <Image
+              h='50%'
+                color="white"
+                transition="all .3s ease"
+                opacity="0"
+                _groupHover={{
+                  transition: "all .5s ease",
+                  transform: "scale(1.4)",
+                  opacity: ".6",
+                }}
+                src={likeHeart}
+              />
+
+              <Text
+                px="10px"
+                fontSize="16px"
+                color="#ffffff"
+                fontWeight="600"
+                noOfLines={'1'}
+                opacity="0"
+                _groupHover={{
+                  transition: "all .6s ease",
+                  opacity: ".8",
+                }}
+              >
+                {like}&nbsp;
+                {like === 1 ? "like" : "likes"}
+              </Text>
+            </Flex>
+          )}
           {userPost?.image && (
             <Image
+              transition="all .2s ease"
+              filter="brightness(100%)"
+              _groupHover={{
+                transition: "all .4s ease",
+                filter: "brightness(50%)",
+              }}
               height={360}
               width={"full"}
               objectFit={"cover"}
@@ -98,7 +169,13 @@ export default function ProfilePostCard({ user, userPost }) {
           )}
           {!userPost?.image && (
             <Text
-            className="userPostFont"
+              transition="all .2s ease"
+              filter="brightness(100%)"
+              _groupHover={{
+                transition: "all .4s ease",
+                filter: "brightness(20%)",
+              }}
+              className="userPostFont"
               fontWeight={500}
               fontSize={["11px", "12px", "12px", "13px"]}
               noOfLines={"16"}
@@ -202,6 +279,17 @@ export default function ProfilePostCard({ user, userPost }) {
                       </Box>
                       <Image w="1.2rem" src={commentIcon} />
                       <Image mx="8px" w="1.2rem" mt="1.5px" src={shareIcon} />
+                      {like !== 0 && (
+                        <Text
+                          px="10px"
+                          fontSize="12px"
+                          fontColor="#4e4e4e"
+                          fontWeight="500"
+                        >
+                          <span style={{ color: "red" }}>{like}</span> &nbsp;
+                          {like === 1 ? "like" : "likes"}
+                        </Text>
+                      )}
                     </Flex>
                     <Text
                       color={"gray.600"}

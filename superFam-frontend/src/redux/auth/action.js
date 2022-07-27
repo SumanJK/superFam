@@ -210,7 +210,7 @@ export const updateUser= (payload, userId, toast)=> (dispatch, getState)=>{
         isClosable: true,
       });
     }).then(()=>{
-      dispatch(getAuthUser(userId))
+      dispatch(getAuthUser())
     })
     .catch((err) => {
       console.log(err,"update err")
@@ -241,10 +241,11 @@ export const authFailure=()=>{
   }
 }
 
-export const getAuthUser=(id)=>(dispatch,getState)=>{
+export const getAuthUser=()=>(dispatch,getState)=>{
 
-  const userIDD= localStorage.getItem('userIdLocal')
+  // const userIDD= localStorage.getItem('userIdLocal')
 
+  const id= getState().auth.userId
   // console.log("userREQ",userIDD)
   dispatch(authRequest())
 
