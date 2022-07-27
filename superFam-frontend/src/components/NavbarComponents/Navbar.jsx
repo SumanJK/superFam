@@ -17,6 +17,7 @@ import {
   useDisclosure,
   Divider,
   Tooltip,
+  useToast,
 } from "@chakra-ui/react";
 
 import logo from "../../assets/default-monochrome.svg";
@@ -26,12 +27,25 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { SiAirplayaudio } from "react-icons/si";
 
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../redux/auth/action";
 
 export default function Navbar() {
+  const PublicFile = process.env.REACT_APP_PUBLIC_FOLDER;
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const userDetails= useSelector((store) =>store.auth.userDetails)
+  const userDetails = useSelector((store) => store.auth.userDetails);
+
+  const dispatch = useDispatch()
+
+  const toast= useToast()
+
+  const handleLogout= ()=>{
+    
+  dispatch(logoutUser(toast))
+
+  }
 
   return (
     <>
@@ -67,9 +81,7 @@ export default function Navbar() {
           >
             <Flex justify={["center", "center", "start"]} w="100%">
               <Link to="/">
-
                 <Image h="3rem" src={logo} />
-
               </Link>
             </Flex>
           </HStack>
@@ -128,7 +140,13 @@ export default function Navbar() {
             display={{ base: "none", md: "flex" }}
           >
             <Link to="/video">
-              <Tooltip hasArrow label="Fam videos 💙" bg="gray.300" color="#52555f"  borderRadius="10">
+              <Tooltip
+                hasArrow
+                label="Fam videos 💙"
+                bg="gray.300"
+                color="#52555f"
+                borderRadius="10"
+              >
                 <Center>
                   <SiAirplayaudio fontSize="18px" color="white" />
                 </Center>
@@ -137,7 +155,13 @@ export default function Navbar() {
             <Center height="25px">
               <Divider orientation="vertical" />
             </Center>
-            <Tooltip hasArrow label="chatbox 💬" bg="gray.300" color="#52555f"  borderRadius="10">
+            <Tooltip
+              hasArrow
+              label="chatbox 💬"
+              bg="gray.300"
+              color="#52555f"
+              borderRadius="10"
+            >
               <ChatIcon fontSize="18px" color="white" />
             </Tooltip>
           </Flex>
@@ -149,7 +173,13 @@ export default function Navbar() {
             justify={"center"}
           >
             <Menu>
-              <Tooltip hasArrow label="profile" bg="gray.300" color="#52555f"  borderRadius="10">
+              <Tooltip
+                hasArrow
+                label="profile"
+                bg="gray.300"
+                color="#52555f"
+                borderRadius="10"
+              >
                 <MenuButton
                   as={Button}
                   rounded={"full"}
@@ -160,19 +190,18 @@ export default function Navbar() {
                 >
                   <Avatar
                     size={"sm"}
-                    src={
-                      userDetails?.profilePicture
-                    }
+                    src={PublicFile + userDetails?.profilePicture}
                   />
                 </MenuButton>
               </Tooltip>
               <MenuList>
-                <Link to={`/profile/${userDetails?.username}`}>
+                <Link to={`/profile/${userDetails?._id}`}>
                   <MenuItem>Profile</MenuItem>
                 </Link>
-                <MenuItem>Link 2</MenuItem>
-                <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
+                <Link to='/signup'>
+                  <MenuItem>Signup</MenuItem>
+                  </Link>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </MenuList>
             </Menu>
           </Flex>

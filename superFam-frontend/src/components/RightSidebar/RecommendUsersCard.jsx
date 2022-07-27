@@ -6,6 +6,8 @@ import { RiHeartAddFill } from 'react-icons/ri'
 
 const RecommendUsersCard = ({recUser}) => {
 
+
+  const PublicFile = process.env.REACT_APP_PUBLIC_FOLDER;
   const [followed, setFollow]= useState(false)
 
   return (
@@ -29,7 +31,7 @@ const RecommendUsersCard = ({recUser}) => {
           <Box borderRadius="50%" overflow="hidden" w="1.8rem" h="1.8rem">
             <Image
               w="100%"
-              src={recUser?.profilePicture}
+              src={PublicFile + recUser?.profilePicture}
             />
           </Box>
           <Box w="8.5rem" >

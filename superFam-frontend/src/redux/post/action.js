@@ -15,9 +15,6 @@ export const postActions = {
   DELETE_POST_SUCCESS: "DELETE_POST_SUCCESS",
   DELETE_POST_FAILURE: "DELETE_POST_FAILURE",
 
-  LIKE_POST_REQUEST: "LIKE_POST_REQUEST",
-  LIKE_POST_SUCCESS: "LIKE_POST_SUCCESS",
-  LIKE_POST_FAILURE: "LIKE_POST_FAILURE",
 
   GET_SINGLE_POST_REQUEST: "GET_SINGLE_POST_REQUEST",
   GET_SINGLE_POST_SUCCESS: "GET_SINGLE_POST_SUCCESS",
@@ -58,14 +55,14 @@ const failureCreatePost = () => {
 };
 
 export const createPost = (newPost,toast) => (dispatch) => {
-  console.log(newPost,"new")
+  // console.log(newPost,"new")
   dispatch(requestCreatePost());
 
   try {
     axios
       .post("/post", newPost)
       .then((res) => {
-        console.log(res, "create-post");
+        // console.log(res, "create-post");
         dispatch(successCreatePost());
 
         toast({
@@ -77,7 +74,7 @@ export const createPost = (newPost,toast) => (dispatch) => {
         });
       })
       .then(() => {
-        dispatch(getTimelinePost());
+        dispatch(getTimelinePost(toast));
       })
       .catch((err) => {
         dispatch(failureCreatePost());
@@ -123,7 +120,7 @@ export const updatePost = () => (dispatch) => {
         url: "localhost://",
       })
       .then((res) => {
-        console.log(res, "create-post");
+        // console.log(res, "create-post");
         dispatch(successUpdatePost());
       })
       .then(() => {
@@ -166,7 +163,7 @@ export const deletePost = () => (dispatch) => {
         url: "localhost://",
       })
       .then((res) => {
-        console.log(res, "create-post");
+        // console.log(res, "create-post");
         dispatch(successDeletePost());
       })
       .then(() => {
@@ -180,45 +177,7 @@ export const deletePost = () => (dispatch) => {
   }
 };
 
-//like/dislike post
 
-const requestLikePost = () => {
-  return {
-    type: postActions.LIKE_POST_REQUEST,
-  };
-};
-
-const successLikePost = () => {
-  return {
-    type: postActions.LIKE_POST_SUCCESS,
-  };
-};
-
-const failureLikePost = () => {
-  return {
-    type: postActions.LIKE_POST_FAILURE,
-  };
-};
-
-export const likePost = () => (dispatch) => {
-  dispatch(requestLikePost());
-  try {
-    axios
-      .post({
-        method: "POST",
-        url: "localhost://",
-      })
-      .then((res) => {
-        console.log(res, "create-post");
-        dispatch(successLikePost());
-      })
-      .catch((err) => {
-        dispatch(failureLikePost());
-      });
-  } catch (err) {
-    console.log(err);
-  }
-};
 
 //getSinglePost action
 
@@ -249,7 +208,7 @@ export const getSinglePost = () => (dispatch) => {
         url: "localhost://",
       })
       .then((res) => {
-        console.log(res, "create-post");
+        // console.log(res, "create-post");
         dispatch(successSinglePost());
       })
       .catch((err) => {
@@ -284,16 +243,16 @@ const failureTimelinePost = () => {
 export const getTimelinePost = (toast) => (dispatch,getState) => {
   dispatch(requestTimelinePost());
 
-  const userId= JSON.parse(localStorage.getItem('userIdLocal'))
-  console.log(userId,"userID from timeline")
+  const userId= getState().auth.userId
+  // console.log(userId,"userID from timeline")
 
   try {
 
       axios.get(`/post/timeline/${userId}`)
       .then((res) => {
-        console.log(res, "create-post");
-        console.log(localStorage.getItem('userIdLocal'),"localId")
-        console.log(localStorage.getItem('FamUserDetails'),"FamUserDetails")
+        // console.log(res, "got-post");
+        // console.log(localStorage.getItem('userIdLocal'),"localId")
+        // console.log(localStorage.getItem('FamUserDetails'),"FamUserDetails")
         dispatch(successTimelinePost(res.data));
         toast({
           title: `Enjoy your feeds  🥳`,
@@ -305,7 +264,7 @@ export const getTimelinePost = (toast) => (dispatch,getState) => {
       })
       .catch((err) => {
         dispatch(failureTimelinePost());
-        console.log("fail to fetch timeline")
+        // console.log("fail to fetch timeline")
         toast({
           title: `Failed to request posts, try later! `,
           variant:"left-accent",
@@ -320,45 +279,87 @@ export const getTimelinePost = (toast) => (dispatch,getState) => {
   }
 };
 
-// get user action
+// get user's post action
 
 const requestUserPost = () => {
   return {
-    type: postActions.GET_TIMELINE_POST_REQUEST,
+    type: postActions.GET_USER_POST_REQUEST,
   };
 };
 
-const successUserPost = () => {
+const successUserPost = (payload) => {
   return {
-    type: postActions.GET_TIMELINE_POST_SUCCESS,
+    type: postActions.GET_USER_POST_SUCCESS,
+    payload:payload
   };
 };
 
 const failureUserPost = () => {
   return {
-    type: postActions.GET_TIMELINE_POST_FAILURE,
+    type: postActions.GET_USER_POST_FAILURE,
   };
 };
 
-export const getUserPost = () => (dispatch) => {
+export const getUserPost = (id,toast) => (dispatch,getState) => {
+
+  const userId= getState().auth.userId;
+  // console.log(userId,"userid of user post")
+
+
   dispatch(requestUserPost());
   try {
-    axios
-      .post({
-        method: "POST",
-        url: "localhost://",
-      })
+    axios.get(`/post/profile/${id}`)
       .then((res) => {
-        console.log(res, "create-post");
-        dispatch(successUserPost());
+        dispatch(successUserPost(res.data));
+        toast({
+          title: `Fetched all posts `,
+          variant:"left-accent",
+          status: "success",
+          duration: 4000,
+          position: 'bottom-right',
+          isClosable: true,
+        });
       })
       .catch((err) => {
         dispatch(failureUserPost());
+        toast({
+          title: `Failed to Fetched all post`,
+          variant:"left-accent",
+          status: "error",
+          duration: 5000,
+          position: 'bottom-right',
+          isClosable: true,
+        });
       });
   } catch (err) {
     console.log(err);
   }
 };
+
+
+
+//update profile/ cover pic
+export const uploadProfilePicture = (data,updateProfile,userId,toast) => (dispatch) => {
+  
+  dispatch(requestUploadPicture());
+  
+  try {
+    axios.post("/upload", data).then((res) => {
+      
+      dispatch(successUploadPicture())
+      
+    }).then(()=>{
+      dispatch(updateUser(updateProfile,userId,toast))
+    })
+    
+  } catch (err) {
+    // console.log(err, "errrrr");
+    
+    dispatch(failureUploadPicture());
+  }
+};
+
+
 
 const requestUploadPicture = () => {
   return {
@@ -376,8 +377,8 @@ const failureUploadPicture = () => {
   };
 };
 
-export const uploadPicture = (data, newPost,toast) => (dispatch) => {
-  // console.log(newPost,"mmmmmmm")
+export const uploadPicture = (data, newPost, toast) => (dispatch) => {
+
   dispatch(requestUploadPicture());
 
   try {
@@ -394,27 +395,6 @@ export const uploadPicture = (data, newPost,toast) => (dispatch) => {
       },2000)
 
     })
-  } catch (err) {
-    console.log(err, "errrrr");
-    
-    dispatch(failureUploadPicture());
-  }
-};
-
-//update profile/ cover pic
-export const uploadProfilePicture = (data,updateProfile,toast) => (dispatch) => {
-
-  dispatch(requestUploadPicture());
-
-  try {
-    axios.post("/upload", data).then((res) => {
-
-      dispatch(successUploadPicture())
-
-    }).then(()=>{
-      dispatch(updateUser(updateProfile,toast))
-    })
-    
   } catch (err) {
     console.log(err, "errrrr");
     

@@ -13,12 +13,15 @@ import {
   ModalContent,
   ModalCloseButton,
   ModalBody,
+  useToast,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import PostCardHeart from "../HomeComponents/PostCardHeart";
+
 import shareIcon from "../../assets/instagram-share.svg";
 import commentIcon from "../../assets/instagram-comment.svg";
+import Heart from "react-heart";
+import axios from "axios";
 
 export default function ProfilePostCard({ user, userPost }) {
   const PublicFile = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -26,6 +29,39 @@ export default function ProfilePostCard({ user, userPost }) {
   const [isClick, setClick] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+
+  const toast= useToast();
+
+  //! handle likes 
+
+
+  const [like, setLike] = useState(userPost.likes.length);
+  const [active, setActive] = useState(false);
+
+  useEffect(() => {
+    setActive(userPost.likes.includes(user._id));
+  }, [user._id, userPost.likes]);
+  console.log(like, "LIKES");
+
+  const likeHandler = () => {
+    try {
+      axios.put("/post/" + userPost._id + "/like", { userId: user._id }).then((res)=>{
+
+        toast({
+          title: res.data,
+          status: res.data==='The post has been liked' ? "success" :'error',
+          duration: 1000,
+          isClosable: true,
+        });
+      })
+    } catch (err) {
+      console.log(err);
+    }
+
+    setLike(active ? like - 1 : like + 1);
+    setActive(!active);
+  };
 
   return (
     <>
@@ -127,7 +163,7 @@ export default function ProfilePostCard({ user, userPost }) {
                       boxShadow="rgba(136, 165, 191, 0.48) 2px 2px 6px 0px, rgba(255, 255, 255, 0.8) -2px -2px 6px 0px"
                       borderRadius="50%"
                       objectFit={"cover"}
-                      src={user?.profilePicture}
+                      src={PublicFile + user?.profilePicture}
                     />
                   </Flex>
                   <Text
@@ -156,7 +192,14 @@ export default function ProfilePostCard({ user, userPost }) {
                       py="1"
                       width={["0", "6rem", "14rem", "22rem", "30rem"]}
                     >
-                      <PostCardHeart />
+                      <Box
+                        width="1.3rem"
+                        h="1.35rem"
+                        mr=".6rem"
+                        className="profilePostModalHeart"
+                      >
+                        <Heart isActive={active} onClick={likeHandler} />
+                      </Box>
                       <Image w="1.2rem" src={commentIcon} />
                       <Image mx="8px" w="1.2rem" mt="1.5px" src={shareIcon} />
                     </Flex>

@@ -9,7 +9,7 @@ const RecommendUsers = () => {
   const [ allUsers, setAllUsers]= useState([]);
   //! fetching recommanded users (all users)
   useEffect(() =>{
-    axios.get("/users").then((res)=>{
+    axios.get("/user").then((res)=>{
       setAllUsers(res.data)
     })
   },[])

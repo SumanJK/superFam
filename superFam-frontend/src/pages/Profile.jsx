@@ -1,19 +1,23 @@
-import { Box, Flex, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, Flex, SimpleGrid, Text, useToast } from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
 import ProfilePostCard from "../components/ProfileComponents/ProfilePostCard";
 import UnicefBanner from "../components/HomeComponents/UnicefBanner";
 import LeftSidebar from "../components/LeftSidebar/LeftSidebar";
-import { useParams } from "react-router";
 import axios from "axios";
 import { useState } from "react";
 import ProfileCover from "../components/ProfileComponents/ProfileCover";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserPost } from "../redux/post/action";
+import { useParams } from "react-router";
+
 
 const Profile = () => {
   const [userPosts, setUserPosts] = useState([]);
 
   // const [user, setuser] = useState({});
 
+  const userInfo= useParams()
+  // console.log(userInfo,"from profile")
 
   //! fetching user posts
   //dummy datas
@@ -21,33 +25,48 @@ const Profile = () => {
 
   const PublicFile = process.env.REACT_APP_PUBLIC_FOLDER;
 
-  const userId= JSON.parse(localStorage.getItem('userIdLocal'))
-  // console.log(userId, "iiidd");
-
-  const [user, setUser]= useState({});
-  console.log(user,"usersList")
-
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const res = await axios.get(`/users/${userId}`);
-      // console.log(res,"i user")
-      setUser(res.data);
-    };
-    fetchUser();
-  }, [userId]);
-
-  useEffect(() => {
-    if (userId) {
-      axios.get(`/post/profile/${userId}`).then((res) => {
-        setUserPosts(res.data);
-      });
-    }
-  }, [userId]);
-
-  //! fetching user
 
   
+  const [user, setUser]= useState({});
+
+  const dispatch = useDispatch();
+  
+  const toast= useToast();
+
+  const userDetails= useSelector((store) =>store.auth.userDetails)
+  const userPost= useSelector((store) =>store.post.userPost)
+
+  useEffect(() => {
+
+    setUserPosts(userPost?.sort((p1, p2) => {
+      return new Date(p2.createdAt) - new Date(p1.createdAt);
+    }))
+  },[userPost])
+  
+  useEffect(() => {
+
+    dispatch(getUserPost(userInfo?.id,toast))
+
+  },[userDetails,dispatch,toast,userInfo])
+
+ useEffect(() => {
+
+      axios.get(`/user/${userInfo?.id}`).then((res)=>{
+
+        setUser(res.data);
+      })
+
+  }, [userInfo]);
+  
+
+  useEffect(() => {
+    setUser(userDetails)
+  },[userDetails])
+
+
+
+
+  // console.log(userPosts,"dddsewwew")
   return (
     <Flex overflowX={"hidden"}>
       {user && (

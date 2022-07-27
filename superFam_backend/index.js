@@ -49,7 +49,7 @@ app.post("/api/upload", upload.single("file"), (req,res)=>{
     }
 } );
 
-app.use("/api/users",userController);
+app.use("/api/user",userController);
 app.use("/api/auth",authController);
 app.use("/api/post",postController);
 

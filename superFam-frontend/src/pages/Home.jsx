@@ -14,7 +14,7 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
 
   const timeline = useSelector((store) => store.post.timelinePost);
-  console.log(timeline, "timeline home");
+  // console.log(timeline, "timeline home");
 
   const toast = useToast();
 
@@ -26,12 +26,14 @@ const Home = () => {
 
   useEffect(() => {
     if (timeline) {
-      setPosts(timeline);
+      setPosts(timeline.sort((p1, p2) => {
+        return new Date(p2.createdAt) - new Date(p1.createdAt);
+      }))
     } else {
       setPosts([]);
     }
   }, [timeline]);
-  console.log(posts, "restIn");
+  // console.log(posts, "restIn");
 
   return (
     <Flex overflowX={"hidden"}>
@@ -51,7 +53,7 @@ const Home = () => {
               pt="10"
             >
               {posts?.map((el) => {
-                return <PostCard key={el._id} datas={el} />;
+                return <PostCard key={el._id} post={el} />;
               })}
             </Box>
           </>
@@ -76,7 +78,7 @@ const Home = () => {
                 speed="1"
                 style={{
                   width: "100%",
-                  height: "630px",
+                  height: "650px",
                   padding: "0",
                   margin: "0",
                 }}

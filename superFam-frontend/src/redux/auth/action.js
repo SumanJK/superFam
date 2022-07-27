@@ -1,7 +1,7 @@
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { getTimelinePost } from "../post/action";
+import { getTimelinePost, getUserPost } from "../post/action";
 
 //Action types
 export const authActions = {
@@ -110,7 +110,7 @@ export const loginUser = (payload,toast,navigate) => (dispatch, getState) => {
   axios
     .post("/auth/login", payload)
     .then((res) => {
-      console.log(res,"rest")
+      // console.log(res,"rest")
       dispatch(loginAuthSuccess(res.data))
       toast({
         title: ` ${res?.data.firstname}, you have been logged in successfully! 🥳`,
@@ -120,9 +120,9 @@ export const loginUser = (payload,toast,navigate) => (dispatch, getState) => {
       });
     })
     .then(()=>{
-      console.log("yes")
+      // console.log("yes")
       setTimeout(() => {
-      dispatch(getTimelinePost())
+      dispatch(getTimelinePost(toast))
       },2000)
     })
     .then(() => {
@@ -148,24 +148,6 @@ export const loginUser = (payload,toast,navigate) => (dispatch, getState) => {
       // console.log(err)
     });
 };
-//GET Actions
-
-export const getAuthRequest = () => {
-  return {
-    type: authActions.GET_AUTH_REQUEST,
-  };
-};
-export const getAuthSuccess = (data) => {
-  return {
-    type: authActions.GET_AUTH_SUCCESS,
-    payload: data,
-  };
-};
-export const getAuthFailure = () => {
-  return {
-    type: authActions.GET_AUTH_FAILURE,
-  };
-};
 
 
 export const logoutRequest = () => {
@@ -189,14 +171,17 @@ export const logoutUser=(toast)=>(dispatch)=>{
 }
 
 
+
+
 export const updateUserRequest=()=>{
   return {
     type: authActions.UPDATE_USER_REQUEST
   }
 }
-export const updateUserSuccess=()=>{
+export const updateUserSuccess=(payload)=>{
   return {
-    type: authActions.UPDATE_USER_SUCCESS
+    type: authActions.UPDATE_USER_SUCCESS,
+    payload: payload
   }
 }
 export const updateUserFailure=()=>{
@@ -205,41 +190,70 @@ export const updateUserFailure=()=>{
   }
 }
 
-export const updateUser= (payload, toast)=> (dispatch)=>{
+export const updateUser= (payload, userId, toast)=> (dispatch, getState)=>{
+// console.log(payload,userId,toast,"paytm")
 
-  const userId= JSON.parse(localStorage.getItem('userIdLocal'))
   
   dispatch(updateUserRequest());
 
   axios
-    .post(`/users/${userId}`, payload)
+    .put(`/user/${userId}`, payload)
     .then((res) => {
+      // console.log(res,"resting")
       console.log(res,"rest")
       console.log(res,"updated post")
-      dispatch(updateUserSuccess())
+      dispatch(updateUserSuccess(res.data))
       toast({
         title: `Profile got updated 🙌`,
         status: "success",
         duration: 7000,
         isClosable: true,
       });
+    }).then(()=>{
+      dispatch(getAuthUser(userId))
     })
     .catch((err) => {
       console.log(err,"update err")
       dispatch(updateUserFailure())
-      if (err.message !== "Request failed with status code 500") {
+      
         toast({
           title: err.response.data,
           status: "error",
           isClosable: true,
         });
-      } else {
-        toast({
-          title: "You are facing server error, try again update profile",
-          status: "error",
-          isClosable: true,
-        });
-      }
-      // console.log(err)
     });
+}
+
+export const authRequest=()=>{
+  return {
+    type: authActions.GET_AUTH_REQUEST
+  }
+}
+export const authSuccess=(payload)=>{
+  return {
+    type: authActions.GET_AUTH_SUCCESS,
+    payload: payload
+  }
+}
+export const authFailure=()=>{
+  return {
+    type: authActions.GET_AUTH_FAILURE
+  }
+}
+
+export const getAuthUser=(id)=>(dispatch,getState)=>{
+
+  const userIDD= localStorage.getItem('userIdLocal')
+
+  // console.log("userREQ",userIDD)
+  dispatch(authRequest())
+
+  axios.get(`/user/${id}`).then((res) => {
+    dispatch(authSuccess(res.data))
+    // console.log("SSSS")
+  })
+  .catch((err) => {
+    dispatch(authFailure())
+    // console.log("FFFF")
+  })
 }
