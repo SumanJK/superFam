@@ -29,7 +29,7 @@ export default function ProfilePostCard({ user, userPost }) {
 
   const userId = useSelector((store) => store.auth.userId);
 
-  console.log(userPost,"posts of user")
+  // console.log(userPost,"posts of user")
   const [isClick, setClick] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -40,6 +40,8 @@ export default function ProfilePostCard({ user, userPost }) {
 
   const [like, setLike] = useState(userPost.likes.length);
   const [active, setActive] = useState(false);
+
+  
 
   useEffect(() => {
     setActive(userPost.likes.includes(user._id));

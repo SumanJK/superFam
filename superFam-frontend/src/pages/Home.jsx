@@ -34,15 +34,17 @@ const Home = () => {
   }, [timeline]);
   // console.log(posts, "restIn");
 
+  console.log(timeline,"userposts")
+
   return (
     <Flex overflowX={"hidden"}>
       <Box w={["0", "0", "60", "60"]} className="leftSideBox"></Box>
       <LeftSidebar />
       <Box pt="3.8rem" flex="1" bg="gray.200">
-        {posts[0] && (
-          <>
+        {timeline && 
             <PostShare />
-
+        }
+        {timeline?.length!==0 && timeline && (
             <Box
               w={["22rem", "32rem", "40rem", "46rem", "46rem"]}
               className="feed"
@@ -55,8 +57,8 @@ const Home = () => {
                 return <PostCard key={el._id} post={el} />;
               })}
             </Box>
-          </>
         )}
+        {/* if loggedout */}
         {!timeline && (
           <>
             <Text
@@ -88,6 +90,39 @@ const Home = () => {
             </Box>
           </>
         )}
+        {timeline?.length===0 && (
+          <>
+           <Text
+           mt={['2rem',"4rem"]}
+           mb={['0','-8rem']}
+           p="0"
+           textAlign={"center"}
+           fontSize={["20px", "40px"]}
+           textTransform="uppercase"
+           fontWeight="700"
+           color="#3b3b3b"
+         >
+           Upload your first <span style={{ color: "#0090f7da", fontSize: "40px"}}>Post </span> <span style={{ color: "tomato",fontSize: "50px" }}>!</span>{" "}
+         </Text>
+         <Box mt={["-18rem", "-8rem"]} w="100%" overflow="hidden" height= "515px" >
+           <lottie-player
+             src="https://assets7.lottiefiles.com/packages/lf20_hmdwlaed.json"
+             background="transparent"
+             speed="1"
+             style={{
+               width: "100%",
+               height: "800px",
+               padding: "0",
+               margin: "0",
+             }}
+             loop
+             autoplay
+           ></lottie-player>
+         </Box>
+         </>
+        )
+
+        }
       </Box>
       <Box w={["0", "0", "0", "0", "80"]} className="rightSideBox"></Box>
       <RightSidebar />

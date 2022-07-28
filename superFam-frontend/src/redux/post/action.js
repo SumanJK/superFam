@@ -340,6 +340,7 @@ export const getUserPost = (id,toast) => (dispatch,getState) => {
 
 //update profile/ cover pic
 export const uploadProfilePicture = (data,updateProfile,userId,toast) => (dispatch) => {
+  console.log(userId,updateProfile,"uerer")
   
   dispatch(requestUploadPicture());
   

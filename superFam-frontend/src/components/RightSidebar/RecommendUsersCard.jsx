@@ -23,7 +23,7 @@ const RecommendUsersCard = ({ recUser }) => {
   const toast = useToast();
 
   useEffect(() => {
-    setFollowed(userDetails?.following.includes(recUser._id));
+    setFollowed(userDetails?.following?.includes(recUser._id));
   }, [userDetails, recUser]);
 
 

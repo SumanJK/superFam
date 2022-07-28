@@ -47,15 +47,18 @@ export default function PostCard({ post }) {
   const [like, setLike] = useState(post.likes.length);
   const [active, setActive] = useState(false);
 
+  const userId= useSelector((store) => store.auth.userId)
+  console.log(userId,'usd')
+
   useEffect(() => {
-    setActive(post.likes.includes(user._id));
-  }, [user._id, post.likes]);
+    setActive(post.likes.includes(userId));
+  }, [userId, post.likes]);
   // console.log(like, "LIKES");
 
   const likeHandler = () => {
     try {
       axios
-        .put("/post/" + post._id + "/like", { userId: user._id })
+        .put("/post/" + post._id + "/like", { userId: userId })
         .then((res) => {
           toast({
             title: res.data,
@@ -302,7 +305,7 @@ export default function PostCard({ post }) {
                       className="leftLikeDiv"
                       align="center"
                       py="1"
-                      width={["0", "6rem", "14rem", "22rem", "30rem"]}
+                      width={["0rem", "22rem", "12rem", "22rem", "30rem"]}
                     >
                       <Box
                         width="1.3rem"
@@ -315,15 +318,20 @@ export default function PostCard({ post }) {
                       <Image w="1.2rem" src={commentIcon} />
                       <Image mx="8px" w="1.2rem" mt="1.5px" src={shareIcon} />
                       {like !== 0 && (
+                        <Flex>
                         <Text
-                          px="10px"
+                        // border='1px solid black'
+                        w={['4rem',"6rem"]}
+                          px={['0',"10px"]}
                           fontSize="12px"
                           fontColor="#4e4e4e"
                           fontWeight="500"
+                          noOfLines={'1'}
                         >
                           <span style={{ color: "red" }}>{like}</span> &nbsp;
                           {like === 1 ? "like" : "likes"}
                         </Text>
+                        </Flex>
                       )}
                     </Flex>
                     <Text

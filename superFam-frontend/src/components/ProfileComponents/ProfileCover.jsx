@@ -55,6 +55,7 @@ const ProfileCover = ({ user }) => {
 
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.auth.userId);
+  console.log(userId,"userIDD")
 
   //uploading cover pic
   const handleCoverUpload = () => {
@@ -105,7 +106,7 @@ const ProfileCover = ({ user }) => {
   const [followed, setFollowed] = useState(false);
 
   useEffect(() => {
-    setFollowed(userDetails?.following.includes(user._id));
+    setFollowed(userDetails?.following?.includes(user._id));
   }, [userDetails, user]);
 
   // console.log(like, "LIKES");
@@ -326,7 +327,7 @@ const ProfileCover = ({ user }) => {
               color: "#ffffff",
               transition: "all .4s ease",
               transform: "scale(1.1)",
-              bg: "#ff6565eb",
+              bg: "#ff3838eb",
               boxShadow:
                 " rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px",
             }}

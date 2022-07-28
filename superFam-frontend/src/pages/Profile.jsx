@@ -15,7 +15,7 @@ const Profile = () => {
   // const [user, setuser] = useState({});
 
   const userInfo = useParams();
-  // console.log(userInfo,"from profile")
+  console.log(userInfo,"from profile")
 
   //! fetching user posts
   //dummy datas
@@ -42,7 +42,7 @@ const Profile = () => {
       })
     );
   }, [userPost]);
-  console.log(userPost, "ok man");
+  // console.log(userPost, "ok man");
 
   useEffect(() => {
     axios.get(`/user/${userInfo?.id}`).then((res) => {
@@ -68,7 +68,7 @@ const Profile = () => {
           <LeftSidebar />
           <Box pt="3.8rem" flex="1">
             <ProfileCover user={user} />
-            { !userPost  &&  (
+            {userPost?.length===0  &&  (
               <Flex justify="center" marginTop="-2rem">
                 <Text
             m="0"
@@ -80,7 +80,7 @@ const Profile = () => {
             color="#414141"
           >
             User hasn't posted anything yet <span style={{ color: "tomato", fontSize: "55px" }}>!</span>{" "}
-            <Box overflow="hidden" h='20rem' w="100%" marginTop="-10rem">
+            <Box overflow="hidden" h='29rem' w="100%" marginTop="-16rem">
             <lottie-player
               src="https://assets5.lottiefiles.com/packages/lf20_s9lvjg2e.json"
               background="transparent"
@@ -88,7 +88,7 @@ const Profile = () => {
               style={{
                 
                 width: "100%",
-                height: "500px",
+                height: "600px",
                 padding: "0",
                 margin: "0",
               }}
@@ -98,7 +98,7 @@ const Profile = () => {
           </Text>
               </Flex>
             )}
-            {userPost &&  (
+            {userPost?.length!==0 &&  (
               <SimpleGrid
                 columns={["1", "1", "2", "3", "3"]}
                 gap="10"

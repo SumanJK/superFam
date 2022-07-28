@@ -89,7 +89,6 @@ export const AuthReducer= (state= initState, action)=>{
                 {
                     ...state,
                     isLoading: false,
-                    userId:action.payload._id,
                     userDetails: action.payload,
                     isError:false
                 }
