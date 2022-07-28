@@ -10,12 +10,16 @@ import { getUserPost } from "../redux/post/action";
 import { useParams } from "react-router";
 
 const Profile = () => {
+  const loading = useSelector((store) => store.post.isLoading);
+
+  const error = useSelector((store) => store.post.isError);
+
   const [userPosts, setUserPosts] = useState([]);
 
   // const [user, setuser] = useState({});
 
   const userInfo = useParams();
-  console.log(userInfo,"from profile")
+  console.log(userInfo, "from profile");
 
   //! fetching user posts
   //dummy datas
@@ -46,7 +50,7 @@ const Profile = () => {
 
   useEffect(() => {
     axios.get(`/user/${userInfo?.id}`).then((res) => {
-      console.log("res",res)
+      console.log("res", res);
       setUser(res.data);
     });
   }, [userInfo]);
@@ -68,56 +72,108 @@ const Profile = () => {
           <LeftSidebar />
           <Box pt="3.8rem" flex="1">
             <ProfileCover user={user} />
-            {userPost?.length===0  &&  (
-              <Flex justify="center" marginTop="-2rem">
-                <Text
-            m="0"
-            p="0"
-            className="userPostFont"
-            textAlign={"center"}
-            fontSize={["20px", "40px"]}
-            fontWeight="700"
-            color="#414141"
-          >
-            User hasn't posted anything yet <span style={{ color: "tomato", fontSize: "55px" }}>!</span>{" "}
-            <Box overflow="hidden" h='29rem' w="100%" marginTop="-16rem">
-            <lottie-player
-              src="https://assets5.lottiefiles.com/packages/lf20_s9lvjg2e.json"
-              background="transparent"
-              speed="1"
-              style={{
-                
-                width: "100%",
-                height: "600px",
-                padding: "0",
-                margin: "0",
-              }}
-              loop
-              autoplay
-            ></lottie-player></Box>
-          </Text>
+            {/* loading */}
+            {loading && !error && (
+              <Flex mt={["0rem", "8rem"]} flex="1">
+                <lottie-player
+                  src="https://assets6.lottiefiles.com/private_files/lf30_tfvx2btx.json"
+                  background="transparent"
+                  speed="1"
+                  style={{
+                    width: "100%",
+                    height: "400px",
+                    padding: "0",
+                    margin: "0",
+                  }}
+                  loop
+                  autoplay
+                ></lottie-player>
               </Flex>
             )}
-            {userPost?.length!==0 &&  (
-              <SimpleGrid
-                columns={["1", "1", "2", "3", "3"]}
-                gap="10"
-                p="8"
-                w={["22rem", "26rem", "38rem", "54rem", "64rem"]}
-                margin="auto"
-                bg="linear-gradient(145deg, #f0f0f1, #edeff0)"
-                
-              >
-                {userPosts?.map((el) => {
-                  return (
-                    <ProfilePostCard key={el._id} userPost={el} user={user} />
-                  );
-                })}
-              </SimpleGrid>
+            {error && !loading && (
+              <Flex mt={["0rem", "10rem"]} flex="1">
+                <lottie-player
+                  src="https://assets9.lottiefiles.com/private_files/lf30_1ic95mja.json"
+                  background="transparent"
+                  speed="1"
+                  style={{
+                    width: "100%",
+                    height: "600px",
+                    padding: "0",
+                    margin: "0",
+                  }}
+                  loop
+                  autoplay
+                ></lottie-player>
+              </Flex>
+            )}
+{/* !loading !error */}
+            {!error && !loading && (
+              <>
+                {userPost?.length === 0 && !error && !loading &&(
+                  <Flex justify="center" marginTop="-2rem">
+                    <Text
+                      m="0"
+                      p="0"
+                      className="userPostFont"
+                      textAlign={"center"}
+                      fontSize={["20px", "40px"]}
+                      fontWeight="700"
+                      color="#414141"
+                    >
+                      User hasn't posted anything yet{" "}
+                      <span style={{ color: "tomato", fontSize: "55px" }}>
+                        !
+                      </span>{" "}
+                      <Box
+                        overflow="hidden"
+                        h="29rem"
+                        w="100%"
+                        marginTop="-16rem"
+                      >
+                        <lottie-player
+                          src="https://assets5.lottiefiles.com/packages/lf20_s9lvjg2e.json"
+                          background="transparent"
+                          speed="1"
+                          style={{
+                            width: "100%",
+                            height: "600px",
+                            padding: "0",
+                            margin: "0",
+                          }}
+                          loop
+                          autoplay
+                        ></lottie-player>
+                      </Box>
+                    </Text>
+                  </Flex>
+                )}
+                {userPost?.length !== 0 && (
+                  <SimpleGrid
+                    columns={["1", "1", "2", "3", "3"]}
+                    gap="10"
+                    p="8"
+                    w={["22rem", "26rem", "38rem", "54rem", "64rem"]}
+                    margin="auto"
+                    bg="linear-gradient(145deg, #f0f0f1, #edeff0)"
+                  >
+                    {userPosts?.map((el) => {
+                      return (
+                        <ProfilePostCard
+                          key={el._id}
+                          userPost={el}
+                          user={user}
+                        />
+                      );
+                    })}
+                  </SimpleGrid>
+                )}
+              </>
             )}
           </Box>
         </>
       )}
+
       {!user && (
         <Box margin={"auto"} mt={["6rem", "8rem"]}>
           <Text

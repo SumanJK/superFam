@@ -14,6 +14,13 @@ import {
   ModalCloseButton,
   ModalBody,
   useToast,
+  Button,
+  Tooltip,
+  Avatar,
+  MenuList,
+  MenuItem,
+  MenuButton,
+  Menu,
 } from "@chakra-ui/react";
 import axios from "axios";
 
@@ -24,6 +31,8 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Heart from "react-heart";
+import { AiOutlineDelete } from "react-icons/ai";
+import { BsThreeDots } from "react-icons/bs";
 
 export default function PostCard({ post }) {
   const PublicFile = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -47,8 +56,8 @@ export default function PostCard({ post }) {
   const [like, setLike] = useState(post.likes.length);
   const [active, setActive] = useState(false);
 
-  const userId= useSelector((store) => store.auth.userId)
-  console.log(userId,'usd')
+  const userId = useSelector((store) => store.auth.userId);
+  console.log(userId, "usd");
 
   useEffect(() => {
     setActive(post.likes.includes(userId));
@@ -82,7 +91,9 @@ export default function PostCard({ post }) {
         py={6}
         w={["22rem", "22rem", "35rem", "35rem", "30rem"]}
         margin="auto"
+
       >
+        
         <Box
           role={"group"}
           p={"1.1rem 1.2rem"}
@@ -93,7 +104,56 @@ export default function PostCard({ post }) {
           w={["20rem", "24rem", "24rem", "24rem", "24rem"]}
           zIndex={1}
           borderRadius="12px"
+          // border='1px solid red'
         >
+          <Flex pos={'absolute'} top='2' right='2' zIndex={'50'}>
+
+          <Menu >
+              <Tooltip
+                hasArrow
+                label="menu"
+                bg="gray.300"
+                color="#52555f"
+                borderRadius="10"
+              >
+                <MenuButton
+                  as={Button}
+                  variant={"link"}
+                  cursor={"pointer"}
+                  borderRadius="6px"
+                  bg='white'
+                  minW='0'
+                  p='0 .4rem'
+                  justify="center"
+                  boxShadow=" rgba(4, 4, 4, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.027) 0px 32px 16px"
+                >
+                  <BsThreeDots color='#454545' fontSize="16px"/>
+                </MenuButton>
+              </Tooltip>
+              <MenuList>
+                  <MenuItem >Remove post</MenuItem>
+              </MenuList>
+            </Menu>
+          </Flex>
+          {" "}
+          {/* <Tooltip
+            label="Remove post"
+            bg="gray.400"
+            color="#ffffff"
+            borderRadius="10"
+            placement="right"
+          >
+            <Button
+              pos={"absolute"}
+              className="deletePostBtn"
+              right="0"
+              top="0"
+              zIndex="50"
+              p='0'
+            >
+              <AiOutlineDelete fontSize='20px' />
+            </Button>
+          </Tooltip> */}
           {post?.image && (
             <Box
               onClick={onOpen}
@@ -101,6 +161,7 @@ export default function PostCard({ post }) {
               cursor={"pointer"}
               pos={"relative"}
               height={"320px"}
+              // border='1px solid red'
               _after={{
                 transition: "all .3s ease",
                 content: '""',
@@ -294,7 +355,7 @@ export default function PostCard({ post }) {
                     {user?.username}
                   </Text>
                 </Flex>
-                <Stack p="6" pt='2'>
+                <Stack p="6" pt="2">
                   <Flex
                     justify={"space-between"}
                     align="center"
@@ -319,18 +380,18 @@ export default function PostCard({ post }) {
                       <Image mx="8px" w="1.2rem" mt="1.5px" src={shareIcon} />
                       {like !== 0 && (
                         <Flex>
-                        <Text
-                        // border='1px solid black'
-                        w={['4rem',"6rem"]}
-                          px={['0',"10px"]}
-                          fontSize="12px"
-                          fontColor="#4e4e4e"
-                          fontWeight="500"
-                          noOfLines={'1'}
-                        >
-                          <span style={{ color: "red" }}>{like}</span> &nbsp;
-                          {like === 1 ? "like" : "likes"}
-                        </Text>
+                          <Text
+                            // border='1px solid black'
+                            w={["4rem", "6rem"]}
+                            px={["0", "10px"]}
+                            fontSize="12px"
+                            fontColor="#4e4e4e"
+                            fontWeight="500"
+                            noOfLines={"1"}
+                          >
+                            <span style={{ color: "red" }}>{like}</span> &nbsp;
+                            {like === 1 ? "like" : "likes"}
+                          </Text>
                         </Flex>
                       )}
                     </Flex>
