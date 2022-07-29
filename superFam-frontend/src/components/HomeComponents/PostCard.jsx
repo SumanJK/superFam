@@ -44,7 +44,7 @@ export default function PostCard({ post }) {
   const [showMore, setShowMore] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // console.log(post.image,"data")
+  console.log(post.image,"data")
 
   const [user, setUser] = useState({});
 

@@ -88,7 +88,7 @@ export const PostReducer= (state= initState, action) =>{
         {
           ...state,
           isLoading: false,
-          isError: true,
+          isError: false,
         }
       )
     }

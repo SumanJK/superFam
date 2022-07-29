@@ -184,7 +184,7 @@ console.log(userIds,"USERS")
       .catch((err) => {
         dispatch(failureDeletePost());
         toast({
-          title: `request failed try again`,
+          title: err.response.data,
           status: "error",
           duration: 3000,
           position: 'bottom-right',

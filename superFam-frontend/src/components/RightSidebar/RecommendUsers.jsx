@@ -2,17 +2,19 @@ import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { RiHeartAddFill } from "react-icons/ri";
+import { useSelector } from "react-redux";
 import RecommendUsersCard from "./RecommendUsersCard";
 
 const RecommendUsers = () => {
 
   const [ allUsers, setAllUsers]= useState([]);
   //! fetching recommanded users (all users)
+  const userDetails= useSelector((store) => store.auth.userDetails)
   useEffect(() =>{
     axios.get("/user").then((res)=>{
       setAllUsers(res.data)
     })
-  },[])
+  },[userDetails])
 
   return (
     <Box  height="21rem" px=".8rem" py=".5rem" >
