@@ -4,7 +4,7 @@ const initState={
     isLoading: true,
     userId: localStorage.getItem('userIdLocal') || null,
     userDetails:  JSON.parse(localStorage.getItem('FamUserDetails')) || null,
-    isAuth: false,
+    isAuth: localStorage.getItem('isAuth') || false,
     isError: false,
 }
 
@@ -52,6 +52,7 @@ export const AuthReducer= (state= initState, action)=>{
         case authActions.LOGIN_AUTH_SUCCESS:{
 
             localStorage.setItem('userIdLocal',action.payload._id)
+            localStorage.setItem('isAuth',true)
             localStorage.setItem('FamUserDetails',JSON.stringify(action.payload))
             // console.log(action.payload.firstname,"firstnameRedux")
             return(
@@ -138,6 +139,7 @@ export const AuthReducer= (state= initState, action)=>{
             case authActions.LOGOUT_AUTH_REQUEST:{
                 localStorage.removeItem('FamUserDetails')
                 localStorage.removeItem('userIdLocal')
+                localStorage.setItem('isAuth',false)
                 return(
                     {
                         ...state,

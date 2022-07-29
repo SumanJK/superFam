@@ -50,8 +50,16 @@ const Signup = () => {
         email: email?.current.value,
         password: password?.current.value,
       };
+      if(password.current.value.length<=5){
+        toast({
+          title: "Password must be at least 6 digits",
+          status: "info",
+          isClosable: true,
+        });
+      }else{
 
-      dispatch(registerUser(payload,toast,navigate))
+        dispatch(registerUser(payload,toast,navigate))
+      }
 
     
       

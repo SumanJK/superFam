@@ -53,6 +53,10 @@ app.use("/api/user",userController);
 app.use("/api/auth",authController);
 app.use("/api/post",postController);
 
+app.get("/", async (req, res)=>{
+    return res.status(201).send("USER AVAIL")
+})
+
 
 app.listen(port, async()=>{
     try {

@@ -36,6 +36,7 @@ const RecommendUsersCard = ({ recUser }) => {
       toast({
         title: 'Login to follow a user!',
         status:"info" ,
+        position: 'bottom-left',
         duration: 2000,
         isClosable: true,
       });
@@ -48,6 +49,7 @@ const RecommendUsersCard = ({ recUser }) => {
             toast({
               title: res.data,
               status:"success" ,
+              position: 'bottom-left',
               duration: 1000,
               isClosable: true,
             });
@@ -59,6 +61,7 @@ const RecommendUsersCard = ({ recUser }) => {
           }).catch((err)=>{
             toast({
               title: err.response.data,
+              position: 'bottom-left',
               status:"error" ,
               duration: 2000,
               isClosable: true,
@@ -69,6 +72,7 @@ const RecommendUsersCard = ({ recUser }) => {
         console.log(err,"erererre")
         toast({
           title: err.response.data,
+          position: 'bottom-left',
           status:"error" ,
           duration: 1000,
           isClosable: true,
@@ -84,6 +88,7 @@ const RecommendUsersCard = ({ recUser }) => {
       toast({
         title: 'Login to follow a user!',
         status:"info" ,
+        position: 'bottom-left',
         duration: 2000,
         isClosable: true,
       });
@@ -96,6 +101,7 @@ const RecommendUsersCard = ({ recUser }) => {
             toast({
               title: res.data,
               status:"success" ,
+              position: 'bottom-left',
               duration: 1000,
               isClosable: true,
             });
@@ -108,6 +114,7 @@ const RecommendUsersCard = ({ recUser }) => {
             toast({
               title: err.response.data,
               status:"error" ,
+              position: 'bottom-left',
               duration: 1000,
               isClosable: true,
             });
@@ -118,6 +125,7 @@ const RecommendUsersCard = ({ recUser }) => {
         toast({
           title: err.message,
           status:"error" ,
+          position: 'bottom-left',
           duration: 1000,
           isClosable: true,
         });
@@ -147,7 +155,7 @@ const RecommendUsersCard = ({ recUser }) => {
       >
         <Link to={`/profile/${recUser._id}`}>
           <Flex  align='center'>
-        <Box borderRadius="50%" overflow="hidden" w="1.8rem" h="1.8rem">
+        <Box borderRadius="50%" overflow="hidden" w="1.8rem" h="1.8rem" mr='8px'>
           <Image w="100%" src={PublicFile + recUser?.profilePicture} />
         </Box>
         <Box w="8.5rem">

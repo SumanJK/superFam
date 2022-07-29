@@ -68,8 +68,8 @@ export const createPost = (newPost,toast) => (dispatch) => {
         toast({
           title: `Post Uploaded successfully! 🥳`,
           status: "success",
-          duration: 5000,
-          position: 'bottom-right',
+          duration: 1000,
+          position: 'bottom',
           isClosable: true,
         });
       })
@@ -154,23 +154,42 @@ const failureDeletePost = () => {
   };
 };
 
-export const deletePost = () => (dispatch) => {
-  dispatch(requestDeletePost());
+export const deletePost = (toast, postId,userIds) => (dispatch, getState) => {
+  dispatch(requestDeletePost())
+
+console.log(userIds,"USERS")
   try {
-    axios
-      .post({
-        method: "POST",
-        url: "localhost://",
-      })
+    axios({
+      method:'DELETE',
+      url:`/post/${postId}`, 
+      data:{userId: userIds}
+    })
       .then((res) => {
-        // console.log(res, "create-post");
+        console.log(res, "create-post");
         dispatch(successDeletePost());
+
+        toast({
+          title: `Post removed`,
+          status: "success",
+          duration: 1000,
+          position: 'bottom',
+          isClosable: true,
+        });
       })
       .then(() => {
-        dispatch(getTimelinePost());
+        dispatch(getTimelinePost(toast));
+      }).then(()=>{
+        dispatch(getUserPost(userIds,toast))
       })
       .catch((err) => {
         dispatch(failureDeletePost());
+        toast({
+          title: `request failed try again`,
+          status: "error",
+          duration: 3000,
+          position: 'bottom-right',
+          isClosable: true,
+        });
       });
   } catch (err) {
     console.log(err);
@@ -302,7 +321,7 @@ const failureUserPost = () => {
 
 export const getUserPost = (id,toast) => (dispatch,getState) => {
 
-  const userId= getState().auth.userId;
+
   // console.log(userId,"userid of user post")
 
 

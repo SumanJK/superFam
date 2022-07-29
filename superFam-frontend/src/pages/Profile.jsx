@@ -76,7 +76,7 @@ const Profile = () => {
             {loading && !error && (
               <Flex mt={["0rem", "8rem"]} flex="1">
                 <lottie-player
-                  src="https://assets6.lottiefiles.com/private_files/lf30_tfvx2btx.json"
+                  src="https://assets5.lottiefiles.com/packages/lf20_X31SKN.json"
                   background="transparent"
                   speed="1"
                   style={{

@@ -30,7 +30,7 @@ const Feature=()=>{
           overflow="hidden"
           marginY="5"
         >
-          <Spline scene="https://prod.spline.design/iwVKILINxN7gmP83/scene.splinecode" />
+<Spline scene="https://prod.spline.design/iwVKILINxN7gmP83/scene.splinecode" />
 
         </Flex>
         <Flex py="2">

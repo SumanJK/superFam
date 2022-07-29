@@ -15,7 +15,7 @@ const RecommendUsers = () => {
   },[])
 
   return (
-    <Box  height="21rem" px=".8rem" py=".5rem">
+    <Box  height="21rem" px=".8rem" py=".5rem" >
       <Text
         fontSize="14px"
         fontWeight="700"

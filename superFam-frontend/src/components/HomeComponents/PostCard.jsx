@@ -29,13 +29,17 @@ import shareIcon from "../../assets/instagram-share.svg";
 import commentIcon from "../../assets/instagram-comment.svg";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Heart from "react-heart";
 import { AiOutlineDelete } from "react-icons/ai";
-import { BsThreeDots } from "react-icons/bs";
+import { BsThreeDots, BsThreeDotsVertical } from "react-icons/bs";
+import { deletePost } from "../../redux/post/action";
 
 export default function PostCard({ post }) {
   const PublicFile = process.env.REACT_APP_PUBLIC_FOLDER;
+
+
+  const dispatch = useDispatch()
 
   const [showMore, setShowMore] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -85,6 +89,19 @@ export default function PostCard({ post }) {
     setActive(!active);
   };
 
+
+  //delete post handler
+  console.log(post,"posts")
+
+
+const handleDelete=()=>{
+
+  dispatch(deletePost(toast,post?._id, userId))
+
+}
+  
+
+
   return (
     <>
       <Center
@@ -96,7 +113,7 @@ export default function PostCard({ post }) {
         
         <Box
           role={"group"}
-          p={"1.1rem 1.2rem"}
+          p={"1.2rem 1.2rem"}
           bg={useColorModeValue("white", "gray.800")}
           boxShadow=" rgba(136, 165, 191, 0) 4px 2px 16px 0px, rgba(189, 195, 220, 0.646) -4px -0px 16px 6px"
           rounded={"lg"}
@@ -106,87 +123,58 @@ export default function PostCard({ post }) {
           borderRadius="12px"
           // border='1px solid red'
         >
-          <Flex pos={'absolute'} top='2' right='2' zIndex={'50'}>
+          <Flex pos={'absolute'} top='1' borderRadius='50%' right='1' zIndex={'50'} h='.8rem'>
 
           <Menu >
               <Tooltip
                 hasArrow
                 label="menu"
-                bg="gray.300"
-                color="#52555f"
-                borderRadius="10"
+                bg="gray.400"
+                color="#f7f7f7"
+                borderRadius="4"
               >
                 <MenuButton
                   as={Button}
                   variant={"link"}
                   cursor={"pointer"}
-                  borderRadius="6px"
-                  bg='white'
+                  // borderRadius="6px"
+                  bg='#ffffffa6'
+                  zIndex="100"
                   minW='0'
-                  p='0 .4rem'
+                  p='.4rem .8rem'
                   justify="center"
-                  boxShadow=" rgba(4, 4, 4, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.027) 0px 32px 16px"
+                  boxShadow="rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(95, 95, 95, 0.0) -6px -2px 16px 0px"
                 >
-                  <BsThreeDots color='#454545' fontSize="16px"/>
+                  <BsThreeDots color='#454545' fontSize="20px"/>
                 </MenuButton>
               </Tooltip>
-              <MenuList>
-                  <MenuItem >Remove post</MenuItem>
+              <MenuList p='0' border='2px solid #ffffff' bg='#e4e4e4' borderRadius='40px' overflow="hidden" fontSize="14px">
+                  <MenuItem onClick={handleDelete}>Remove post</MenuItem>
               </MenuList>
             </Menu>
           </Flex>
           {" "}
-          {/* <Tooltip
-            label="Remove post"
-            bg="gray.400"
-            color="#ffffff"
-            borderRadius="10"
-            placement="right"
-          >
-            <Button
-              pos={"absolute"}
-              className="deletePostBtn"
-              right="0"
-              top="0"
-              zIndex="50"
-              p='0'
-            >
-              <AiOutlineDelete fontSize='20px' />
-            </Button>
-          </Tooltip> */}
+
           {post?.image && (
             <Box
               onClick={onOpen}
-              borderRadius="20px"
+              borderRadius="10px"
               cursor={"pointer"}
               pos={"relative"}
               height={"320px"}
-              // border='1px solid red'
-              _after={{
-                transition: "all .3s ease",
-                content: '""',
-                w: "full",
-                h: "full",
-                pos: "absolute",
-                top: 0,
-                left: 0,
-                backgroundImage: `url('${PublicFile + post.image}')`,
-                filter: "blur(6px)",
-                zIndex: -1,
-              }}
-              _groupHover={{
-                _after: {
-                  filter: "blur(8px)",
-                },
-              }}
+              role='group'
             >
+              <Center overflow="hidden" borderRadius="10px"  >
               <Image
+              
                 borderRadius="10px"
-                height={320}
+                height={'320px'}
                 width={"full"}
+                transition='all .4s ease'
                 objectFit={"cover"}
                 src={PublicFile + post.image}
-              />
+                _groupHover={{transform:'scale(1.04)', transition:'all .6s ease'}}
+              /></Center>
             </Box>
           )}
           <Flex
@@ -243,7 +231,7 @@ export default function PostCard({ post }) {
                   <Text
                     px="10px"
                     fontSize="12px"
-                    fontColor="#4e4e4e"
+                    color="#4e4e4e"
                     fontWeight="500"
                   >
                     <span style={{ color: "red" }}>{like}</span> &nbsp;

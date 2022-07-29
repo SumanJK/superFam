@@ -12,12 +12,15 @@ const Home = () => {
   const loading = useSelector((store) => store.post.isLoading);
 
   const error = useSelector((store) => store.post.isError);
+  const auth = useSelector((store) => store.auth.isAuth);
+  console.log(auth,"auth")
+  console.log(error,"err")
 
   const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
 
   const timeline = useSelector((store) => store.post.timelinePost);
-  // console.log(timeline, "timeline home");
+  console.log(timeline, "timeline home");
 
   const toast = useToast();
 
@@ -38,71 +41,45 @@ const Home = () => {
       setPosts([]);
     }
   }, [timeline]);
-  // console.log(posts, "restIn");
+
 
   console.log(timeline, "userposts");
 
   return (
-    <Flex overflowX={"hidden"}>
+    <Flex overflowX={"hidden"} className='homeWrapper'>
+{/* <LEFT SIDE> */}
+
       <Box w={["0", "0", "60", "60"]} className="leftSideBox"></Box>
       <LeftSidebar />
-      {/* loading */}
-      {loading && !error && (
-        <Flex mt={["0rem", "8rem"]} flex="1">
-          <lottie-player
-            src="https://assets6.lottiefiles.com/private_files/lf30_tfvx2btx.json"
-            background="transparent"
-            speed="1"
-            style={{
-              width: "100%",
-              height: "400px",
-              padding: "0",
-              margin: "0",
-            }}
-            loop
-            autoplay
-          ></lottie-player>
-        </Flex>
-      )}
-      {error && !loading && (
-        <Flex mt={["0rem", "10rem"]} flex="1">
-          <lottie-player
-            src="https://assets9.lottiefiles.com/private_files/lf30_1ic95mja.json"
-            background="transparent"
-            speed="1"
-            style={{
-              width: "100%",
-              height: "600px",
-              padding: "0",
-              margin: "0",
-            }}
-            loop
-            autoplay
-          ></lottie-player>
-        </Flex>
-      )}
-      {!error && !loading && (
-        <Box pt="3.8rem" flex="1" bg="gray.200">
-          {timeline && <PostShare />}
-          {timeline?.length !== 0 && timeline && (
+
+{/* <MIDDLE SEC >   */}
+{/* SHARE POST + POSTS */}
+
+      <Box pt="3.8rem" flex="1" bg={timeline?.length===0  ? 'white' : "gray.200"} minH={loading ? '50rem': '0rem'} >
+        {timeline  && <PostShare />}
+      {!error && !loading && timeline?.length!==0 && (
             <Box
               w={["22rem", "32rem", "40rem", "46rem", "46rem"]}
               className="feed"
               margin="auto"
               bg="white"
+              minH='30.8rem'
               borderTopRadius={"15px"}
               pt="10"
+              // border='1px solid red'
             >
               {posts?.map((el) => {
                 return <PostCard key={el._id} post={el} />;
               })}
             </Box>
-          )}
-          {/* if loggedout */}
-          {!timeline && (
-            <>
+      )}
+        
+{/* IF USER LOGGEDOUT */}
+
+          {!auth && !loading && (
+            <Box mt={["0rem", "8rem"]} flex="1">
               <Text
-                mt={["2rem", "8rem"]}
+                mt={["1rem", "0rem"]}
                 mb={["0", "-6rem"]}
                 p="0"
                 textAlign={"center"}
@@ -118,11 +95,11 @@ const Home = () => {
                 <span style={{ color: "tomato", fontSize: "50px" }}>!</span>{" "}
               </Text>
               <Box
-                mt={["-22rem", "0"]}
+                mt={["-18rem", "0"]}
                 w="100%"
                 overflow="hidden"
                 height="620px"
-                border="2px solid black"
+                // border="2px solid black"
               >
                 <lottie-player
                   src="https://assets9.lottiefiles.com/packages/lf20_g3dzz0wz.json"
@@ -138,53 +115,96 @@ const Home = () => {
                   autoplay
                 ></lottie-player>
               </Box>
-            </>
+            </Box>
           )}
-          {timeline?.length === 0 && (
-            <>
-              <Text
-                mt={["2rem", "4rem"]}
-                mb={["0", "-8rem"]}
-                p="0"
-                textAlign={"center"}
-                fontSize={["20px", "40px"]}
-                textTransform="uppercase"
-                fontWeight="700"
-                color="#3b3b3b"
-              >
-                Upload your first{" "}
-                <span style={{ color: "#0090f7da", fontSize: "40px" }}>
-                  Post{" "}
-                </span>{" "}
-                <span style={{ color: "tomato", fontSize: "50px" }}>!</span>{" "}
-              </Text>
-              <Box
-                mt={["-18rem", "-8rem"]}
-                w="100%"
-                overflow="hidden"
-                height="515px"
-              >
-                <lottie-player
-                  src="https://assets7.lottiefiles.com/packages/lf20_hmdwlaed.json"
-                  background="transparent"
-                  speed="1"
-                  style={{
-                    width: "100%",
-                    height: "800px",
-                    padding: "0",
-                    margin: "0",
-                  }}
-                  loop
-                  autoplay
-                ></lottie-player>
-              </Box>
-            </>
-          )}
+{/* IF POST EMPTY */}
+
+      {timeline?.length === 0 && !error && !loading && (
+        <Box mt={["0rem", "0rem"]} flex="1">
+          <Text
+            mt={["2rem", "4rem"]}
+            mb={["0", "-10rem"]}
+            p="0"
+            textAlign={"center"}
+            fontSize={["20px", "40px"]}
+            textTransform="uppercase"
+            fontWeight="700"
+            color="#3b3b3b"
+          >
+            Upload your first{" "}
+            <span style={{ color: "#0090f7da", fontSize: "40px" }}>
+              Post{" "}
+            </span>{" "}
+            <span style={{ color: "tomato", fontSize: "50px" }}>!</span>{" "}
+          </Text>
+          <Box
+            mt={["-18rem", "-8rem"]}
+            w="100%"
+            overflow="hidden"
+            height="545px"
+          >
+            <lottie-player
+              src="https://assets7.lottiefiles.com/packages/lf20_hmdwlaed.json"
+              background="transparent"
+              speed="1"
+              style={{
+                width: "100%",
+                height: "800px",
+                padding: "0",
+                margin: "0",
+              }}
+              loop
+              autoplay
+            ></lottie-player>
+          </Box>
         </Box>
       )}
+{/* LOADING ICON */}
+
+      {loading && !error && (
+        <Flex mt={["0rem", "6rem"]} flex="1">
+          <lottie-player
+            src="https://assets5.lottiefiles.com/packages/lf20_X31SKN.json"
+            background="transparent"
+            speed="1"
+            style={{
+              width: "100%",
+              height: "400px",
+              padding: "0",
+              margin: "0",
+            }}
+            loop
+            autoplay
+          ></lottie-player>
+        </Flex>
+      )}
+{/* ERROR ICON */}
+
+      {error && !loading && auth && (
+        <Flex mt={["-2rem", "6rem"]} flex="1">
+          <lottie-player
+            src="https://assets9.lottiefiles.com/private_files/lf30_1ic95mja.json"
+            background="transparent"
+            speed="1"
+            style={{
+              width: "100%",
+              height: "630px",
+              padding: "0",
+              margin: "0",
+            }}
+            loop
+            autoplay
+          ></lottie-player>
+        </Flex>
+      )}
+      </Box>
+{/* <RIGHT SIDE> */}
+
       <Box w={["0", "0", "0", "0", "80"]} className="rightSideBox"></Box>
       <RightSidebar />
+      
     </Flex>
+    
   );
 };
 

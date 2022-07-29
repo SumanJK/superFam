@@ -67,10 +67,29 @@ const PostShare = () => {
       newPost.image = fileName;
       // console.log(data, "newpostData");
       dispatch(uploadPicture(data, newPost, toast));
-    } else {
+    } else if(newPost?.description){
       dispatch(createPost(newPost, toast));
+    }else{
+      toast({
+        title: `choose a photo or write something to post`,
+        variant:"left-accent",
+        duration: 3000,
+        position: 'top-right',
+        isClosable: true,
+      });
     }
   };
+
+  const handleChoosePic=()=>{
+    toast({
+      title: `click on share button to post`,
+      variant:"left-accent",
+      duration: 3000,
+      position: 'top-right',
+      isClosable: true,
+    });
+    onPostEditClose()
+  }
   // console.log("okman", PublicFile + userDetails?.profilePicture);
   return (
     <>
@@ -300,7 +319,7 @@ const PostShare = () => {
                       boxShadow:
                         " rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset",
                     }}
-                    onClick={onPostEditClose}
+                    onClick={handleChoosePic}
                   >
                     {" "}
                     Done &nbsp;

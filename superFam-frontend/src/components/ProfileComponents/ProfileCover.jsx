@@ -225,7 +225,7 @@ const ProfileCover = ({ user }) => {
       >
         <Box
           className="ProfileCoverPicDiv"
-          h={["10rem", "20rem"]}
+          h={["8rem", "20rem"]}
           boxShadow="  rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px"
         >
           <Image
@@ -251,7 +251,7 @@ const ProfileCover = ({ user }) => {
           position="absolute"
           left={["40%", "45%"]}
           right={["40%", "45%"]}
-          bottom={["14%", "10%"]}
+          bottom={["20%", "10%"]}
           // border="1px solid black"
           w={["5rem", "7.5rem"]}
           h={["5rem", "7.5rem"]}
@@ -293,7 +293,7 @@ const ProfileCover = ({ user }) => {
           align="center"
           // w={["10rem", "20rem"]}
           py={["0", "0"]}
-          h={["2rem", "2rem"]}
+          h={["3rem", "2rem"]}
           margin="0 auto"
           w="100%"
           position="relative"
@@ -360,6 +360,7 @@ const ProfileCover = ({ user }) => {
                 {coverPic && (
                   <Box className="shareImgContainer" position="relative">
                     <Image
+                    borderRadius="25px"
                       src={URL.createObjectURL(coverPic)}
                       alt="cover pic"
                     />
@@ -406,7 +407,7 @@ const ProfileCover = ({ user }) => {
                 />
                 <Text fontSize="14px" fontWeight="bold" color="#363636" pt="5%">
                   {coverPic ? (
-                    <Image data={coverPic} />
+                    <Image data={coverPic} borderRadius="25px" />
                   ) : (
                     "Please choose a cover picture"
                   )}
@@ -460,6 +461,7 @@ const ProfileCover = ({ user }) => {
                 {profilePic && (
                   <Box className="shareImgContainer" position="relative">
                     <Image
+                    borderRadius="25px"
                       src={URL.createObjectURL(profilePic)}
                       alt="cover pic"
                     />

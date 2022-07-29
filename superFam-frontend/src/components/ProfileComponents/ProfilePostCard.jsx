@@ -14,6 +14,12 @@ import {
   ModalCloseButton,
   ModalBody,
   useToast,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button,
+  Tooltip,
+  Menu,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
@@ -22,7 +28,9 @@ import commentIcon from "../../assets/instagram-comment.svg";
 import Heart from "react-heart";
 import axios from "axios";
 import likeHeart from "../../assets/LikeHeart.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { BsThreeDots } from "react-icons/bs";
+import { deletePost } from "../../redux/post/action";
 
 export default function ProfilePostCard({ user, userPost }) {
   const PublicFile = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -79,6 +87,16 @@ export default function ProfilePostCard({ user, userPost }) {
     }
   };
 
+  //handle delete 
+
+const dispatch = useDispatch()
+
+const handleDelete=()=>{
+
+  dispatch(deletePost(toast,userPost?._id, userId))
+
+}
+
   return (
     <>
       <Box
@@ -99,6 +117,36 @@ export default function ProfilePostCard({ user, userPost }) {
         zIndex={1}
         borderRadius="14px"
       >
+        <Flex pos={'absolute'} top='2' borderRadius='50%' right='2' zIndex={'50'} h='.8rem'>
+
+<Menu >
+    <Tooltip
+      hasArrow
+      label="menu"
+      bg="gray.400"
+      color="#f7f7f7"
+      borderRadius="4"
+    >
+      <MenuButton
+        as={Button}
+        variant={"link"}
+        cursor={"pointer"}
+        // borderRadius="6px"
+        bg='#ffffffa6'
+        zIndex="100"
+        minW='0'
+        p='.4rem .8rem'
+        justify="center"
+        boxShadow="rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(95, 95, 95, 0.0) -6px -2px 16px 0px"
+      >
+        <BsThreeDots color='#454545' fontSize="20px"/>
+      </MenuButton>
+    </Tooltip>
+    <MenuList p='0' border='2px solid #ffffff' bg='#e4e4e4' borderRadius='40px' overflow="hidden" fontSize="14px">
+        <MenuItem onClick={handleDelete}>Remove post</MenuItem>
+    </MenuList>
+  </Menu>
+</Flex>
         <Box
           onClick={onOpen}
           borderRadius="10px"

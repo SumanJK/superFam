@@ -8,7 +8,6 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuDivider,
   useColorModeValue,
   Image,
   Input,
@@ -18,34 +17,43 @@ import {
   Divider,
   Tooltip,
   useToast,
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerBody,
+  DrawerOverlay,
 } from "@chakra-ui/react";
 
 import logo from "../../assets/default-monochrome.svg";
 
-import { AddIcon, ChatIcon, Search2Icon } from "@chakra-ui/icons";
+import { ChatIcon, Search2Icon } from "@chakra-ui/icons";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { SiAirplayaudio } from "react-icons/si";
 
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/auth/action";
+import LeftSidebar from "../LeftSidebar/LeftSidebar";
+import SidebarMobile from "./SidebarMobile";
+import RecommendUsers from "../RightSidebar/RecommendUsers";
 
 export default function Navbar() {
   const PublicFile = process.env.REACT_APP_PUBLIC_FOLDER;
 
+  const userId = useSelector((store) => store.auth.userId);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+
 
   const userDetails = useSelector((store) => store.auth.userDetails);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const toast= useToast()
+  const toast = useToast();
 
-  const handleLogout= ()=>{
-    
-  dispatch(logoutUser(toast))
-
-  }
+  const handleLogout = () => {
+    dispatch(logoutUser(toast));
+  };
 
   return (
     <>
@@ -198,15 +206,34 @@ export default function Navbar() {
                 <Link to={`/profile/${userDetails?._id}`}>
                   <MenuItem>Profile</MenuItem>
                 </Link>
-                <Link to='/signup'>
-                  <MenuItem>Signup</MenuItem>
-                  </Link>
-                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <Link to="/login">
+                  <MenuItem>Login</MenuItem>
+                </Link>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </MenuList>
             </Menu>
           </Flex>
         </Flex>
       </Box>
+
+      {/* DRAWER */}
+
+      <Drawer placement="left" size="xs" onClose={onClose} isOpen={isOpen}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader borderBottomWidth="1px" p='0 ' bg='gray.300' >
+            <Flex h='4rem' p='8px' justify="start" >
+              <Link to="/">
+                <Image h='100%' src={logo} />
+              </Link>
+            </Flex>
+          </DrawerHeader>
+          <DrawerBody>
+            <RecommendUsers />
+            <SidebarMobile />
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
