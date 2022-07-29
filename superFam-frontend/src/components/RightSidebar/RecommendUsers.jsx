@@ -8,11 +8,12 @@ import RecommendUsersCard from "./RecommendUsersCard";
 const RecommendUsers = () => {
 
   const [ allUsers, setAllUsers]= useState([]);
+  console.log(allUsers,"allN")
   //! fetching recommanded users (all users)
   const userDetails= useSelector((store) => store.auth.userDetails)
   useEffect(() =>{
     axios.get("/user").then((res)=>{
-      setAllUsers(res.data)
+      setAllUsers(res?.data)
     })
   },[userDetails])
 
