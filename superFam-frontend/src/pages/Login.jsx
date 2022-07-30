@@ -15,7 +15,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import Spline from "@splinetool/react-spline";
+import Spline from '@splinetool/react-spline';
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useRef } from "react";
@@ -78,7 +78,8 @@ if( email.current.value && password.current.value && confirmPassword.current.val
         borderRadius="20px"
       >
         <Stack w={["0","0","40rem","40rem"]}  borderLeftRadius="20px" overflow="hidden" zIndex="10"  cursor="pointer">
-        <Spline scene="https://prod.spline.design/sckOD82PH0OVgOtM/scene.splinecode" />
+        <iframe src='https://my.spline.design/hands3duicopy-0e35d38a7da38498e456d26bf20051f0/' frameborder='0' width='100%' height='100%'></iframe>
+
         </Stack>
         <Stack
         

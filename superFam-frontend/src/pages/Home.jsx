@@ -89,10 +89,10 @@ const Home = () => {
                 color="#3b3b3b"
               >
                 Login To{" "}
-                <span style={{ color: "#007cf7", fontSize: "45px" }}>
+                <span style={{ color: "#007cf7", fontSize: "50px" }}>
                   continue{" "}
                 </span>{" "}
-                <span style={{ color: "tomato", fontSize: "50px" }}>!</span>{" "}
+                <span style={{ color: "tomato", fontSize: "45px" }}>!</span>{" "}
               </Text>
               <Box
                 mt={["-18rem", "0"]}

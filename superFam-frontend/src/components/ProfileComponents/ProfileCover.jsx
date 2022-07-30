@@ -214,7 +214,7 @@ const ProfileCover = ({ user }) => {
   return (
     <>
       <Flex
-        h={["15rem", "27rem"]}
+        h={["12rem", "27rem"]}
         className="profileCoverWrapper"
         position="relative"
         mb="2rem"
@@ -225,7 +225,7 @@ const ProfileCover = ({ user }) => {
       >
         <Box
           className="ProfileCoverPicDiv"
-          h={["8rem", "20rem"]}
+          h={["7rem", "20rem"]}
           boxShadow="  rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px"
         >
           <Image
@@ -235,7 +235,7 @@ const ProfileCover = ({ user }) => {
             src={PublicFile + user?.coverPicture}
             alt="cover pic"
           />
-          <Flex justify="end" p="1rem" position="relative" align="center">
+          <Flex justify="end" p="0rem .4rem" position="relative" align="center">
             <FiEdit
               position="absolute"
               top="0"
@@ -260,8 +260,8 @@ const ProfileCover = ({ user }) => {
             position="relative"
             zIndex="20"
             bg="#fff"
-            w={["5rem", "7.5rem"]}
-            h={["5rem", "7.5rem"]}
+            w={["4rem", "7.5rem"]}
+            h={["4rem", "7.5rem"]}
             // border="1px solid red"
             borderRadius="50%"
             boxShadow=" rgb(204, 219, 232) 3px 2px 6px 1px inset, rgb(255, 255, 255) -3px -2px 4px 0px inset"
