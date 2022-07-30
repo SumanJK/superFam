@@ -44,7 +44,7 @@ const RecommendUsersCard = ({ recUser }) => {
 
       try {
         axios
-          .put("/user/" + recUser._id + "/follow", { userId: userId })
+          .put("https://superfam-backend.herokuapp.com/api/user/" + recUser._id + "/follow", { userId: userId })
           .then((res) => {
             toast({
               title: res.data,
@@ -96,7 +96,7 @@ const RecommendUsersCard = ({ recUser }) => {
 
       try {
         axios
-          .put("/user/" + recUser._id + "/unfollow", { userId: userId })
+          .put("https://superfam-backend.herokuapp.com/api/user/" + recUser._id + "/unfollow", { userId: userId })
           .then((res) => {
             toast({
               title: res.data,

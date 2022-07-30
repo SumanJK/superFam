@@ -10,9 +10,9 @@ const mongoose = require('mongoose');
 const path = require("path");
 app.use(cors())
 
-// helmet({
-//     crossOriginResourcePolicy: false,  //! Cross-origin Resource Policy
-//   })
+helmet({
+    crossOriginResourcePolicy: false,  //! Cross-origin Resource Policy
+  })
 
 //controllers
 const userController= require('./controllers/userController');

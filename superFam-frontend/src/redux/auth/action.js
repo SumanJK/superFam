@@ -48,7 +48,7 @@ export const registerUser = (userData, toast, navigate) => (dispatch) => {
 
   dispatch(registerAuthRequest());
   axios
-    .post("/auth/register", userData)
+    .post("https://superfam-backend.herokuapp.com/api/auth/register", userData)
     .then((res) => {
       console.log(res, "res");
       dispatch(registerAuthSuccess(res.data));
@@ -108,7 +108,7 @@ export const loginUser = (payload,toast,navigate) => (dispatch, getState) => {
   dispatch(loginAuthRequest());
 
   axios
-    .post("http://superfam-backend.herokuapp.com/api/auth/login", payload)
+    .post("https://superfam-backend.herokuapp.com/api/auth/login", payload)
     .then((res) => {
       // console.log(res,"rest")
       dispatch(loginAuthSuccess(res.data))

@@ -49,7 +49,7 @@ export default function PostCard({ post }) {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    axios.get(`/user/${post.userId}`).then((res) => {
+    axios.get(`https://superfam-backend.herokuapp.com/api/user/${post.userId}`).then((res) => {
       setUser(res.data);
       // console.log(res.data,"pro res")
     });
@@ -71,7 +71,7 @@ export default function PostCard({ post }) {
   const likeHandler = () => {
     try {
       axios
-        .put("/post/" + post._id + "/like", { userId: userId })
+        .put("https://superfam-backend.herokuapp.com/api/post/" + post._id + "/like", { userId: userId })
         .then((res) => {
           toast({
             title: res.data,

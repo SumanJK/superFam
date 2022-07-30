@@ -60,7 +60,7 @@ export const createPost = (newPost,toast) => (dispatch) => {
 
   try {
     axios
-      .post("/post", newPost)
+      .post("https://superfam-backend.herokuapp.com/api/post", newPost)
       .then((res) => {
         // console.log(res, "create-post");
         dispatch(successCreatePost());
@@ -91,48 +91,6 @@ export const createPost = (newPost,toast) => (dispatch) => {
   }
 };
 
-//update post actions
-
-const requestUpdatePost = () => {
-  return {
-    type: postActions.UPDATE_POST_REQUEST,
-  };
-};
-
-const successUpdatePost = () => {
-  return {
-    type: postActions.UPDATE_POST_SUCCESS,
-  };
-};
-
-const failureUpdatePost = () => {
-  return {
-    type: postActions.UPDATE_POST_FAILURE,
-  };
-};
-
-export const updatePost = () => (dispatch) => {
-  dispatch(requestUpdatePost());
-  try {
-    axios
-      .post({
-        method: "POST",
-        url: "localhost://",
-      })
-      .then((res) => {
-        // console.log(res, "create-post");
-        dispatch(successUpdatePost());
-      })
-      .then(() => {
-        dispatch(getSinglePost());
-      })
-      .catch((err) => {
-        dispatch(failureUpdatePost());
-      });
-  } catch (err) {
-    console.log(err);
-  }
-};
 
 //delete post request
 
@@ -161,7 +119,7 @@ console.log(userIds,"USERS")
   try {
     axios({
       method:'DELETE',
-      url:`/post/${postId}`, 
+      url:`https://superfam-backend.herokuapp.com/api/post/${postId}`, 
       data:{userId: userIds}
     })
       .then((res) => {
@@ -198,45 +156,6 @@ console.log(userIds,"USERS")
 
 
 
-//getSinglePost action
-
-const requestSinglePost = () => {
-  return {
-    type: postActions.GET_SINGLE_POST_REQUEST,
-  };
-};
-
-const successSinglePost = () => {
-  return {
-    type: postActions.GET_SINGLE_POST_SUCCESS,
-  };
-};
-
-const failureSinglePost = () => {
-  return {
-    type: postActions.GET_SINGLE_POST_FAILURE,
-  };
-};
-
-export const getSinglePost = () => (dispatch) => {
-  dispatch(requestSinglePost());
-  try {
-    axios
-      .post({
-        method: "POST",
-        url: "localhost://",
-      })
-      .then((res) => {
-        // console.log(res, "create-post");
-        dispatch(successSinglePost());
-      })
-      .catch((err) => {
-        dispatch(failureSinglePost());
-      });
-  } catch (err) {
-    console.log(err);
-  }
-};
 
 //timeline post action
 
@@ -267,7 +186,7 @@ export const getTimelinePost = (toast) => (dispatch,getState) => {
 
   try {
 
-      axios.get(`/post/timeline/${userId}`)
+      axios.get(`https://superfam-backend.herokuapp.com/api/post/timeline/${userId}`)
       .then((res) => {
         // console.log(res, "got-post");
         // console.log(localStorage.getItem('userIdLocal'),"localId")
@@ -327,7 +246,7 @@ export const getUserPost = (id,toast) => (dispatch,getState) => {
 
   dispatch(requestUserPost());
   try {
-    axios.get(`/post/profile/${id}`)
+    axios.get(`https://superfam-backend.herokuapp.com/api/post/profile/${id}`)
       .then((res) => {
         dispatch(successUserPost(res.data));
         toast({
@@ -402,7 +321,7 @@ export const uploadPicture = (data, newPost, toast) => (dispatch) => {
   dispatch(requestUploadPicture());
 
   try {
-    axios.post("/upload", data).then((res) => {
+    axios.post("https://superfam-backend.herokuapp.com/api/upload", data).then((res) => {
 
       dispatch(successUploadPicture())
 

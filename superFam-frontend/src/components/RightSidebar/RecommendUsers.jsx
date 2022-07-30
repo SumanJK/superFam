@@ -12,7 +12,7 @@ const RecommendUsers = () => {
   //! fetching recommanded users (all users)
   const userDetails= useSelector((store) => store.auth.userDetails)
   useEffect(() =>{
-    axios.get("/user").then((res)=>{
+    axios.get("https://superfam-backend.herokuapp.com/api/user").then((res)=>{
       setAllUsers(res?.data)
     })
   },[userDetails])
