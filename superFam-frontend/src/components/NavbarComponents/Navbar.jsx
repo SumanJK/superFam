@@ -22,6 +22,7 @@ import {
   DrawerHeader,
   DrawerBody,
   DrawerOverlay,
+  Text,
 } from "@chakra-ui/react";
 
 import logo from "../../assets/default-monochrome.svg";
@@ -36,6 +37,11 @@ import { logoutUser } from "../../redux/auth/action";
 import LeftSidebar from "../LeftSidebar/LeftSidebar";
 import SidebarMobile from "./SidebarMobile";
 import RecommendUsers from "../RightSidebar/RecommendUsers";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { IoMdDoneAll } from "react-icons/io";
+import { RiHeartAddFill } from "react-icons/ri";
+import SearchedUserCard from "./SearchedUserCard";
 
 export default function Navbar() {
   const PublicFile = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -44,17 +50,43 @@ export default function Navbar() {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const [searchtext, setSearchText]= useState(null)
 
   const userDetails = useSelector((store) => store.auth.userDetails);
 
   const dispatch = useDispatch();
 
   const toast = useToast();
+  const [searchDivShow, setSearchDivShow]= useState(false);
 
   const handleLogout = () => {
     dispatch(logoutUser(toast));
   };
 
+  const [searchUser, setSearchUser] = useState([]);
+
+  useEffect(() => {
+    
+    if(searchtext === ""){
+      setSearchDivShow(false)
+    }
+  },[searchtext])
+
+  const handleSearch = () => {
+    console.log(searchtext, "texts");
+
+    axios
+      .get(
+        `https://superfam-backend.herokuapp.com/api/user/search/${searchtext}`
+      )
+      .then((res) => {
+        setSearchUser(res.data);
+        
+      });
+      setSearchDivShow(!searchDivShow)
+  };
+
+ 
   return (
     <>
       <Box
@@ -98,6 +130,8 @@ export default function Navbar() {
             w={["0%", "0%", "33%", "33%"]}
             display={["none", "none", "block", "block"]}
             alignItems={"center"}
+            // border="1px solid red"
+            pos={"relative"}
           >
             <Flex
               w="100%"
@@ -121,6 +155,7 @@ export default function Navbar() {
                 border="none"
                 outline="none"
                 focusBorderColor="none"
+                onChange={(e)=>{setSearchText(e.target.value)}}
               />
               <Center w="10%">
                 <IconButton
@@ -134,8 +169,25 @@ export default function Navbar() {
                   w="100%"
                   aria-label="Search database"
                   icon={<Search2Icon color="#ffffff" />}
+                  onClick={handleSearch}
                 />
               </Center>
+              <Box
+              display={searchDivShow ? "block" : "none"}
+                pos={"absolute"}
+                // h="10rem"
+                borderRadius='10px'
+                w="full"
+                top="10"
+                // border="2px solid black"
+                bg='#fbfbfb9e'
+              >
+                {searchUser.map((userFound)=>{
+                  return(
+                  <SearchedUserCard setSearchDivShow={setSearchDivShow} searchDivShow={searchDivShow} key={userFound?._id} userFound={userFound}/>
+                  )
+                })}
+              </Box>
             </Flex>
           </Flex>
           <Flex
@@ -221,10 +273,10 @@ export default function Navbar() {
       <Drawer placement="left" size="xs" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader borderBottomWidth="1px" p='0 ' bg='gray.300' >
-            <Flex h='4rem' p='8px' justify="start" >
+          <DrawerHeader borderBottomWidth="1px" p="0 " bg="gray.300">
+            <Flex h="4rem" p="8px" justify="start">
               <Link to="/">
-                <Image h='100%' src={logo} />
+                <Image h="100%" src={logo} />
               </Link>
             </Flex>
           </DrawerHeader>

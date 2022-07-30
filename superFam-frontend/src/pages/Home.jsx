@@ -13,14 +13,14 @@ const Home = () => {
 
   const error = useSelector((store) => store.post.isError);
   const auth = useSelector((store) => store.auth.isAuth);
-  console.log(auth,"auth")
-  console.log(error,"err")
+  // console.log(auth,"auth")
+  // console.log(error,"err")
 
   const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
 
   const timeline = useSelector((store) => store.post.timelinePost);
-  console.log(timeline, "timeline home");
+  // console.log(timeline, "timeline home");
 
   const toast = useToast();
 

@@ -44,7 +44,7 @@ export default function PostCard({ post }) {
   const [showMore, setShowMore] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  console.log(post.image,"data")
+  // console.log(post.image,"data")
 
   const [user, setUser] = useState({});
 
@@ -61,7 +61,7 @@ export default function PostCard({ post }) {
   const [active, setActive] = useState(false);
 
   const userId = useSelector((store) => store.auth.userId);
-  console.log(userId, "usd");
+  // console.log(userId, "usd");
 
   useEffect(() => {
     setActive(post.likes.includes(userId));
@@ -91,7 +91,7 @@ export default function PostCard({ post }) {
 
 
   //delete post handler
-  console.log(post,"posts")
+  // console.log(post,"posts")
 
 
 const handleDelete=()=>{
