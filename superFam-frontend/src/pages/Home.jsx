@@ -43,7 +43,7 @@ const Home = () => {
   }, [timeline]);
 
 
-  console.log(timeline, "userposts");
+
 
   return (
     <Flex overflowX={"hidden"} className='homeWrapper'>

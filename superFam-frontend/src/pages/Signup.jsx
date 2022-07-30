@@ -145,7 +145,7 @@ const Signup = () => {
               <FormLabel>Email address</FormLabel>
               <Input type="email" ref={email} />
             </FormControl>
-            <FormControl id="password" isRequired>
+            <FormControl id="passwords" isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <Input

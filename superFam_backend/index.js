@@ -1,5 +1,5 @@
 const express = require('express');
-
+const cors = require('cors')
 const app = express();
 
 
@@ -8,6 +8,11 @@ const helmet= require('helmet');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const path = require("path");
+app.use(cors())
+
+// helmet({
+//     crossOriginResourcePolicy: false,  //! Cross-origin Resource Policy
+//   })
 
 //controllers
 const userController= require('./controllers/userController');

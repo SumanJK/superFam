@@ -108,7 +108,7 @@ export const loginUser = (payload,toast,navigate) => (dispatch, getState) => {
   dispatch(loginAuthRequest());
 
   axios
-    .post("/auth/login", payload)
+    .post("http://superfam-backend.herokuapp.com/api/auth/login", payload)
     .then((res) => {
       // console.log(res,"rest")
       dispatch(loginAuthSuccess(res.data))
@@ -167,7 +167,7 @@ export const logoutUser=(toast)=>(dispatch)=>{
     isClosable: true,
   });
 
-    dispatch(getTimelinePost(toast))
+    // dispatch(getTimelinePost(toast))
 }
 
 

@@ -8,7 +8,7 @@ const User= require("../models/userModel");
 //update user 
 
 router.put("/:id", async (req, res) => {
-    console.log(req.params.id,"IDIDIDID")
+
 
 //! if(req.body.userId==req.params.id) i.e if the user is trying to update his own account or not (we have to pass userId in body to confirm it) or he needs to be the admin
     if(req.body.userId == req.params.id || req.body.isAdmin){

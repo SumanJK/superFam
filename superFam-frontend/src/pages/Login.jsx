@@ -117,7 +117,7 @@ if( email.current.value && password.current.value && confirmPassword.current.val
               <FormLabel>Email address</FormLabel>
               <Input type="email" ref={email}/>
             </FormControl>
-            <FormControl id="password" isRequired>
+            <FormControl id="passwordLogin" isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <Input type={showPassword ? "text" : "password"} ref={password}/>
