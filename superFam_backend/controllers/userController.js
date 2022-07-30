@@ -134,7 +134,33 @@ router.put("/:id/unfollow", async (req, res) => {
     }
 })
 
+//search an user 
 
+router.get("/search/:key", async (req, res) => {
+
+    try {
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+          }
+        let result= capitalizeFirstLetter(req.params.key);
+        let resultSmallLetter= req.params.key;
+
+        console.log(result)
+        
+        const searchedUser= await User.find(
+            {
+                "$or": [
+                    {"username":{$regex: result}},{"username":{$regex: resultSmallLetter}}
+                ]
+            }
+        ).lean().exec();
+        return res.status(200).send(searchedUser);
+
+    }catch (err) {
+
+        return res.status(500).send(err.message);
+    }
+});
 
 
 module.exports = router;
