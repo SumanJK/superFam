@@ -283,7 +283,7 @@ export const uploadProfilePicture = (data,updateProfile,userId,toast) => (dispat
   dispatch(requestUploadPicture());
   
   try {
-    axios.post("https://superfam-by-sumangiri.netlify.app/api/upload", data).then((res) => {
+    axios.post("https://superfam-backend.herokuapp.com/api/upload", data).then((res) => {
       
       dispatch(successUploadPicture())
       
