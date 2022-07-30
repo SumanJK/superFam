@@ -197,7 +197,7 @@ export const updateUser= (payload, userId, toast)=> (dispatch, getState)=>{
   dispatch(updateUserRequest());
 
   axios
-    .put(`/user/${userId}`, payload)
+    .put(`https://superfam-backend.herokuapp.com/api/user/${userId}`, payload)
     .then((res) => {
       // console.log(res,"resting")
       console.log(res,"rest")
@@ -249,7 +249,7 @@ export const getAuthUser=()=>(dispatch,getState)=>{
   // console.log("userREQ",userIDD)
   dispatch(authRequest())
 
-  axios.get(`/user/${id}`).then((res) => {
+  axios.get(`https://superfam-backend.herokuapp.com/api/user/${id}`).then((res) => {
     dispatch(authSuccess(res.data))
     // console.log("SSSS")
   })

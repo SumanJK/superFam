@@ -112,9 +112,10 @@ const handleDelete=()=>{
         _hover={{
           transition: "all 0.4s ease",
           transform: "translateY(-5px)",
+          zIndex:'200'
         }}
         w="100%"
-        zIndex={1}
+        // zIndex={1}
         borderRadius="14px"
       >
         <Flex pos={'absolute'} top='2' borderRadius='50%' right='2' zIndex={'50'} h='.8rem'>
@@ -142,8 +143,8 @@ const handleDelete=()=>{
         <BsThreeDots color='#454545' fontSize="20px"/>
       </MenuButton>
     </Tooltip>
-    <MenuList p='0' border='2px solid #ffffff' bg='#e4e4e4' borderRadius='40px' overflow="hidden" fontSize="14px">
-        <MenuItem onClick={handleDelete}>Remove post</MenuItem>
+    <MenuList p='0' border='2px solid #ffffff' bg='#e4e4e4' borderRadius='40px' overflow="hidden" fontSize="14px" _hover={{zIndex:'1000'}} zIndex='1000'>
+        <MenuItem _hover={{zIndex:'1000'}} zIndex='1000' onClick={handleDelete}>Remove post</MenuItem>
     </MenuList>
   </Menu>
 </Flex>
