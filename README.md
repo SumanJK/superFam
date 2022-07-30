@@ -93,11 +93,11 @@ It was an indivisual project that I have built in 2 weeks. This is one of the be
 
 ## Some Important Notes
 
-- Can't add products to cart with out logging in. 
+- If you are viewing in mobile screen then you have to open left drawer to find sign up option and to find users you have to click on users option in the drawer. 
 
 ## Limitations
 
-Pages are not responsible. check out functionality needs to be added.
+Chating feature is missing, I'll add it as soon as I learn to use socket.io.
 
 
 
