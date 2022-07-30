@@ -167,7 +167,7 @@ export const logoutUser=(toast)=>(dispatch)=>{
     isClosable: true,
   });
 
-    // dispatch(getTimelinePost(toast))
+    dispatch(getTimelinePost(toast))
 }
 
 
