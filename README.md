@@ -2,7 +2,7 @@
 # SuperFam
 
 
-![Logo](https://github.com/SumanJK/Social-Media/blob/master/screenshots/logo.png)
+![Logo](https://github.com/SumanJK/superFam/blob/master/screenshots/superFamLogo.png)
 
 
 SuperFam is a site that focuses on creating a social community to make friends post pictures like pictures and watch online videos.
