@@ -22,7 +22,6 @@ import {
   DrawerHeader,
   DrawerBody,
   DrawerOverlay,
-  Text,
 } from "@chakra-ui/react";
 
 import logo from "../../assets/default-monochrome.svg";
@@ -34,19 +33,19 @@ import { SiAirplayaudio } from "react-icons/si";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/auth/action";
-import LeftSidebar from "../LeftSidebar/LeftSidebar";
+// import LeftSidebar from "../LeftSidebar/LeftSidebar";
 import SidebarMobile from "./SidebarMobile";
 import RecommendUsers from "../RightSidebar/RecommendUsers";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
-import { IoMdDoneAll } from "react-icons/io";
-import { RiHeartAddFill } from "react-icons/ri";
+import { useEffect,  useState } from "react";
+// import { IoMdDoneAll } from "react-icons/io";
+// import { RiHeartAddFill } from "react-icons/ri";
 import SearchedUserCard from "./SearchedUserCard";
 
 export default function Navbar() {
   const PublicFile = process.env.REACT_APP_PUBLIC_FOLDER;
 
-  const userId = useSelector((store) => store.auth.userId);
+  // const userId = useSelector((store) => store.auth.userId);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 

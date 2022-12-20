@@ -7,7 +7,6 @@ import {
   Input,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalOverlay,
   Text,
@@ -20,17 +19,17 @@ import { FiEdit } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getTimelinePost,
-  uploadPicture,
+  // uploadPicture,
   uploadProfilePicture,
 } from "../../redux/post/action";
 import {
-  MdCancelScheduleSend,
-  MdDoneAll,
+  // MdCancelScheduleSend,
+  // MdDoneAll,
   MdOutlineCancelScheduleSend,
 } from "react-icons/md";
-import { TiCancel } from "react-icons/ti";
+// import { TiCancel } from "react-icons/ti";
 import axios from "axios";
-import { getAuthUser } from "../../redux/auth/action";
+// import { getAuthUser } from "../../redux/auth/action";
 
 const ProfileCover = ({ user }) => {
   const PublicFile = process.env.REACT_APP_PUBLIC_FOLDER;

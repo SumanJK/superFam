@@ -1,20 +1,13 @@
 import {
   Box,
   Flex,
-  Avatar,
   HStack,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
   useColorModeValue,
   Image,
   Input,
   Center,
   IconButton,
-  useDisclosure,
+  // useDisclosure,
   Divider,
   Tooltip,
   useToast,
@@ -22,8 +15,7 @@ import {
 
 import logo from "../../assets/famVideo.svg";
 
-import { AddIcon, ChatIcon, Search2Icon } from "@chakra-ui/icons";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import {  ChatIcon, Search2Icon } from "@chakra-ui/icons";
 import { CgProfile } from "react-icons/cg";
 
 import { Link } from "react-router-dom";
@@ -44,7 +36,7 @@ export default function NavbarFamVideo() {
 
     dispatch(getSearchedVideos(searchBox.current.value,toast ))
   };
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Box bg={useColorModeValue("gray.100", "gray.900")}
