@@ -68,7 +68,7 @@ export default function ProfilePostCard({ user, userPost }) {
 
       try {
         axios
-          .put("https://superfam-backend.herokuapp.com/api/post/" + userPost._id + "/like", { userId: user._id })
+          .put("https://superfam-backend-production.up.railway.app/api/post/" + userPost._id + "/like", { userId: user._id })
           .then((res) => {
             toast({
               title: res.data,

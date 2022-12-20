@@ -48,7 +48,7 @@ export const registerUser = (userData, toast, navigate) => (dispatch) => {
 
   dispatch(registerAuthRequest());
   axios
-    .post("https://superfam-backend.herokuapp.com/api/auth/register", userData)
+    .post("https://superfam-backend-production.up.railway.app/api/auth/register", userData)
     .then((res) => {
       console.log(res, "res");
       dispatch(registerAuthSuccess(res.data));
@@ -108,7 +108,7 @@ export const loginUser = (payload,toast,navigate) => (dispatch, getState) => {
   dispatch(loginAuthRequest());
 
   axios
-    .post("https://superfam-backend.herokuapp.com/api/auth/login", payload)
+    .post("https://superfam-backend-production.up.railway.app/api/auth/login", payload)
     .then((res) => {
       // console.log(res,"rest")
       dispatch(loginAuthSuccess(res.data))
@@ -197,7 +197,7 @@ export const updateUser= (payload, userId, toast)=> (dispatch, getState)=>{
   dispatch(updateUserRequest());
 
   axios
-    .put(`https://superfam-backend.herokuapp.com/api/user/${userId}`, payload)
+    .put(`https://superfam-backend-production.up.railway.app/api/user/${userId}`, payload)
     .then((res) => {
       // console.log(res,"resting")
       console.log(res,"rest")
@@ -249,7 +249,7 @@ export const getAuthUser=()=>(dispatch,getState)=>{
   // console.log("userREQ",userIDD)
   dispatch(authRequest())
 
-  axios.get(`https://superfam-backend.herokuapp.com/api/user/${id}`).then((res) => {
+  axios.get(`https://superfam-backend-production.up.railway.app/api/user/${id}`).then((res) => {
     dispatch(authSuccess(res.data))
     // console.log("SSSS")
   })

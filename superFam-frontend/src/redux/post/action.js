@@ -60,7 +60,7 @@ export const createPost = (newPost,toast) => (dispatch) => {
 
   try {
     axios
-      .post("https://superfam-backend.herokuapp.com/api/post", newPost)
+      .post("https://superfam-backend-production.up.railway.app/api/post", newPost)
       .then((res) => {
         // console.log(res, "create-post");
         dispatch(successCreatePost());
@@ -119,7 +119,7 @@ console.log(userIds,"USERS")
   try {
     axios({
       method:'DELETE',
-      url:`https://superfam-backend.herokuapp.com/api/post/${postId}`, 
+      url:`https://superfam-backend-production.up.railway.app/api/post/${postId}`, 
       data:{userId: userIds}
     })
       .then((res) => {
@@ -186,7 +186,7 @@ export const getTimelinePost = (toast) => (dispatch,getState) => {
 
   try {
 
-      axios.get(`https://superfam-backend.herokuapp.com/api/post/timeline/${userId}`)
+      axios.get(`https://superfam-backend-production.up.railway.app/api/post/timeline/${userId}`)
       .then((res) => {
         // console.log(res, "got-post");
         // console.log(localStorage.getItem('userIdLocal'),"localId")
@@ -246,7 +246,7 @@ export const getUserPost = (id,toast) => (dispatch,getState) => {
 
   dispatch(requestUserPost());
   try {
-    axios.get(`https://superfam-backend.herokuapp.com/api/post/profile/${id}`)
+    axios.get(`https://superfam-backend-production.up.railway.app/api/post/profile/${id}`)
       .then((res) => {
         dispatch(successUserPost(res.data));
         toast({
@@ -283,7 +283,7 @@ export const uploadProfilePicture = (data,updateProfile,userId,toast) => (dispat
   dispatch(requestUploadPicture());
   
   try {
-    axios.post("https://superfam-backend.herokuapp.com/api/upload", data).then((res) => {
+    axios.post("https://superfam-backend-production.up.railway.app/api/upload", data).then((res) => {
       
       dispatch(successUploadPicture())
       
@@ -321,7 +321,7 @@ export const uploadPicture = (data, newPost, toast) => (dispatch) => {
   dispatch(requestUploadPicture());
 
   try {
-    axios.post("https://superfam-backend.herokuapp.com/api/upload", data).then((res) => {
+    axios.post("https://superfam-backend-production.up.railway.app/api/upload", data).then((res) => {
 
       dispatch(successUploadPicture())
 

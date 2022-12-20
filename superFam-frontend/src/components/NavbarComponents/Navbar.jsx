@@ -77,7 +77,7 @@ export default function Navbar() {
 
     axios
       .get(
-        `https://superfam-backend.herokuapp.com/api/user/search/${searchtext}`
+        `https://superfam-backend-production.up.railway.app/api/user/search/${searchtext}`
       )
       .then((res) => {
         setSearchUser(res.data);

@@ -49,7 +49,7 @@ const Profile = () => {
   // console.log(userPost, "ok man");
 
   useEffect(() => {
-    axios.get(`https://superfam-backend.herokuapp.com/api/user/${userInfo?.id}`).then((res) => {
+    axios.get(`https://superfam-backend-production.up.railway.app/api/user/${userInfo?.id}`).then((res) => {
       console.log("res", res);
       setUser(res.data);
     });

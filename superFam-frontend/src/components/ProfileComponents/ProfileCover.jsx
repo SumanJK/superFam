@@ -130,7 +130,7 @@ const ProfileCover = ({ user }) => {
     } else {
       try {
         axios
-          .put("https://superfam-backend.herokuapp.com/api/user/" + user._id + "/follow", { userId: userId })
+          .put("https://superfam-backend-production.up.railway.app/api/user/" + user._id + "/follow", { userId: userId })
           .then((res) => {
             toast({
               title: res.data,
@@ -141,7 +141,7 @@ const ProfileCover = ({ user }) => {
             setFollowed(true);
           })
           .then(() => {
-            axios.get(`https://superfam-backend.herokuapp.com/api/user/${user?._id}`).then((res) => {
+            axios.get(`https://superfam-backend-production.up.railway.app/api/user/${user?._id}`).then((res) => {
               console.log("res", res);
               setCurrentUser(res.data);
             });
@@ -178,7 +178,7 @@ const ProfileCover = ({ user }) => {
     } else {
       try {
         axios
-          .put("https://superfam-backend.herokuapp.com/api/user/" + user._id + "/unfollow", { userId: userId })
+          .put("https://superfam-backend-production.up.railway.app/api/user/" + user._id + "/unfollow", { userId: userId })
           .then((res) => {
             toast({
               title: res.data,
