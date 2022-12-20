@@ -19,7 +19,7 @@ import {  ChatIcon, Search2Icon } from "@chakra-ui/icons";
 import { CgProfile } from "react-icons/cg";
 
 import { Link } from "react-router-dom";
-import { useRef } from "react";
+import {  useState } from "react";
 import { useDispatch } from "react-redux";
 import { getSearchedVideos } from "../../redux/video/action";
 
@@ -29,12 +29,12 @@ export default function NavbarFamVideo() {
 
   const toast = useToast()
   const dispatch = useDispatch();
-  const searchBox = useRef();
+  const [searchBox,setSearchBox]= useState()
 
   const handleSearchResult = () => {
-    console.log(searchBox.current.value);
+    console.log(searchBox,"VAL");
 
-    dispatch(getSearchedVideos(searchBox.current.value,toast ))
+    dispatch(getSearchedVideos(searchBox,toast ))
   };
   // const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -104,7 +104,7 @@ export default function NavbarFamVideo() {
                 border="none"
                 outline="none"
                 focusBorderColor="none"
-                ref={searchBox}
+                onChange={(e)=>{setSearchBox(e.target.value)}}
               />
               <Center w="10%">
                 <IconButton
@@ -178,7 +178,8 @@ export default function NavbarFamVideo() {
                 border="none"
                 outline="none"
                 focusBorderColor="none"
-                ref={searchBox}
+                // ref={searchBox}
+                onChange={(e)=>{setSearchBox(e.target.value)}}
               />
               <Center w="10%">
                 <IconButton

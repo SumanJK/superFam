@@ -33,6 +33,7 @@ import axios from "axios";
 
 const ProfileCover = ({ user }) => {
   const PublicFile = process.env.REACT_APP_PUBLIC_FOLDER;
+  console.log(PublicFile,"PublicFile")
   // console.log(PublicFile, user?.profilePicture, "PF");
 
   const {

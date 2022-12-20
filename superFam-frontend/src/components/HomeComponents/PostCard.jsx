@@ -73,13 +73,13 @@ export default function PostCard({ post }) {
       axios
         .put("https://superfam-backend-production.up.railway.app/api/post/" + post._id + "/like", { userId: userId })
         .then((res) => {
-          toast({
-            title: res.data,
-            status:
-              res.data === "The post has been liked" ? "success" : "error",
-            duration: 1000,
-            isClosable: true,
-          });
+          // toast({
+          //   title: res.data,
+          //   status:
+          //     res.data === "The post has been liked" ? "success" : "error",
+          //   duration: 1000,
+          //   isClosable: true,
+          // });
         });
     } catch (err) {
       // console.log(err);
